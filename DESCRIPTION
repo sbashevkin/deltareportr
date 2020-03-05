@@ -1,13 +1,18 @@
 Package: deltareportr
-Title: What the Package Does (One Line, Title Case)
+Title: The Delta Smelt Conditions Report
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
+Authors@R:
+    person(given = "Sam",
+           family = "Bashevkin",
            role = c("aut", "cre"),
-           email = "first.last@example.com")
-Description: What the package does (one paragraph)
-License: MIT + file LICENSE
+           email = "sam.bashevkin@deltacouncil.ca.gov",
+           comment = c(ORCID = "0000-0001-7406-7089"))
+Description: An R package for the Delta Smelt conditions report
+License: GPL-3
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
+Imports: bookdown,
+    here
+Suggests: devtools,
+    git2r
