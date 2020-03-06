@@ -12,14 +12,16 @@ License: GPL-3
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
-Imports: bookdown,
+Imports: 
+    bookdown,
     here,
     sf,
     readxl,
     dplyr,
     tidyr,
     readr,
-    tibble
+    tibble,
+    tidyselect
 Suggests: devtools,
     git2r
 URL: https://github.com/sbashevkin/deltareportr
