@@ -1,12 +1,9 @@
 ## code to prepare `stations` dataset goes here
-library(sf)
 library(dplyr)
 library(tidyr)
 library(tibble)
 library(readr)
 library(readxl)
-
-deltaregions<-read_sf("data-raw/Delta regions")
 
 FMWT<-read_excel("data-raw/FMWT Station.xlsx")%>%
   select(Station=StationCode, Lat, Long#, Lat2=`WGS84 Lat`, Long2=`WGS84 Long`
@@ -74,13 +71,6 @@ stations<-bind_rows(
     filter(!(StationID%in%unique(Zoopxl$StationID))),
   EZ,
   EMPBIV)%>%
-  st_as_sf(coords = c("Longitude", "Latitude"),
-           crs=4326)%>%
-  st_transform(crs=st_crs(Deltaregions))%>%
-  st_join(deltaregions, join=st_within)%>%
-  as_tibble()%>%
-  select(-geometry, -SQM)%>%
-  rename(Region=Stratum)%>%
   drop_na()
 
-usethis::use_data(stations, deltaregions, overwrite = TRUE)
+usethis::use_data(stations, overwrite = TRUE)

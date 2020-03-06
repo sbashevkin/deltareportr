@@ -1,4 +1,8 @@
-DSCDater <- function(Start_year=2002, Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
+
+DSCDater <- function(Start_year=2002,
+                     Shapefile = deltareportr::deltaregions,
+                     Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
+                     Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")){
 
   require(sf)
   require(tidyverse)
@@ -8,7 +12,14 @@ DSCDater <- function(Start_year=2002, Regions=c("Suisun Bay", "Suisun Marsh", "L
   # Stations ----------------------------------------------------------------
 
   Stations<-deltareportr::stations%>%
-    select(-StationID)
+    select(-StationID)%>%
+    st_as_sf(coords = c("Longitude", "Latitude"),
+             crs=4326)%>%
+    st_transform(crs=st_crs(Shapefile))%>%
+    st_join(Shapefile, join=st_within)%>%
+    as_tibble()%>%
+    select(-geometry, -SQM)%>%
+    rename(Region=Stratum)
 
   # Bivalves ----------------------------------------------------------------
 
@@ -127,8 +138,6 @@ DSCDater <- function(Start_year=2002, Regions=c("Suisun Bay", "Suisun Marsh", "L
 
   # Load and combine data ---------------------------------------------------
 
-  deltaregions<-deltareportr::deltaregions
-
   FMWT<-read_excel("Data/FMWT 1967-2018 Catch Matrix_updated.xlsx", sheet="FlatFile", guess_max=30000)%>%
     select(Date, Station, Conductivity=starts_with("Top EC"), Secchi=`Secchi (m)`, Microcystis, Temperature=starts_with("Top Temperature"))%>%
     mutate(Source="FMWT",
@@ -153,8 +162,8 @@ DSCDater <- function(Start_year=2002, Regions=c("Suisun Bay", "Suisun Marsh", "L
     filter(!is.na(Latitude) & !is.na(Longitude))%>%
     st_as_sf(coords = c("Longitude", "Latitude"), #Add regions to EDSM data
              crs=4326)%>%
-    st_transform(crs=st_crs(deltaregions))%>%
-    st_join(deltaregions, join=st_within)%>%
+    st_transform(crs=st_crs(Shapefile))%>%
+    st_join(Shapefile, join=st_within)%>%
     as_tibble()%>%
     select(-geometry, -SQM)%>%
     rename(Region=Stratum)
