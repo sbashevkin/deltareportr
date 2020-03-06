@@ -3,7 +3,7 @@
 
 # deltareportr
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh///master?urlpath=rstudio)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/sbashevkin/deltareportr/master?urlpath=rstudio)
 
 This repository contains the data and code for our paper:
 
@@ -27,14 +27,14 @@ Please cite this compendium as:
 ### How to download or install
 
 You can download the compendium as a zip from from this URL:
-</archive/master.zip>
+<https://github.com/sbashevkin/deltareportr/archive/master.zip>
 
 Or you can install this compendium as an R package, deltareportr, from
 GitHub with:
 
 ``` r
 # install.packages("devtools")
-remotes::install_github("/")
+remotes::install_github("sbashevkin/deltareportr")
 ```
 
 ### Licenses
@@ -45,11 +45,9 @@ remotes::install_github("/")
 **Code :** See the [DESCRIPTION](DESCRIPTION) file
 
 **Data :** [CC-0](http://creativecommons.org/publicdomain/zero/1.0/)
-attribution requested in reuse
 
 ### Contributions
 
-We welcome contributions from everyone. Before you get started, please
-see our [contributor guidelines](CONTRIBUTING.md). Please note that this
-project is released with a [Contributor Code of Conduct](CONDUCT.md). By
-participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of
+Conduct](CONDUCT.md). By participating in this project you agree to
+abide by its terms.
