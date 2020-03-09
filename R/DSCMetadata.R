@@ -1,86 +1,93 @@
-DSCMetadater<-function(Data, Start_year=2002, Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
-  
-  require(tidyverse)
-  require(lubridate)
-  require(RColorBrewer)
-  require(ggthemes)
-  
-  
+#' Plot Metadata
+#'
+#' Function to process and plot metadata
+#' @inherit DSCBvalves
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
+#' @export
+
+DSCMetadater<-function(Data,
+                       Start_year=2002,
+                       Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
+
+
   # Water quality data ------------------------------------------------------
-  
-  
-  
+
+
+
   # Load and combine data ---------------------------------------------------
-  
-  
+
+
   WQsum<-Data$Water_quality%>%
-    select(Region, Season, Year, Source, Chlorophyll, Salinity, Secchi, Temperature, Microcystis)%>%
-    pivot_longer(c(Chlorophyll, Salinity, Secchi, Temperature, Microcystis), names_to="Parameter", values_to = "Value")%>%
-    filter(!is.na(Value))%>%
-    select(-Value)
+    dplyr::select(.data$Region, .data$Season, .data$Year, .data$Source, .data$Chlorophyll, .data$Salinity, .data$Secchi, .data$Temperature, .data$Microcystis)%>%
+    tidyr::pivot_longer(c(.data$Chlorophyll, .data$Salinity, .data$Secchi, .data$Temperature, .data$Microcystis), names_to="Parameter", values_to = "Value")%>%
+    dplyr::filter(!is.na(.data$Value))%>%
+    dplyr::select(-.data$Value)
 
 
-# Bivalves ----------------------------------------------------------------
+  # Bivalves ----------------------------------------------------------------
 
   Bivsum<-Data$Bivalves%>%
-    select(Region, Season, Year)%>%
-    mutate(Source="EMP",
-           Parameter="Bivalves")
-  
+    dplyr::select(.data$Region, .data$Season, .data$Year)%>%
+    dplyr::mutate(Source="EMP",
+                  Parameter="Bivalves")
 
-# Zooplankton -------------------------------------------------------------
+
+  # Zooplankton -------------------------------------------------------------
 
   Zoopsum<-Data$Zooplankton%>%
-    select(-Taxa, -BPUE)%>%
-    distinct()%>%
-    select(Region, Season, Year)%>%
-    mutate(Source="EMP",
-           Parameter="Zooplankton")
-  
+    dplyr::select(-.data$Taxa, -.data$BPUE)%>%
+    dplyr::distinct()%>%
+    dplyr::select(.data$Region, .data$Season, .data$Year)%>%
+    dplyr::mutate(Source="EMP",
+                  Parameter="Zooplankton")
 
-# Phytoplankton -----------------------------------------------------------
+
+  # Phytoplankton -----------------------------------------------------------
 
   Phytosum<-Data$Phytoplankton%>%
-    select(Region, Season, Year)%>%
-    mutate(Source="EMP",
-           Parameter="Phytoplankton")
+    dplyr::select(.data$Region, .data$Season, .data$Year)%>%
+    dplyr::mutate(Source="EMP",
+                  Parameter="Phytoplankton")
 
-# Combine all datasets ----------------------------------------------------
+  # Combine all datasets ----------------------------------------------------
 
-sum<-bind_rows(WQsum, Bivsum, Zoopsum, Phytosum)%>%
-    group_by(Parameter)%>%
-    mutate(Years=length(unique(Year)))%>%
-    ungroup()%>%
-    group_by(Region, Season, Source, Parameter, Years)%>%
-    summarise(N=n())%>%
-    ungroup()%>%
-    filter(Region%in%Regions)%>%
-    mutate(Region=factor(Region, levels=Regions),
-           Yearly_samples=N/Years,
-           Season=factor(Season, levels=c("Winter", "Spring", "Summer", "Fall")),
-           Season=recode(Season, Winter="Winter\nDec - Feb", Spring="Spring\nMar - May", Summer="Summer\nJun - Aug", Fall="Fall\nSep - Nov"),
-           Source=recode(Source, TNS="STN"),
-           Parameter=factor(Parameter, levels=c("Temperature", "Secchi", "Salinity", "Chlorophyll", "Phytoplankton", "Microcystis", "Zooplankton", "Bivalves")))
-  
+  sum<-dplyr::bind_rows(WQsum, Bivsum, Zoopsum, Phytosum)%>%
+    dplyr::group_by(.data$Parameter)%>%
+    dplyr::mutate(Years=length(unique(.data$Year)))%>%
+    dplyr::ungroup()%>%
+    dplyr::group_by(.data$Region, .data$Season, .data$Source, .data$Parameter, .data$Years)%>%
+    dplyr::summarise(N=dplyr::n())%>%
+    dplyr::ungroup()%>%
+    {if (is.null(Regions)){
+      .
+    } else{
+      dplyr::filter(., .data$Region%in%Regions)
+    }}%>%
+    dplyr::mutate(Region=factor(.data$Region, levels=Regions),
+                  Yearly_samples=.data$N/.data$Years,
+                  Season=factor(.data$Season, levels=c("Winter", "Spring", "Summer", "Fall")),
+                  Season=dplyr::recode(.data$Season, Winter="Winter\nDec - Feb", Spring="Spring\nMar - May", Summer="Summer\nJun - Aug", Fall="Fall\nSep - Nov"),
+                  Source=dplyr::recode(.data$Source, TNS="STN"),
+                  Parameter=factor(.data$Parameter, levels=c("Temperature", "Secchi", "Salinity", "Chlorophyll", "Phytoplankton", "Microcystis", "Zooplankton", "Bivalves")))
 
-# Plot --------------------------------------------------------------------
 
-  p<-ggplot(sum, aes(x=Region, y=Yearly_samples, fill=Source))+
-    geom_bar(stat="identity")+
-    facet_grid(Parameter~Season, scales = "free_y")+
-    scale_fill_colorblind(guide=guide_legend(direction="horizontal"))+
-    scale_y_continuous(expand = c(0,0), limits=c(0,NA))+
-    ylab("Average number of data points per year")+
-    theme_bw()+
-    theme(axis.text.x = element_text(angle=45, hjust=1), panel.grid=element_blank(), strip.background = element_blank(), text=element_text(size=12), plot.margin = margin(35,0,0,35), strip.text.y = element_text(angle=0, hjust=0), panel.spacing.y = unit(0.5, "lines"), legend.position=c(0.5, 1.1), legend.background = element_rect(color="black"))
-  
+  # Plot --------------------------------------------------------------------
+
+  p<-ggplot2::ggplot(sum, ggplot2::aes(x=.data$Region, y=.data$Yearly_samples, fill=.data$Source))+
+    ggplot2::geom_bar(stat="identity")+
+    ggplot2::facet_grid(.data$Parameter~.data$Season, scales = "free_y")+
+    ggplot2::scale_fill_colorblind(guide=ggplot2::guide_legend(direction="horizontal"))+
+    ggplot2::scale_y_continuous(expand = c(0,0), limits=c(0,NA))+
+    ggplot2::ylab("Average number of data points per year")+
+    ggplot2::theme_bw()+
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle=45, hjust=1), panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), text=ggplot2::element_text(size=12), plot.margin = ggplot2::margin(35,0,0,35), strip.text.y = ggplot2::element_text(angle=0, hjust=0), panel.spacing.y = ggplot2::unit(0.5, "lines"), legend.position=c(0.5, 1.1), legend.background = ggplot2::element_rect(color="black"))
+
   Data_out <- sum%>%
-    mutate(Yearly_samples = round(Yearly_samples, 2),
-           Season = recode(Season, "Winter\nDec - Feb"="Winter", "Spring\nMar - May"="Spring", "Summer\nJun - Aug"="Summer", "Fall\nSep - Nov"="Fall"))%>%
-    rename(`Total samples`=N, `Samples per year` = Yearly_samples, `Years sampled` = Years)
-  
+    dplyr::mutate(Yearly_samples = round(.data$Yearly_samples, 2),
+                  Season = dplyr::recode(.data$Season, "Winter\nDec - Feb"="Winter", "Spring\nMar - May"="Spring", "Summer\nJun - Aug"="Summer", "Fall\nSep - Nov"="Fall"))%>%
+    dplyr::rename(`Total samples`=.data$N, `Samples per year` = .data$Yearly_samples, `Years sampled` = .data$Years)
+
   return(list(Plot=p, Data=Data_out))
-  
-  #ggsave("Figures/Metadata figure.png", p, device="png", width=9, height=7)  
-  
+
 }

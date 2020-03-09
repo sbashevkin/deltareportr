@@ -1,64 +1,67 @@
-DSCZooper<-function(Data, Start_year=2002, End_year=2018, Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Lower Joaquin River", "Southern Delta"), Seasons="Fall"){
-  
+#' Plot phytoplankton data
+#'
+#' Function to process and plot phytoplankton data
+#' @inherit DSCBvalves
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
+#' @export
 
-# Setup -------------------------------------------------------------------
-
-  require(tidyverse)
-  require(readxl)
-  require(lubridate)
-  require(RColorBrewer)
-  
-  insert_minor <- function(major_labs, n_minor) {labs <- 
-    c( sapply( major_labs, function(x) c(x, rep("", n_minor) ) ) )
-  labs[1:(length(labs)-n_minor)]}
+DSCZooper<-function(Data,
+                    Start_year=2002,
+                    End_year=2018,
+                    Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Lower Joaquin River", "Southern Delta"),
+                    Seasons="Fall"){
 
 
-# Load and combine data ---------------------------------------------------
+  # Load and combine data ---------------------------------------------------
 
-  
+
   Zoopsum<-Data%>%
-    filter(Season%in%Seasons & !(Region%in%c("Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island")))%>%
-    droplevels()%>% 
-    group_by(Region, Year, Taxa)%>%
-    summarise(BPUE=mean(BPUE, na.rm=T))%>%
-    ungroup()%>%
+    dplyr::filter(.data$Season%in%Seasons)%>%
+    {if (is.null(Regions)){
+      .
+    } else{
+      dplyr::filter(., .data$Region%in%Regions)
+    }}%>%
     droplevels()%>%
-    mutate(missing="na")%>%
-    complete(Year=Start_year:End_year, Region, fill=list(missing="n.d."))%>%
-    mutate(missing=na_if(missing, "na"))%>%
-    mutate(Region=factor(Region, levels=Regions))
-  
+    dplyr::group_by(.data$Region, .data$Year, .data$Taxa)%>%
+    dplyr::summarise(BPUE=mean(.data$BPUE, na.rm=T))%>%
+    dplyr::ungroup()%>%
+    droplevels()%>%
+    dplyr::mutate(missing="na")%>%
+    tidyr::complete(Year=Start_year:End_year, .data$Region, fill=list(missing="n.d."))%>%
+    dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"))%>%
+    dplyr::mutate(Region=factor(.data$Region, levels=Regions))
+
   Zoopmissing<-Zoopsum%>%
-    filter(missing=="n.d.")%>%
-    select(Year, Region)
-  
+    dplyr::filter(.data$missing=="n.d.")%>%
+    dplyr::select(.data$Year, .data$Region)
+
   Zoopsum<-Zoopsum%>%
-    filter(is.na(missing))%>%
-    select(-missing)%>%
-    mutate(Taxa=factor(Taxa, levels=c("Calanoida", "Cyclopoida", "Cladocera", "Mysida")))
-  
+    dplyr::filter(is.na(.data$missing))%>%
+    dplyr::select(-.data$missing)%>%
+    dplyr::mutate(Taxa=factor(.data$Taxa, levels=c("Calanoida", "Cyclopoida", "Cladocera", "Mysida")))
 
-# Plot --------------------------------------------------------------------
 
-  p<-ggplot()+
-    geom_bar(data=Zoopsum, aes(x=Year, y=BPUE, fill=Taxa), stat="identity")+
-    geom_bar(data=Zoopsum%>%filter(Year==End_year)%>%group_by(Region, Year)%>%summarise(BPUE=sum(BPUE)), aes(x=Year, y=BPUE), stat="identity", color="firebrick3", fill=NA, size=1)+
-    geom_vline(data=Zoopmissing, aes(xintercept=Year), linetype=2)+
-    scale_x_continuous(labels=insert_minor(seq(2000, 2020, by=5), 4), breaks = 2000:2020, limits=c(Start_year-1,End_year+1), expand=expand_scale(0,0))+
-    scale_fill_brewer(type="div", palette="BrBG", guide=guide_legend(title=NULL, keyheight=0.8))+
-    scale_y_continuous(labels = function(x) format(x, scientific=F, big.mark=","), expand=expand_scale(0,0))+
-    xlab("Date")+
-    ylab(bquote(Biomass~"("*mu*g*") /"~m^3))+
-    facet_wrap(~Region, scales="free_x")+
-    theme_bw()+
-    theme(panel.grid=element_blank(), strip.background = element_blank(), plot.title = element_text(hjust = 0.5, size=20), legend.position = c(0.85,0.2), legend.text=element_text(size=8), legend.background=element_rect(fill="white", color="black"))
-  
+  # Plot --------------------------------------------------------------------
+
+  p<-ggplot2::ggplot()+
+    ggplot2::geom_bar(data=Zoopsum, ggplot2::aes(x=.data$Year, y=.data$BPUE, fill=.data$Taxa), stat="identity")+
+    ggplot2::geom_bar(data=Zoopsum%>%dplyr::filter(.data$Year==End_year)%>%dplyr::group_by(.data$Region, .data$Year)%>%dplyr::summarise(BPUE=sum(.data$BPUE)), ggplot2::aes(x=.data$Year, y=.data$BPUE), stat="identity", color="firebrick3", fill=NA, size=1)+
+    ggplot2::geom_vline(data=Zoopmissing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
+    ggplot2::scale_x_continuous(labels=insert_minor(seq(2000, 2020, by=5), 4), breaks = 2000:2020, limits=c(Start_year-1,End_year+1), expand=ggplot2::expansion(0,0))+
+    ggplot2::scale_fill_brewer(type="div", palette="BrBG", guide=ggplot2::guide_legend(title=NULL, keyheight=0.8))+
+    ggplot2::scale_y_continuous(labels = function(x) format(x, scientific=F, big.mark=","), expand=ggplot2::expansion(0,0))+
+    ggplot2::xlab("Date")+
+    ggplot2::ylab(bquote(Biomass~"("*mu*g*") /"~m^3))+
+    ggplot2::facet_wrap(~.data$Region, scales="free_x")+
+    ggplot2::theme_bw()+
+    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), plot.title = ggplot2::element_text(hjust = 0.5, size=20), legend.position = c(0.85,0.2), legend.text=ggplot2::element_text(size=8), legend.background=ggplot2::element_rect(fill="white", color="black"))
+
   Data_out <- Zoopsum%>%
-    mutate(BPUE=round(BPUE,3))%>%
-    rename(`Biomass per unit effort` = BPUE)
-  
-  #ggsave(p, filename="Figures/Zooplankton.png", device = "png", width = 7.5, height=4, units="in")
-  
+    dplyr::mutate(BPUE=round(.data$BPUE,3))%>%
+    rename(`Biomass per unit effort` = .data$BPUE)
+
   return(list(Plot = p, Data = Data_out))
-  
-  }
+
+}

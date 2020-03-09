@@ -21,7 +21,11 @@ Imports:
     tidyr,
     readr,
     tibble,
-    tidyselect
+    tidyselect,
+    ggplot2,
+    mapview,
+    leaflet,
+    RColorBrewer
 Suggests: devtools,
     git2r
 URL: https://github.com/sbashevkin/deltareportr
