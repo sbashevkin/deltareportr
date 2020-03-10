@@ -1,5 +1,7 @@
 # Build our Docker container and R pkg on Travis
 
+language: R
+
 env:
   global:
   - REPO=$DOCKER_USER/deltareportr
