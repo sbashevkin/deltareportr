@@ -2,7 +2,7 @@
 #'
 #' Bivalve abundance dataset from the California Department of Water Resources Environmental Monitoring Program.
 #'
-#' @format a tibble with 8652 rows and 7 variables
+#' @format a tibble with 8,652 rows and 7 variables
 #' \describe{
 #'   \item{Date}{Sample collection date.}
 #'   \item{Station}{Station where sample was collected.}
@@ -12,9 +12,27 @@
 #'   \item{MonthYear}{Month and year of sample collection.}
 #'   \item{Source}{Name of the source dataset.}
 #'   }
-#' @details More metadata and information on methods are available \href{}{here}.
-#' @seealso \code{\link{DSCBivalves}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+#' @details More metadata and information on methods are available \href{https://emp.baydeltalive.com/projects/11280}{here}.
+#' @seealso \code{\link{DSCBivalver}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
 "bivalves"
+
+#' Dayflow dataset
+#'
+#' Outflow and X2 from the California Department of Water Resources Dayflow model.
+#'
+#' @format a tibble with 8,652 rows and 7 variables
+#' \describe{
+#'   \item{Date}{Date.}
+#'   \item{Out}{Delta outflow (\eqn{ft^{3}} \eqn{s^{-1}}.)}
+#'   \item{X2}{X2 (km).}
+#'   \item{CPUE}{Catch per unit effort in number of clams \eqn{m^{-2}}.}
+#'   \item{Year}{Year sample was collected.}
+#'   \item{MonthYear}{Month and year of sample collection.}
+#'   \item{Source}{Name of the source dataset.}
+#'   }
+#' @details More metadata and information on methods are available \href{https://data.cnra.ca.gov/dataset/dayflow}{here}.
+#' @seealso \code{\link{DSCBivalver}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+"dayflow"
 
 #' Delta regions
 #'
@@ -25,14 +43,14 @@
 #'   \item{Stratum}{Region.}
 #'   \item{geometry}{Polygon coordinates.}
 #'   }
-#' @seealso \code{\link{DSCmap}}, \code{\link{DSCDater}}
+#' @seealso \code{\link{DSCMapper}}, \code{\link{DSCDater}}
 "deltaregions"
 
 #' Phytoplankton dataset
 #'
 #' Phytoplankton abundance dataset from the California Department of Water Resources Environmental Monitoring Program.
 #'
-#' @format a tibble with 8652 rows and 7 variables
+#' @format a tibble with 8,652 rows and 7 variables
 #' \describe{
 #'   \item{Date}{Sample collection date.}
 #'   \item{Station}{Station where sample was collected.}
@@ -42,9 +60,9 @@
 #'   \item{MonthYear}{Month and year of sample collection.}
 #'   \item{Source}{Name of the source dataset.}
 #'   }
-#' @details More metadata and information on methods are available \href{}{here}.
-#' @seealso \code{\link{DSCBivalves}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
-"phytoplankton"
+#' @details More metadata and information on methods are available \href{https://emp.baydeltalive.com/projects/11282}{here}.
+#' @seealso \code{\link{DSCPhyter}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+"phyto"
 
 #' Delta Smelt EDSM abundance estimates
 #'
@@ -58,8 +76,8 @@
 #'   \item{Variance}{Variance of the abundance estimate.}
 #'   \item{MonthYear}{Month and year of sample collection.}
 #'   }
-#' @details More metadata and information on methods are available \href{}{here}.
-#' @seealso \code{\link{DSCsmelter}}
+#' @details More metadata and information on methods are available \href{https://www.fws.gov/lodi/juvenile_fish_monitoring_program/jfmp_index.htm}{here}.
+#' @seealso \code{\link{DSCSmelter}}
 "smelt_edsm"
 
 #' Delta Smelt IEP indices
@@ -72,8 +90,8 @@
 #'   \item{Index}{Delta Smelt index number.}
 #'   \item{Source}{Name of the source dataset.}
 #'   }
-#' @details More metadata and information on methods are available \href{}{here}.
-#' @seealso \code{\link{DSCsmelter}}
+#' @details More metadata and information on methods are available here: \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{Fall Midwater Trawl}, \href{https://wildlife.ca.gov/Conservation/Delta/Spring-Kodiak-Trawl}{Spring Kodiak Trawl}, \href{https://wildlife.ca.gov/Conservation/Delta/20mm-Survey}{20mm Survey}, and \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{Summer Townet}.
+#' @seealso \code{\link{DSCSmelter}}
 "smelt_iep"
 
 #' Station locations
@@ -88,7 +106,6 @@
 #'   \item{Longitude}{Longitude in decimal degrees.}
 #'   \item{StationID}{Combined source and station for a unique station ID.}
 #'   }
-#' @details More metadata and information on methods are available \href{}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
 "stations"
 
@@ -97,7 +114,7 @@
 #' Water quality data from the United States Fish and Wildlife Service Enhanced Delta Smelt Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 1,052 rows and 5 variables
+#' @format a tibble with 14,843 rows and 7 variables
 #' \describe{
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Latitude}{Latitude in decimal degrees.}
@@ -107,7 +124,7 @@
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Source}{Name of the source dataset.}
 #'   }
-#' @details More metadata and information on methods are available \href{}{here}.
+#' @details More metadata and information on methods are available \href{https://www.fws.gov/lodi/juvenile_fish_monitoring_program/jfmp_index.htm}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
 "wq_edsm"
 
@@ -127,7 +144,7 @@
 #'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
 #'   \item{Source}{Name of the source dataset.}
 #'   }
-#' @details More metadata and information on methods are available \href{}{here}.
+#' @details More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.458.2}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
 "wq_emp"
 
@@ -146,7 +163,7 @@
 #'   \item{Temperature}{Temperature (°C) at surface.}
 #'   \item{Source}{Name of the source dataset.}
 #'   }
-#' @details More metadata and information on methods are available \href{}{here}.
+#' @details More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
 "wq_fmwt"
 
@@ -165,6 +182,36 @@
 #'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
 #'   \item{Source}{Name of the source dataset.}
 #'   }
-#' @details More metadata and information on methods are available \href{}{here}.
+#' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
 "wq_stn"
+
+#' Zooplankton mass conversions
+#'
+#' Average dry mass for each meso and micro zooplankton taxa
+#'
+#' @format a tibble with 40 rows and 2 variables
+#' \describe{
+#'   \item{Mass}{Average individual mass (\eqn{\mu}g).}
+#'   \item{Taxlifestage}{Taxonomic name and lifestage.}
+#'   }
+#' @seealso \code{\link{DSCZooper}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+"zoop_mass_conversions"
+
+#' Mysid data
+#'
+#' Mysid biomass per unit effort from the California Department of Fish and Wildlife Environmental Monitoring Program
+#'
+#' @format a tibble with 40 rows and 2 variables
+#' \describe{
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Taxa}{Taxonomic name.}
+#'   \item{BPUE}{Biomass per unit effort (\eqn{\mu}g \eqn{m^{-3}}).}
+#'   \item{Year}{Year sample was collected.}
+#'   \item{MonthYear}{Month and year sample was collected.}
+#'   \item{Source}{Name of the source dataset.}
+#'   }
+#' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Zooplankton-Study}{here}.
+#' @seealso \code{\link{DSCZooper}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+"zoop_mysid"

@@ -27,32 +27,6 @@ bivalves<-read_excel("data-raw/data/1975-18 CPUE bivalves only, 2019Sept9.xlsx",
          MonthYear=floor_date(Date, unit = "month"),
          Source="EMP")
 
-#**********Only including OTHCYCAD from CB because biomass indicates they're large, and only including small cyclopoids from pump sample******#
-
-
-
-zoop_cb<-read_excel("data-raw/data/1972-2018CBMatrix.xlsx",
-                    sheet = "CB CPUE Matrix 1972-2018",
-                    col_types = c("numeric","numeric", "numeric", "numeric", "date",
-                                  "text", "text", "text", "numeric", "text", "text",
-                                  "text", rep("numeric", 62)))%>%
-  select(Date, Station, ACARTELA, ACARTIA, DIAPTOM, EURYTEM, OTHCALAD, PDIAPFOR, PDIAPMAR, SINOCAL, TORTANUS, AVERNAL, OTHCYCAD, BOSMINA, DAPHNIA, DIAPHAN, OTHCLADO)%>%
-  pivot_longer(c(-Date, -Station), names_to = "Taxa", values_to = "CPUE")%>%
-  dplyr::mutate(Year=lubridate::year(.data$Date),
-                MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
-                Source="EMP")
-
-zoop_pump<-read_excel("data-raw/data/1972-2018Pump Matrix.xlsx",
-                      sheet = " Pump CPUE Matrix 1972-2018",
-                      col_types = c("numeric","numeric", "numeric", "numeric", "date",
-                                    "text", "text", "text", "numeric",
-                                    "text", rep("numeric", 36)))%>%
-  select(Date=SampleDate, Station, LIMNOSPP, LIMNOSINE, LIMNOTET, OITHDAV, OITHSIM, OITHSPP)%>%
-  pivot_longer(c(-Date, -Station), names_to = "Taxa", values_to = "CPUE")%>%
-  dplyr::mutate(Year=lubridate::year(.data$Date),
-                MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
-                Source="EMP")
-
 zoop_mysid<-read_excel("data-raw/data/EMPMysidBPUEMatrixAug2019.xlsx",
                        sheet="MysidBPUEMatrix1972-2018",
                        col_types = c(rep("numeric", 4), "date", "text", "text", "numeric", "numeric", "text", "text", rep("numeric", 16)))%>%
@@ -65,7 +39,14 @@ zoop_mysid<-read_excel("data-raw/data/EMPMysidBPUEMatrixAug2019.xlsx",
                 MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                 Source="EMP")
 
-zoop_mass_conversions<-read_csv("data-raw/data/zoop_individual_mass.csv", col_types = "cd")
+zoop_mass_conversions<-read_csv("data-raw/data/zoop_individual_mass.csv", col_types = "cd")%>%
+  left_join(zooper::crosswalk%>%
+              select(EMP_Meso, Taxname, Lifestage),
+            by=c("taxon" = "EMP_Meso"))%>%
+  mutate(Taxlifestage=paste(Taxname, Lifestage))%>%
+  filter(!is.na(Taxname) & !is.na(Lifestage))%>%
+  select(-taxon, -Taxname, -Lifestage)%>%
+  rename(Mass=mass_indiv_ug)
 
 phyto<-read_csv("data-raw/data/Phytoplankton_Algal_Type_Data_1975_-2016.csv",
                 col_types = "ccddddddddddddddddddd")%>%
@@ -79,4 +60,4 @@ phyto<-read_csv("data-raw/data/Phytoplankton_Algal_Type_Data_1975_-2016.csv",
          Source="EMP")
 
 
-usethis::use_data(bivalves, zoop_cb, zoop_pump, zoop_mysid, zoop_mass_conversions, phyto, overwrite = TRUE)
+usethis::use_data(bivalves, zoop_mysid, zoop_mass_conversions, phyto, overwrite = TRUE)

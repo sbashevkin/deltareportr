@@ -1,5 +1,5 @@
 Package: deltareportr
-Title: The Delta Smelt Conditions Report
+Title: Tools and Data for Automated Delta Reporting
 Version: 0.0.0.9000
 Authors@R:
     person(given = "Sam",
@@ -7,11 +7,13 @@ Authors@R:
            role = c("aut", "cre"),
            email = "sam.bashevkin@deltacouncil.ca.gov",
            comment = c(ORCID = "0000-0001-7406-7089"))
-Description: An R package for the Delta Smelt conditions report
+Description: An R package for producing automated reports on the Sacramento San Joaquin Delta.
 License: GPL-3
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
+Depends: 
+     R (>= 3.5.0)
 Imports: 
     bookdown,
     here,
@@ -25,8 +27,20 @@ Imports:
     ggplot2,
     mapview,
     leaflet,
-    RColorBrewer
-Suggests: devtools,
-    git2r
+    lubridate,
+    RColorBrewer,
+    magrittr,
+    rlang,
+    ggthemes,
+    stats,
+    zooper (>= 0.2.0)
+Suggests: 
+    devtools,
+    git2r,
+    spelling
 URL: https://github.com/sbashevkin/deltareportr
 BugReports: https://github.com/sbashevkin/deltareportr/issues
+Remotes: 
+    InteragencyEcologicalProgram/zooper
+RoxygenNote: 7.0.2
+Language: en-US

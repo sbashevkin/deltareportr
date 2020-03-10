@@ -4,19 +4,21 @@
 #' @param Start_year Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.
 #' @param Variables Character vector of variables you would like included in the dataset. Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.
 #' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.
-#' @param Region_column Unquoted name of the column in the Shapefile with the region designations.
+#' @param Region_column Quoted name of the column in the Shapefile with the region designations.
 #' @param Regions Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @return A list of datasets
+#' @export
 
 
 DSCDater <- function(Start_year=2002,
                      Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
                      Shapefile = deltareportr::deltaregions,
-                     Region_column = Stratum,
+                     Region_column = "Stratum",
                      Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
 
+  Region_column <- rlang::sym(Region_column)
   Region_column <- rlang::enquo(Region_column)
 
   Data_list <- list()
@@ -63,14 +65,26 @@ DSCDater <- function(Start_year=2002,
 
   if("Zooplankton"%in%Variables){
 
-    Data_list[["Zooplankton"]]<-dplyr::bind_rows(deltareportr::zoop_cb, deltareportr::zoop_pump)%>%
-      dplyr::left_join(deltareportr::zoop_mass_conversions, by=c("Taxa"="taxon"))%>%
-      dplyr::mutate(BPUE=.data$CPUE*.data$mass_indiv_ug,
+    #**********Only including OTHCYCAD from CB because biomass indicates they're large, and only including small cyclopoids from pump sample******#
+
+    Data_list[["Zooplankton"]]<-zooper::zoopComb%>%
+      dplyr::filter(.data$Source=="EMP" & ((.data$SizeClass=="Meso" & .data$Taxlifestage%in%paste(c("Acartiella sinensis", "Acartia", "Diaptomidae", "Eurytemora affinis", "Calanoida", "Pseudodiaptomus forbesi", "Pseudodiaptomus marinus", "Sinocalanus doerrii", "Tortanus", "Acanthocyclops vernalis", "Cyclopoida", "Bosmina longirostris", "Daphnia", "Diaphanosoma", "Cladocera"), "Adult")) | (.data$SizeClass=="Micro" & .data$Taxlifestage%in%paste(c("Limnoithona", "Limnoithona sinensis", "Limnoithona tetraspina", "Oithona davisae", "Oithona similis", "Oithona"), "Adult"))))%>%
+      dplyr::select(.data$Source, .data$Taxlifestage, .data$SampleID, .data$CPUE)%>%
+      dplyr::left_join(zooper::zoopEnvComb%>%
+                         dplyr::select(.data$Year, .data$Date, .data$Station, .data$SampleID),
+                by="SampleID")%>%
+      dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"))%>%
+      dplyr::left_join(deltareportr::zoop_mass_conversions, by=c("Taxlifestage"))%>%
+      dplyr::mutate(BPUE=.data$CPUE*.data$Mass,
                     Taxa=dplyr::case_when(
-                      .data$Taxa%in%c("ACARTELA", "ACARTIA", "DIAPTOM", "EURYTEM", "OTHCALAD", "PDIAPFOR", "PDIAPMAR", "SINOCAL", "TORTANUS") ~ "Calanoida",
-                      .data$Taxa%in%c("AVERNAL", "LIMNOSPP", "LIMNOSINE", "LIMNOTET", "OITHDAV", "OITHSIM", "OITHSPP", "OTHCYCAD") ~ "Cyclopoida",
-                      .data$Taxa%in%c("BOSMINA", "DAPHNIA", "DIAPHAN", "OTHCLADO") ~ "Cladocera"))%>%
-      dplyr::select(-.data$CPUE, -.data$mass_indiv_ug)%>%
+                      .data$Taxlifestage%in%paste(c("Acartiella sinensis", "Acartia", "Diaptomidae",
+                                                    "Eurytemora affinis", "Calanoida", "Pseudodiaptomus forbesi",
+                                                    "Pseudodiaptomus marinus", "Sinocalanus doerrii", "Tortanus"), "Adult") ~ "Calanoida",
+                      .data$Taxlifestage%in%paste(c("Acanthocyclops vernalis", "Cyclopoida", "Limnoithona",
+                                                    "Limnoithona sinensis", "Limnoithona tetraspina",
+                                                    "Oithona davisae", "Oithona similis", "Oithona"), "Adult") ~ "Cyclopoida",
+                      .data$Taxlifestage%in%paste(c("Bosmina longirostris", "Daphnia", "Diaphanosoma", "Cladocera"), "Adult") ~ "Cladocera"))%>%
+      dplyr::select(-.data$CPUE, -.data$Mass, -.data$Taxlifestage)%>%
       dplyr::bind_rows(deltareportr::zoop_mysid)
 
     #Add regions and lat/long to zoop dataset
@@ -129,7 +143,7 @@ DSCDater <- function(Start_year=2002,
 
   # Water quality -----------------------------------------------------------
 
-  if("Water_quality"%in%Variables){
+  if("Water quality"%in%Variables){
 
     # Load and combine data ---------------------------------------------------
 
@@ -149,7 +163,7 @@ DSCDater <- function(Start_year=2002,
       dplyr::select(-.data$geometry)%>%
       dplyr::rename(Region=!!Region_column)
 
-    Data_list[["Water_quality"]]<-deltareportr::wq_EMP%>%
+    Data_list[["Water_quality"]]<-deltareportr::wq_emp%>%
       dplyr::bind_rows(deltareportr::wq_fmwt, deltareportr::wq_stn, EDSM)%>%
       dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                     Year=lubridate::year(.data$Date),
