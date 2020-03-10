@@ -41,7 +41,7 @@ Or you can install this compendium as an R package, deltareportr, from GitHub wi
 
 
 ```{r gh-installation, eval = FALSE}
-# install.packages("devtools")
+# install.packages("remotes")
 remotes::install_github("sbashevkin/deltareportr")
 ```
 
