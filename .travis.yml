@@ -8,10 +8,6 @@ env:
 
 sudo: required
 
-warnings_are_errors: false
-
-language: generic
-
 services:
   - docker
 
