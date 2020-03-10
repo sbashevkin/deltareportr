@@ -16,5 +16,4 @@ RUN . /etc/environment \
   && R -e "devtools::install('/deltareportr', dep=TRUE)" \
   # render the manuscript into a docx, you'll need to edit this if you've
   # customised the location and name of your main Rmd file
-  && R CMD check '${PKG_TARBALL}' --as-cran; CHECK_RET=$?
   && R -e "rmarkdown::render('/deltareportr/analysis/paper/Delta Smelt conditions report.Rmd')"
