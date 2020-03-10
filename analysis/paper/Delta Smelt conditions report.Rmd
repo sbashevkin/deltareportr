@@ -457,3 +457,11 @@ cat("<table>",paste0("<caption>", "(#tab:DeltasmeltEDSMdata)", "Data from <a hre
 
 create_dt(FISH$EDSM$Data)
 ```
+
+# Report version
+
+The current Git commit details are:
+
+```{r}
+if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
+```
