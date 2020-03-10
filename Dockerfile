@@ -13,7 +13,7 @@ RUN . /etc/environment \
   && sudo apt-get update \
   && sudo apt-get install libudunits2-dev -y \
   && sudo apt-get install -y libgdal-dev \
-  && sudo apt-get install l-y libgeos-dev \
+  && sudo apt-get install -y libgeos-dev \
   && sudo apt-get install -y libproj-dev \
   # build this compendium package
   && R -e "devtools::install('/deltareportr', dep=TRUE)" \
