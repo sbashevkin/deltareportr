@@ -84,10 +84,87 @@
 #' \describe{
 #'   \item{Source}{Name of the source dataset..}
 #'   \item{Station}{Station where sample was collected.}
-#'   \item{Latitude}{Latitude in decimal degrees. }
+#'   \item{Latitude}{Latitude in decimal degrees.}
 #'   \item{Longitude}{Longitude in decimal degrees.}
 #'   \item{StationID}{Combined source and station for a unique station ID.}
 #'   }
 #' @details More metadata and information on methods are available \href{}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
 "stations"
+
+#' EDSM water quality data
+#'
+#' Water quality data from the United States Fish and Wildlife Service Enhanced Delta Smelt Monitoring Program.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 1,052 rows and 5 variables
+#' \describe{
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Latitude}{Latitude in decimal degrees.}
+#'   \item{Longitude}{Longitude in decimal degrees.}
+#'   \item{Temperature}{Temperature in °C.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Source}{Name of the source dataset.}
+#'   }
+#' @details More metadata and information on methods are available \href{}{here}.
+#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+"wq_edsm"
+
+#' EMP water quality data
+#'
+#' Water quality data from the California Department of Water Resources Environmental Monitoring Program.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 16,355 rows and 9 variables
+#' \describe{
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
+#'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
+#'   \item{Source}{Name of the source dataset.}
+#'   }
+#' @details More metadata and information on methods are available \href{}{here}.
+#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+"wq_emp"
+
+#' FMWT water quality data
+#'
+#' Water quality data from the California Department of Fish and Wildlife Fall Midwater Trawl.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 27,319 rows and 7 variables
+#' \describe{
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Source}{Name of the source dataset.}
+#'   }
+#' @details More metadata and information on methods are available \href{}{here}.
+#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+"wq_fmwt"
+
+#' STN water quality data
+#'
+#' Water quality data from the California Department of Fish and Wildlife Summer Townet.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 8,266 rows and 7 variables
+#' \describe{
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
+#'   \item{Source}{Name of the source dataset.}
+#'   }
+#' @details More metadata and information on methods are available \href{}{here}.
+#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+"wq_stn"

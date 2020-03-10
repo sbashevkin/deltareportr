@@ -47,18 +47,18 @@ Fieldfiles <- list.files(path = "data-raw/data/Water quality", full.names = T, p
 
 Labfiles <- list.files(path = "data-raw/data/Water quality", full.names = T, pattern="Lab")
 
-wq_EMP<-sapply(Fieldfiles, function(x) read_excel(x, guess_max = 5e4))%>%
+wq_emp<-sapply(Fieldfiles, function(x) read_excel(x, guess_max = 5e4))%>%
   bind_rows()%>%
-  dplyr::select(Date=.data$SampleDate, Station=.data$StationCode, Parameter=.data$AnalyteName, Value=.data$Result, Notes=.data$TextResult, .data$Matrix)%>%
+  dplyr::select(Date=.data$SampleDate, Station=.data$StationCode, Parameter=.data$AnalyteName, Value=.data$Result, .data$Matrix)%>%
   dplyr::filter(.data$Parameter%in%c("Temperature", "Secchi Depth", "Conductance (EC)") & .data$Matrix=="Water")%>%
-  dplyr::group_by(.data$Date, .data$Station, .data$Parameter, .data$Notes)%>%
+  dplyr::group_by(.data$Date, .data$Station, .data$Parameter)%>%
   dplyr::summarise(Value=mean(.data$Value, na.rm=T))%>%
   dplyr::ungroup()%>%
   bind_rows(sapply(Labfiles, function(x) read_excel(x, guess_max = 5e4))%>%
               bind_rows()%>%
-              dplyr::select(Station=.data$StationCode, Date=.data$SampleDate, Parameter=.data$ConstituentName, Value=.data$Result, Notes=.data$LabAnalysisRemarks)%>%
+              dplyr::select(Station=.data$StationCode, Date=.data$SampleDate, Parameter=.data$ConstituentName, Value=.data$Result)%>%
               dplyr::filter(.data$Parameter=="Chlorophyll a")%>%
-              dplyr::group_by(.data$Date, .data$Station, .data$Parameter, .data$Notes)%>%
+              dplyr::group_by(.data$Date, .data$Station, .data$Parameter)%>%
               dplyr::summarise(Value=mean(.data$Value, na.rm=T))%>%
               dplyr::ungroup())%>%
   pivot_wider(names_from = .data$Parameter, values_from = .data$Value)%>%
@@ -77,4 +77,4 @@ wq_EMP<-sapply(Fieldfiles, function(x) read_excel(x, guess_max = 5e4))%>%
                      dplyr::select(-.data$Latitude, -.data$Longitude))%>%
   dplyr::mutate(Source="EMP")
 
-usethis::use_data(wq_EMP, wq_fmwt, wq_stn, wq_edsm, overwrite = TRUE)
+usethis::use_data(wq_emp, wq_fmwt, wq_stn, wq_edsm, overwrite = TRUE)
