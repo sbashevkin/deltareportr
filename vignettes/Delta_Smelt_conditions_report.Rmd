@@ -17,19 +17,14 @@ params:
   Map: "No"
 vignette: >
   %\VignetteIndexEntry{Delta_Smelt_conditions_report}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = F, warning = FALSE, fig.height=4, fig.width=7.5, fig.align="center", fig.pos='H')
 
-require(sf)
-require(tidyverse)
-require(readxl)
-require(lubridate)
-require(RColorBrewer)
-require(ggthemes)
+require(tibble)
 require(knitr)
 require(DT)
 require(deltareportr)
@@ -102,7 +97,7 @@ include_graphics("figures/map.png")
 ## Sampling programs
 
 ```{r Sampleprog}
-knitr::kable(tibble(Acronym = c("EMP", "FMWT", "SKT", "STN", "20mm", "EDSM", "Dayflow"), `Dataset name` = c("Environmental Monitoring Program", "Fall Midwater Trawl", "Spring Kodiak Trawl", "Summer Townet", "20 mm Survey", "Enhanced Delta Smelt Monitoring", "Dayflow"), Agency = c("California Department of Fish and Wildlife; Department of Water Resources", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "United States Fish and Wildlife Service", "Department of Water Resources")), caption="Acronyms and responsible agencies for each dataset used in this report.")
+knitr::kable(tibble::tibble(Acronym = c("EMP", "FMWT", "SKT", "STN", "20mm", "EDSM", "Dayflow"), `Dataset name` = c("Environmental Monitoring Program", "Fall Midwater Trawl", "Spring Kodiak Trawl", "Summer Townet", "20 mm Survey", "Enhanced Delta Smelt Monitoring", "Dayflow"), Agency = c("California Department of Fish and Wildlife; Department of Water Resources", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "United States Fish and Wildlife Service", "Department of Water Resources")), caption="Acronyms and responsible agencies for each dataset used in this report.")
 ```
 
 
