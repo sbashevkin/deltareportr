@@ -1,26 +1,14 @@
-# Build our Docker container and R pkg on Travis
-
-language: R
-
-env:
-  global:
-  - REPO=$DOCKER_USER/deltareportr
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 sudo: required
-
 services:
   - docker
 
-before_install:
-    # create & run container using our dockerfile, i.e. compile pkg and render Rmd to Word doc
-  - docker build -t $REPO .
+language: R
+cache: packages
 
-# push our custom docker container to docker hub, env vars stored on travis-ci.org
-after_success:
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - export REPO=$DOCKER_USER/deltareportr
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build -f Dockerfile -t $REPO:$COMMIT .
-  - docker tag $REPO:$COMMIT $REPO:$TAG
-  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
-  - docker push $REPO
+before_install:
+  - "docker pull ubuntu:16.04"
+  - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable -y
+  - sudo apt-get --yes --force-yes update -qq
+  - sudo apt-get install libudunits2-dev libgdal-dev libgeos-dev libproj-dev

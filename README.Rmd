@@ -16,7 +16,9 @@ Title <- "Title of your paper goes here"
 
 # deltareportr
 
-[![Travis-CI Build Status](https://travis-ci.org/sbashevkin/deltareportr.svg?branch=master)](https://travis-ci.org/sbashevkin/deltareportr)
+<!-- badges: start -->
+  [![Travis build status](https://travis-ci.org/sbashevkin/deltareportr.svg?branch=master)](https://travis-ci.org/sbashevkin/deltareportr)
+<!-- badges: end -->
 
 This repository contains the data and code for our paper:
 

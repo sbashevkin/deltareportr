@@ -3,8 +3,11 @@
 
 # deltareportr
 
-[![Travis-CI Build
-Status](https://travis-ci.org/sbashevkin/deltareportr.svg?branch=master)](https://travis-ci.org/sbashevkin/deltareportr)
+<!-- badges: start -->
+
+[![Travis build
+status](https://travis-ci.org/sbashevkin/deltareportr.svg?branch=master)](https://travis-ci.org/sbashevkin/deltareportr)
+<!-- badges: end -->
 
 This repository contains the data and code for our paper:
 
@@ -14,7 +17,7 @@ This repository contains the data and code for our paper:
 Our pre-print is online here:
 
 > Authors, (YYYY). *Title of your paper goes here*. Name of
-> journal/book, Accessed 10 Mar 2020. Online at
+> journal/book, Accessed 11 Mar 2020. Online at
 > <https://doi.org/xxx/xxx>
 
 ### How to cite
@@ -22,7 +25,7 @@ Our pre-print is online here:
 Please cite this compendium as:
 
 > Authors, (2020). *Compendium of R code and data for Title of your
-> paper goes here*. Accessed 10 Mar 2020. Online at
+> paper goes here*. Accessed 11 Mar 2020. Online at
 > <https://doi.org/xxx/xxx>
 
 ### How to download or install
