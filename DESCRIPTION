@@ -38,10 +38,12 @@ Imports:
 Suggests: 
     devtools,
     git2r,
-    spelling
+    spelling,
+    knitr
 URL: https://github.com/sbashevkin/deltareportr
 BugReports: https://github.com/sbashevkin/deltareportr/issues
 Remotes: 
     InteragencyEcologicalProgram/zooper
 RoxygenNote: 7.0.2
 Language: en-US
+VignetteBuilder: knitr

@@ -15,6 +15,10 @@ pagetitle: "Delta Smelt conditions report"
 lang: en
 params:
   Map: "No"
+vignette: >
+  %\VignetteIndexEntry{Delta_Smelt_conditions_report}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
@@ -54,7 +58,7 @@ BIV <- DSCBivalver(Data$Bivalves)
 
 if(params$Map=="Yes"){
   DSCMapper(Save=TRUE,
-            Save_location="../figures/map.png")
+            Save_location="figures/map.png")
 }
 ```
 
@@ -79,7 +83,7 @@ Since the POD (Pelagic Organism Decline, 2002-2003), Delta Smelt have been most 
 (ref:DeltaSmeltphoto) Juvenile Delta Smelt Dale Kolke / DWR.
 
 ```{r DeltaSmeltphoto, echo=FALSE, fig.cap="(ref:DeltaSmeltphoto)", out.width="55%"}
-include_graphics("../figures/DBK_Delta_Smelt-2463edit.jpg")
+include_graphics("figures/DBK_Delta_Smelt-2463edit.jpg")
 ```
 
 
@@ -91,7 +95,7 @@ Most variables are divided among 7 of the 8 regions from the [Enhanced Delta Sme
 (ref:Deltamap) The Sacramento San Joaquin Delta divided into the EDSM 2018-19 phase I strata (Suisun Bay, Suisun Marsh, Lower Sacramento River, Sacramento Deep Water Shipping Channel, Cache Slough/Liberty Island, Lower San Joaquin River, and the Southern Delta).
 
 ```{r Deltamap, echo=FALSE, out.width="55%", fig.cap="(ref:Deltamap)"}
-include_graphics("../figures/map.png")
+include_graphics("figures/map.png")
 ```
 
 
