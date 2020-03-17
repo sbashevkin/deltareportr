@@ -1,0 +1,14 @@
+---
+title: "deltareportr"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+An R package to facilitate the creation of custom reports
+
+# Reports
+
+* [Delta Smelt conditions report](Delta_Smelt_conditions_report.html)

@@ -15,17 +15,16 @@ pagetitle: "Delta Smelt conditions report"
 lang: en
 params:
   Map: "No"
+vignette: >
+  %\VignetteIndexEntry{Delta_Smelt_conditions_report}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = F, warning = FALSE, fig.height=4, fig.width=7.5, fig.align="center", fig.pos='H')
 
-require(sf)
-require(tidyverse)
-require(readxl)
-require(lubridate)
-require(RColorBrewer)
-require(ggthemes)
+require(tibble)
 require(knitr)
 require(DT)
 require(deltareportr)
@@ -54,7 +53,7 @@ BIV <- DSCBivalver(Data$Bivalves)
 
 if(params$Map=="Yes"){
   DSCMapper(Save=TRUE,
-            Save_location="../figures/map.png")
+            Save_location="figures/map.png")
 }
 ```
 
@@ -79,7 +78,7 @@ Since the POD (Pelagic Organism Decline, 2002-2003), Delta Smelt have been most 
 (ref:DeltaSmeltphoto) Juvenile Delta Smelt Dale Kolke / DWR.
 
 ```{r DeltaSmeltphoto, echo=FALSE, fig.cap="(ref:DeltaSmeltphoto)", out.width="55%"}
-include_graphics("../figures/DBK_Delta_Smelt-2463edit.jpg")
+include_graphics("figures/DBK_Delta_Smelt-2463edit.jpg")
 ```
 
 
@@ -91,14 +90,14 @@ Most variables are divided among 7 of the 8 regions from the [Enhanced Delta Sme
 (ref:Deltamap) The Sacramento San Joaquin Delta divided into the EDSM 2018-19 phase I strata (Suisun Bay, Suisun Marsh, Lower Sacramento River, Sacramento Deep Water Shipping Channel, Cache Slough/Liberty Island, Lower San Joaquin River, and the Southern Delta).
 
 ```{r Deltamap, echo=FALSE, out.width="55%", fig.cap="(ref:Deltamap)"}
-include_graphics("../figures/map.png")
+include_graphics("figures/map.png")
 ```
 
 
 ## Sampling programs
 
 ```{r Sampleprog}
-knitr::kable(tibble(Acronym = c("EMP", "FMWT", "SKT", "STN", "20mm", "EDSM", "Dayflow"), `Dataset name` = c("Environmental Monitoring Program", "Fall Midwater Trawl", "Spring Kodiak Trawl", "Summer Townet", "20 mm Survey", "Enhanced Delta Smelt Monitoring", "Dayflow"), Agency = c("California Department of Fish and Wildlife; Department of Water Resources", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "United States Fish and Wildlife Service", "Department of Water Resources")), caption="Acronyms and responsible agencies for each dataset used in this report.")
+knitr::kable(tibble::tibble(Acronym = c("EMP", "FMWT", "SKT", "STN", "20mm", "EDSM", "Dayflow"), `Dataset name` = c("Environmental Monitoring Program", "Fall Midwater Trawl", "Spring Kodiak Trawl", "Summer Townet", "20 mm Survey", "Enhanced Delta Smelt Monitoring", "Dayflow"), Agency = c("California Department of Fish and Wildlife; Department of Water Resources", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "United States Fish and Wildlife Service", "Department of Water Resources")), caption="Acronyms and responsible agencies for each dataset used in this report.")
 ```
 
 
@@ -167,7 +166,7 @@ Secchi depth is a measure of turbidity. **Lower Secchi depth indicates higher tu
 WQ$Salinity$Plot
 ```
 
-**During the fall, Delta Smelt prefer fresh to brackish water and are most abundant in salinities of 1-2 PSU**, are rare in salinities higher than 6 PSU, and are not found in salinities above 14 PSU. Juveniles rely on freshwater and low salinity habitat in the fall to feed, grow, and mature into adults. 
+**During the fall, Delta Smelt prefer fresh to brackish water are most abundant in salinities less than about 6 PSU**, decline in abundance at higher salinities, and become rare at salinities above about 14 PSU. Juveniles rely on freshwater and low salinity habitat in the fall to feed, grow, and mature into adults. 
 
 # Biotic drivers
 

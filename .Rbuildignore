@@ -9,3 +9,6 @@ analysis
 ^data-raw$
 ^Dockerfile$
 ^\.travis\.yml$
+^doc$
+^Meta$
+^docs$
