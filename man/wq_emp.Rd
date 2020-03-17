@@ -5,7 +5,8 @@
 \name{wq_emp}
 \alias{wq_emp}
 \title{EMP water quality data}
-\format{a tibble with 16,355 rows and 9 variables
+\format{
+a tibble with 16,293 rows and 8 variables
 \describe{
   \item{Date}{Date sample was collected.}
   \item{Station}{Station where sample was collected.}
@@ -15,7 +16,8 @@
   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
   \item{Source}{Name of the source dataset.}
-  }}
+  }
+}
 \usage{
 wq_emp
 }

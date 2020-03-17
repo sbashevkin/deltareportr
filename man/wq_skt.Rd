@@ -2,33 +2,34 @@
 % Please edit documentation in R/data.R
 \docType{data}
 \encoding{UTF-8}
-\name{wq_stn}
-\alias{wq_stn}
-\title{STN water quality data}
+\name{wq_skt}
+\alias{wq_skt}
+\title{SKT water quality data}
 \format{
-a tibble with 8,266 rows and 11 variables
+a tibble with 3,965 rows and 12 variables
 \describe{
   \item{Date}{Date sample was collected.}
   \item{Station}{Station where sample was collected.}
   \item{Secchi}{Secchi depth (cm).}
-  \item{Temperature}{Temperature (°C) at surface.}
   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
-  \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
+  \item{Temperature}{Temperature (°C) at surface.}
+  \item{Depth}{Bottom depth in ???}
   \item{Tide}{Tidal stage.}
-  \item{Depth}{Bottom depth in feet.}
   \item{Notes}{Comments.}
   \item{Source}{Name of the source dataset.}
+  \item{Latitude}{Latitude in decimal degrees.}
+  \item{Longitude}{Longitude in decimal degrees.}
   \item{Datetime}{Date and time of sample collection.}
   }
 }
 \usage{
-wq_stn
+wq_skt
 }
 \description{
-Water quality data from the California Department of Fish and Wildlife Summer Townet.
+Water quality data from the California Department of Fish and Wildlife Spring Kodiak Trawl.
 }
 \details{
-More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{here}.
+More metadata and information on methods are available \href{http://www.dfg.ca.gov/delta/projects.asp?ProjectID=SKT}{here}.
 }
 \seealso{
 \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}

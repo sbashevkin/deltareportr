@@ -5,7 +5,8 @@
 \name{wq_fmwt}
 \alias{wq_fmwt}
 \title{FMWT water quality data}
-\format{a tibble with 27,319 rows and 7 variables
+\format{
+a tibble with 27,319 rows and 10 variables
 \describe{
   \item{Date}{Date sample was collected.}
   \item{Station}{Station where sample was collected.}
@@ -13,8 +14,12 @@
   \item{Secchi}{Secchi depth (cm).}
   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
   \item{Temperature}{Temperature (°C) at surface.}
+  \item{Depth}{Bottom depth in feet.}
+  \item{Tide}{Tidal stage.}
   \item{Source}{Name of the source dataset.}
-  }}
+  \item{Datetime}{Date and time of sample collection.}
+  }
+}
 \usage{
 wq_fmwt
 }

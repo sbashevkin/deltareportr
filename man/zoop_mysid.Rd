@@ -4,7 +4,8 @@
 \name{zoop_mysid}
 \alias{zoop_mysid}
 \title{Mysid data}
-\format{a tibble with 40 rows and 2 variables
+\format{
+a tibble with 40 rows and 2 variables
 \describe{
   \item{Date}{Date sample was collected.}
   \item{Station}{Station where sample was collected.}
@@ -13,7 +14,8 @@
   \item{Year}{Year sample was collected.}
   \item{MonthYear}{Month and year sample was collected.}
   \item{Source}{Name of the source dataset.}
-  }}
+  }
+}
 \usage{
 zoop_mysid
 }

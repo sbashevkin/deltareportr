@@ -4,7 +4,8 @@
 \name{phyto}
 \alias{phyto}
 \title{Phytoplankton dataset}
-\format{a tibble with 8,652 rows and 7 variables
+\format{
+a tibble with 8,652 rows and 7 variables
 \describe{
   \item{Date}{Sample collection date.}
   \item{Station}{Station where sample was collected.}
@@ -13,7 +14,8 @@
   \item{Year}{Year sample was collected.}
   \item{MonthYear}{Month and year of sample collection.}
   \item{Source}{Name of the source dataset.}
-  }}
+  }
+}
 \usage{
 phyto
 }

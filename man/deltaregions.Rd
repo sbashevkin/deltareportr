@@ -4,11 +4,13 @@
 \name{deltaregions}
 \alias{deltaregions}
 \title{Delta regions}
-\format{an sf tibble with 8 rows and 2 variables
+\format{
+an sf tibble with 8 rows and 2 variables
 \describe{
   \item{Stratum}{Region.}
   \item{geometry}{Polygon coordinates.}
-  }}
+  }
+}
 \usage{
 deltaregions
 }

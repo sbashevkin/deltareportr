@@ -39,11 +39,12 @@ Suggests:
     devtools,
     git2r,
     spelling,
-    knitr
+    knitr,
+    DT
 URL: https://github.com/sbashevkin/deltareportr
 BugReports: https://github.com/sbashevkin/deltareportr/issues
 Remotes: 
     InteragencyEcologicalProgram/zooper
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Language: en-US
 VignetteBuilder: knitr

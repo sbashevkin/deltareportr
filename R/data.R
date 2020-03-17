@@ -109,22 +109,50 @@
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
 "stations"
 
+#' 20mm water quality data
+#'
+#' Water quality data from the California Department of Fish and Wildlife 20mm survey.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 9,458 rows and 12 variables
+#' \describe{
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Temperature}{Temperature in °C.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Notes}{Comments.}
+#'   \item{Latitude}{Latitude in decimal degrees.}
+#'   \item{Longitude}{Longitude in decimal degrees.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Depth}{Bottom depth in feet.}
+#'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Source}{Name of the source dataset.}
+#'   }
+#' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/20mm-Survey}{here}.
+#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+"wq_20mm"
+
 #' EDSM water quality data
 #'
 #' Water quality data from the United States Fish and Wildlife Service Enhanced Delta Smelt Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 14,843 rows and 7 variables
+#' @format a tibble with 14,851 rows and 11 variables
 #' \describe{
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Latitude}{Latitude in decimal degrees.}
 #'   \item{Longitude}{Longitude in decimal degrees.}
 #'   \item{Temperature}{Temperature in °C.}
 #'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Depth}{Bottom depth in feet.}
+#'   \item{Notes}{Comments.}
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Source}{Name of the source dataset.}
+#'   \item{Datetime}{Date and time of sample collection.}
 #'   }
-#' @details More metadata and information on methods are available \href{https://www.fws.gov/lodi/juvenile_fish_monitoring_program/jfmp_index.htm}{here}.
+#' @details More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.415.1}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
 "wq_edsm"
 
@@ -133,7 +161,7 @@
 #' Water quality data from the California Department of Water Resources Environmental Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 16,355 rows and 9 variables
+#' @format a tibble with 16,293 rows and 8 variables
 #' \describe{
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Station}{Station where sample was collected.}
@@ -153,7 +181,7 @@
 #' Water quality data from the California Department of Fish and Wildlife Fall Midwater Trawl.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 27,319 rows and 7 variables
+#' @format a tibble with 27,319 rows and 10 variables
 #' \describe{
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Station}{Station where sample was collected.}
@@ -161,18 +189,45 @@
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
 #'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Depth}{Bottom depth in feet.}
+#'   \item{Tide}{Tidal stage.}
 #'   \item{Source}{Name of the source dataset.}
+#'   \item{Datetime}{Date and time of sample collection.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
 "wq_fmwt"
+
+#' SKT water quality data
+#'
+#' Water quality data from the California Department of Fish and Wildlife Spring Kodiak Trawl.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 3,965 rows and 12 variables
+#' \describe{
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Depth}{Bottom depth in ???}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Notes}{Comments.}
+#'   \item{Source}{Name of the source dataset.}
+#'   \item{Latitude}{Latitude in decimal degrees.}
+#'   \item{Longitude}{Longitude in decimal degrees.}
+#'   \item{Datetime}{Date and time of sample collection.}
+#'   }
+#' @details More metadata and information on methods are available \href{http://www.dfg.ca.gov/delta/projects.asp?ProjectID=SKT}{here}.
+#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+"wq_skt"
 
 #' STN water quality data
 #'
 #' Water quality data from the California Department of Fish and Wildlife Summer Townet.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 8,266 rows and 7 variables
+#' @format a tibble with 8,266 rows and 11 variables
 #' \describe{
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Station}{Station where sample was collected.}
@@ -180,7 +235,11 @@
 #'   \item{Temperature}{Temperature (°C) at surface.}
 #'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
 #'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Depth}{Bottom depth in feet.}
+#'   \item{Notes}{Comments.}
 #'   \item{Source}{Name of the source dataset.}
+#'   \item{Datetime}{Date and time of sample collection.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}

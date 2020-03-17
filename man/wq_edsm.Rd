@@ -5,16 +5,22 @@
 \name{wq_edsm}
 \alias{wq_edsm}
 \title{EDSM water quality data}
-\format{a tibble with 14,843 rows and 7 variables
+\format{
+a tibble with 14,851 rows and 11 variables
 \describe{
   \item{Date}{Date sample was collected.}
   \item{Latitude}{Latitude in decimal degrees.}
   \item{Longitude}{Longitude in decimal degrees.}
   \item{Temperature}{Temperature in °C.}
   \item{Secchi}{Secchi depth (cm).}
+  \item{Tide}{Tidal stage.}
+  \item{Depth}{Bottom depth in feet.}
+  \item{Notes}{Comments.}
   \item{Station}{Station where sample was collected.}
   \item{Source}{Name of the source dataset.}
-  }}
+  \item{Datetime}{Date and time of sample collection.}
+  }
+}
 \usage{
 wq_edsm
 }
@@ -22,7 +28,7 @@ wq_edsm
 Water quality data from the United States Fish and Wildlife Service Enhanced Delta Smelt Monitoring Program.
 }
 \details{
-More metadata and information on methods are available \href{https://www.fws.gov/lodi/juvenile_fish_monitoring_program/jfmp_index.htm}{here}.
+More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.415.1}{here}.
 }
 \seealso{
 \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}

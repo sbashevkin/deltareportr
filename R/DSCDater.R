@@ -3,6 +3,7 @@
 #' Imports, filters, and processes datasets and outputs a list of desired datasets
 #' @param Start_year Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.
 #' @param Variables Character vector of variables you would like included in the dataset. Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.
+#' @param WQ_sources Character vector of data sources for the water quality variables. Choices include "EMP", "STN", "FMWT", "EDSM",
 #' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.
 #' @param Region_column Quoted name of the column in the Shapefile with the region designations.
 #' @param Regions Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.
@@ -14,6 +15,7 @@
 
 DSCDater <- function(Start_year=2002,
                      Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
+                     WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
                      Shapefile = deltareportr::deltaregions,
                      Region_column = "Stratum",
                      Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
@@ -72,7 +74,7 @@ DSCDater <- function(Start_year=2002,
       dplyr::select(.data$Source, .data$Taxlifestage, .data$SampleID, .data$CPUE)%>%
       dplyr::left_join(zooper::zoopEnvComb%>%
                          dplyr::select(.data$Year, .data$Date, .data$Station, .data$SampleID),
-                by="SampleID")%>%
+                       by="SampleID")%>%
       dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"))%>%
       dplyr::left_join(deltareportr::zoop_mass_conversions, by=c("Taxlifestage"))%>%
       dplyr::mutate(BPUE=.data$CPUE*.data$Mass,
@@ -146,12 +148,19 @@ DSCDater <- function(Start_year=2002,
   if("Water quality"%in%Variables){
 
     # Load and combine data ---------------------------------------------------
+    WQ_list<-list()
 
-    FMWT<-deltareportr::wq_fmwt
+    if("FMWT"%in%WQ_sources){
 
-    STN<-deltareportr::wq_stn
+    WQ_list[["FMWT"]]<-deltareportr::wq_fmwt
+    }
 
-    EDSM<-deltareportr::wq_edsm%>%
+    if("STN"%in%WQ_sources){
+    WQ_list[["STN"]]<-deltareportr::wq_stn
+    }
+
+    if("EDSM"%in%WQ_sources){
+    WQ_list[["EDSM"]]<-deltareportr::wq_edsm%>%
       dplyr::filter(!is.na(.data$Latitude) & !is.na(.data$Longitude))%>%
       sf::st_as_sf(coords = c("Longitude", "Latitude"), #Add regions to EDSM data
                    crs=4326)%>%
@@ -162,9 +171,13 @@ DSCDater <- function(Start_year=2002,
       tibble::as_tibble()%>%
       dplyr::select(-.data$geometry)%>%
       dplyr::rename(Region=!!Region_column)
+    }
 
-    Data_list[["Water_quality"]]<-deltareportr::wq_emp%>%
-      dplyr::bind_rows(deltareportr::wq_fmwt, deltareportr::wq_stn, EDSM)%>%
+    if("EMP"%in%WQ_sources){
+      WQ_list[["EMP"]]<-deltareportr::wq_emp
+    }
+
+    Data_list[["Water_quality"]]<-dplyr::bind_rows(WQ_list)%>%
       dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                     Year=lubridate::year(.data$Date),
                     Salinity=((0.36966/(((.data$Conductivity*0.001)^(-1.07))-0.00074))*1.28156))

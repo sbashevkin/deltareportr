@@ -4,12 +4,14 @@
 \name{smelt_iep}
 \alias{smelt_iep}
 \title{Delta Smelt IEP indices}
-\format{a tibble with 152 rows and 3 variables
+\format{
+a tibble with 152 rows and 3 variables
 \describe{
   \item{Year}{Index year.}
   \item{Index}{Delta Smelt index number.}
   \item{Source}{Name of the source dataset.}
-  }}
+  }
+}
 \usage{
 smelt_iep
 }

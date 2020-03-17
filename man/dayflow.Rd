@@ -4,7 +4,8 @@
 \name{dayflow}
 \alias{dayflow}
 \title{Dayflow dataset}
-\format{a tibble with 8,652 rows and 7 variables
+\format{
+a tibble with 8,652 rows and 7 variables
 \describe{
   \item{Date}{Date.}
   \item{Out}{Delta outflow (\eqn{ft^{3}} \eqn{s^{-1}}.)}
@@ -13,7 +14,8 @@
   \item{Year}{Year sample was collected.}
   \item{MonthYear}{Month and year of sample collection.}
   \item{Source}{Name of the source dataset.}
-  }}
+  }
+}
 \usage{
 dayflow
 }

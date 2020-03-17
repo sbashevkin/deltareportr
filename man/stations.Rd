@@ -4,14 +4,16 @@
 \name{stations}
 \alias{stations}
 \title{Station locations}
-\format{a tibble with 1,052 rows and 5 variables
+\format{
+a tibble with 1,052 rows and 5 variables
 \describe{
   \item{Source}{Name of the source dataset..}
   \item{Station}{Station where sample was collected.}
   \item{Latitude}{Latitude in decimal degrees.}
   \item{Longitude}{Longitude in decimal degrees.}
   \item{StationID}{Combined source and station for a unique station ID.}
-  }}
+  }
+}
 \usage{
 stations
 }

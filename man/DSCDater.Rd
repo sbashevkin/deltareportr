@@ -7,6 +7,7 @@
 DSCDater(
   Start_year = 2002,
   Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
+  WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
   Shapefile = deltareportr::deltaregions,
   Region_column = "Stratum",
   Regions = c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River",
@@ -18,6 +19,8 @@ DSCDater(
 \item{Start_year}{Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.}
 
 \item{Variables}{Character vector of variables you would like included in the dataset. Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.}
+
+\item{WQ_sources}{Character vector of data sources for the water quality variables. Choices include "EMP", "STN", "FMWT", "EDSM",}
 
 \item{Shapefile}{Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.}
 

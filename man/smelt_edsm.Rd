@@ -4,14 +4,16 @@
 \name{smelt_edsm}
 \alias{smelt_edsm}
 \title{Delta Smelt EDSM abundance estimates}
-\format{a tibble with 961 rows and 7 variables
+\format{
+a tibble with 961 rows and 7 variables
 \describe{
   \item{Region}{Region of abundance estimate.}
   \item{Date}{Abundance estimate date. Abundances are estimated weekly, but these dates represent the midpoint of each week.}
   \item{Abundance}{Estimated Delta Smelt abundance.}
   \item{Variance}{Variance of the abundance estimate.}
   \item{MonthYear}{Month and year of sample collection.}
-  }}
+  }
+}
 \usage{
 smelt_edsm
 }

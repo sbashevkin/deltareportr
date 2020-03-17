@@ -26,6 +26,26 @@ STN<-read_excel("data-raw/data/STN Station.xlsx")%>%
   select(Station, Latitude, Longitude, Source, StationID)%>%
   drop_na()
 
+SKT<-read_csv("data-raw/data/lktblStationsSKT.csv")%>%
+  select(Station, LatDeg, LatMin, LatSec, LongDec, LongMin, LongSec)%>%
+  mutate(Latitude=LatDeg+LatMin/60+LatSec/3600,
+         Longitude=(LongDec+LongMin/60+LongSec/3600)*-1,
+         Source="SKT",
+         StationID=paste(Source, Station),
+         Station=as.character(Station))%>%
+  select(Station, Latitude, Longitude, Source, StationID)%>%
+  drop_na()
+
+twentymm<-read_csv("data-raw/data/tbl20mmStations.csv")%>%
+  select(Station, LatD, LatM, LatS, LonD, LonM, LonS)%>%
+  mutate(Latitude=LatD+LatM/60+LatS/3600,
+         Longitude=(LonD+LonM/60+LonS/3600)*-1,
+         Source="20mm",
+         StationID=paste(Source, Station),
+         Station=as.character(Station))%>%
+  select(Station, Latitude, Longitude, Source, StationID)%>%
+  drop_na()
+
 Zoopxl<-read_excel("data-raw/data/zoop_stations.xlsx")%>%
   rename(Source=Project)%>%
   mutate(StationID=paste(Source, Station))%>%
@@ -39,7 +59,7 @@ WQ<-read_csv("data-raw/data/wq_stations.csv")%>%
 
 #EZ stations
 
-EZ<-read_excel("data-raw/data/EMP WQ Combined_2000-2018.xlsx", na=c("N/A", "<R.L.", "Too dark"), col_types = c(rep("text", 3), "date", rep("text", 37)))%>%
+EZ<-read_excel("data-raw/data/EMP water quality/EMP WQ Combined_2000-2018.xlsx", na=c("N/A", "<R.L.", "Too dark"), col_types = c(rep("text", 3), "date", rep("text", 37)))%>%
   select(Station=`Station Name`, Date, Latitude=`North Latitude Degrees (d.dd)`, Longitude=`West Longitude Degrees (d.dd)`)%>%
   mutate(Latitude=parse_double(Latitude),
          Longitude=parse_double(Longitude))%>%
@@ -69,7 +89,10 @@ stations<-bind_rows(
     filter(!(StationID%in%unique(Zoopxl$StationID))),
   WQ%>%
     filter(!(StationID%in%unique(Zoopxl$StationID))),
+  twentymm%>%
+    filter(!(StationID%in%unique(Zoopxl$StationID))),
   EZ,
+  SKT,
   EMPBIV)%>%
   drop_na()
 
