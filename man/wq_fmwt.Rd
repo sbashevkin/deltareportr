@@ -14,7 +14,7 @@ a tibble with 27,319 rows and 10 variables
   \item{Secchi}{Secchi depth (cm).}
   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
   \item{Temperature}{Temperature (°C) at surface.}
-  \item{Depth}{Bottom depth in feet.}
+  \item{Depth}{Bottom depth (m).}
   \item{Tide}{Tidal stage.}
   \item{Source}{Name of the source dataset.}
   \item{Datetime}{Date and time of sample collection.}

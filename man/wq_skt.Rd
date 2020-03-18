@@ -13,7 +13,7 @@ a tibble with 3,965 rows and 12 variables
   \item{Secchi}{Secchi depth (cm).}
   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
   \item{Temperature}{Temperature (°C) at surface.}
-  \item{Depth}{Bottom depth in ???}
+  \item{Depth}{Bottom depth (m).}
   \item{Tide}{Tidal stage.}
   \item{Notes}{Comments.}
   \item{Source}{Name of the source dataset.}

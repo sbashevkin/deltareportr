@@ -3,7 +3,7 @@
 #' Imports, filters, and processes datasets and outputs a list of desired datasets
 #' @param Start_year Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.
 #' @param Variables Character vector of variables you would like included in the dataset. Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.
-#' @param WQ_sources Character vector of data sources for the water quality variables. Choices include "EMP", "STN", "FMWT", "EDSM",
+#' @param WQ_sources Character vector of data sources for the water quality variables. Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}), "TNS" (Summer Townet Survey, \code{\link{wq_tns}}), "FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}), "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}), "20mm" (20mm Survey, \code{\link{wq_20mm}}), "SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}), and "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).
 #' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.
 #' @param Region_column Quoted name of the column in the Shapefile with the region designations.
 #' @param Regions Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.
@@ -15,7 +15,7 @@
 
 DSCDater <- function(Start_year=2002,
                      Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
-                     WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
+                     WQ_sources = c("EMP", "TNS", "FMWT", "EDSM"),
                      Shapefile = deltareportr::deltaregions,
                      Region_column = "Stratum",
                      Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
@@ -28,9 +28,9 @@ DSCDater <- function(Start_year=2002,
   # Stations ----------------------------------------------------------------
 
   Stations<-deltareportr::stations%>%
-    dplyr::select(-.data$StationID)%>%
     sf::st_as_sf(coords = c("Longitude", "Latitude"),
-                 crs=4326)%>%
+                 crs=4326,
+                 remove=FALSE)%>%
     sf::st_transform(crs=sf::st_crs(Shapefile))%>%
     sf::st_join(Shapefile%>%
                   dplyr::select(!!Region_column),
@@ -46,7 +46,8 @@ DSCDater <- function(Start_year=2002,
     #Add regions and lat/long to zoop dataset
     Data_list[["Bivalves"]]<-deltareportr::bivalves%>%
       dplyr::filter(.data$Year>=Start_year)%>%
-      dplyr::left_join(Stations, by=c("Source", "Station"))%>%
+      dplyr::left_join(Stations%>%
+                         dplyr::select(-.data$StationID), by=c("Source", "Station"))%>%
       {if (is.null(Regions)){
         .
       } else{
@@ -92,7 +93,8 @@ DSCDater <- function(Start_year=2002,
     #Add regions and lat/long to zoop dataset
     Data_list[["Zooplankton"]]<-Data_list[["Zooplankton"]]%>%
       dplyr::filter(.data$Year>=Start_year)%>%
-      dplyr::left_join(Stations, by=c("Source", "Station"))%>%
+      dplyr::left_join(Stations%>%
+                         dplyr::select(-.data$StationID), by=c("Source", "Station"))%>%
       {if (is.null(Regions)){
         .
       } else{
@@ -124,7 +126,8 @@ DSCDater <- function(Start_year=2002,
 
     #Add regions and lat/long to phyto dataset
     Data_list[["Phytoplankton"]]<-Data_list[["Phytoplankton"]]%>%
-      dplyr::left_join(Stations, by=c("Source", "Station"))%>%
+      dplyr::left_join(Stations%>%
+                         dplyr::select(-.data$StationID), by=c("Source", "Station"))%>%
       {if (is.null(Regions)){
         .
       } else{
@@ -155,22 +158,24 @@ DSCDater <- function(Start_year=2002,
     WQ_list[["FMWT"]]<-deltareportr::wq_fmwt
     }
 
-    if("STN"%in%WQ_sources){
-    WQ_list[["STN"]]<-deltareportr::wq_stn
+    if("TNS"%in%WQ_sources){
+    WQ_list[["TNS"]]<-deltareportr::wq_tns
+    }
+
+    if("Suisun"%in%WQ_sources){
+      WQ_list[["Suisun"]]<-deltareportr::wq_suisun
+    }
+
+    if("SKT"%in%WQ_sources){
+      WQ_list[["SKT"]]<-deltareportr::wq_skt
+    }
+
+    if("20mm"%in%WQ_sources){
+      WQ_list[["twentymm"]]<-deltareportr::wq_20mm
     }
 
     if("EDSM"%in%WQ_sources){
-    WQ_list[["EDSM"]]<-deltareportr::wq_edsm%>%
-      dplyr::filter(!is.na(.data$Latitude) & !is.na(.data$Longitude))%>%
-      sf::st_as_sf(coords = c("Longitude", "Latitude"), #Add regions to EDSM data
-                   crs=4326)%>%
-      sf::st_transform(crs=sf::st_crs(Shapefile))%>%
-      sf::st_join(Shapefile%>%
-                    dplyr::select(!!Region_column),
-                  join=sf::st_within)%>%
-      tibble::as_tibble()%>%
-      dplyr::select(-.data$geometry)%>%
-      dplyr::rename(Region=!!Region_column)
+    WQ_list[["EDSM"]]<-deltareportr::wq_edsm
     }
 
     if("EMP"%in%WQ_sources){
@@ -180,18 +185,29 @@ DSCDater <- function(Start_year=2002,
     Data_list[["Water_quality"]]<-dplyr::bind_rows(WQ_list)%>%
       dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                     Year=lubridate::year(.data$Date),
-                    Salinity=((0.36966/(((.data$Conductivity*0.001)^(-1.07))-0.00074))*1.28156))
+                    Salinity=((0.36966/(((.data$Conductivity*0.001)^(-1.07))-0.00074))*1.28156),
+                    StationID=paste(.data$Source, .data$Station))
 
     # Add regions and summarise -------------------------------------------------------------
 
     #Add regions and lat/long to dataset
-    Data_list[["Water_quality"]]<-dplyr::filter(Data_list[["Water_quality"]], .data$Source!="EDSM")%>%
-      dplyr::select(-.data$Region)%>%
-      dplyr::left_join(Stations, by=c("Source", "Station"))%>%
-      dplyr::bind_rows(dplyr::filter(Data_list[["Water_quality"]], .data$Source=="EDSM"))%>%
+    Data_list[["Water_quality"]]<-dplyr::filter(Data_list[["Water_quality"]], .data$StationID%in%Stations$StationID)%>%
+      dplyr::select(-.data$Latitude, -.data$Longitude)%>%
+      dplyr::left_join(Stations, by=c("Source", "Station", "StationID"))%>%
+      dplyr::bind_rows(dplyr::filter(Data_list[["Water_quality"]], !(.data$StationID%in%Stations$StationID) & !is.na(.data$Latitude) & !is.na(.data$Longitude))%>%
+                         sf::st_as_sf(coords = c("Longitude", "Latitude"), #Add regions to EDSM data
+                                      crs=4326,
+                                      remove = FALSE)%>%
+                         sf::st_transform(crs=sf::st_crs(Shapefile))%>%
+                         sf::st_join(Shapefile%>%
+                                       dplyr::select(!!Region_column),
+                                     join=sf::st_within)%>%
+                         tibble::as_tibble()%>%
+                         dplyr::select(-.data$geometry)%>%
+                         dplyr::rename(Region=!!Region_column))%>%
       dplyr::filter(lubridate::year(.data$MonthYear)>=Start_year)%>%
       {if (is.null(Regions)){
-        .
+        dplyr::bind_rows(., dplyr::filter(Data_list[["Water_quality"]], !(.data$StationID%in%Stations$StationID) & (is.na(.data$Latitude) | is.na(.data$Longitude))))
       } else{
         dplyr::filter(., .data$Region%in%Regions)
       }}%>%
@@ -207,5 +223,8 @@ DSCDater <- function(Start_year=2002,
 
   # Return ------------------------------------------------------------------
 
+  if(length(Data_list)==1){
+    Data_list<-Data_list[[1]]
+  }
   return(Data_list)
 }

@@ -125,7 +125,7 @@
 #'   \item{Longitude}{Longitude in decimal degrees.}
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Tide}{Tidal stage.}
-#'   \item{Depth}{Bottom depth in feet.}
+#'   \item{Depth}{Bottom depth (m).}
 #'   \item{Datetime}{Date and time of sample collection.}
 #'   \item{Source}{Name of the source dataset.}
 #'   }
@@ -146,7 +146,7 @@
 #'   \item{Temperature}{Temperature in °C.}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Tide}{Tidal stage.}
-#'   \item{Depth}{Bottom depth in feet.}
+#'   \item{Depth}{Bottom depth (m).}
 #'   \item{Notes}{Comments.}
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Source}{Name of the source dataset.}
@@ -189,7 +189,7 @@
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
 #'   \item{Temperature}{Temperature (°C) at surface.}
-#'   \item{Depth}{Bottom depth in feet.}
+#'   \item{Depth}{Bottom depth (m).}
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Source}{Name of the source dataset.}
 #'   \item{Datetime}{Date and time of sample collection.}
@@ -210,7 +210,7 @@
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
 #'   \item{Temperature}{Temperature (°C) at surface.}
-#'   \item{Depth}{Bottom depth in ???}
+#'   \item{Depth}{Bottom depth (m).}
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Notes}{Comments.}
 #'   \item{Source}{Name of the source dataset.}
@@ -222,9 +222,9 @@
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
 "wq_skt"
 
-#' STN water quality data
+#' TNS water quality data
 #'
-#' Water quality data from the California Department of Fish and Wildlife Summer Townet.
+#' Water quality data from the California Department of Fish and Wildlife Summer Townet Survey.
 #'
 #' @encoding UTF-8
 #' @format a tibble with 8,266 rows and 11 variables
@@ -236,14 +236,36 @@
 #'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
 #'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
 #'   \item{Tide}{Tidal stage.}
-#'   \item{Depth}{Bottom depth in feet.}
+#'   \item{Depth}{Bottom depth (m).}
 #'   \item{Notes}{Comments.}
 #'   \item{Source}{Name of the source dataset.}
 #'   \item{Datetime}{Date and time of sample collection.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{here}.
 #' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
-"wq_stn"
+"wq_tns"
+
+#' Suisun water quality data
+#'
+#' Water quality data from the UC Davis Suisun Marsh Fish Study.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 14,253 rows and 10 variables
+#' \describe{
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{QADone}{Was QA completed?}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Salinity}{Salinity (ppt) at the surface.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Source}{Name of the source dataset.}
+#'   }
+#' @details More metadata and information on methods are available \href{https://watershed.ucdavis.edu/project/suisun-marsh-fish-study}{here}.
+#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+"wq_suisun"
 
 #' Zooplankton mass conversions
 #'

@@ -7,7 +7,7 @@
 DSCDater(
   Start_year = 2002,
   Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
-  WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
+  WQ_sources = c("EMP", "TNS", "FMWT", "EDSM"),
   Shapefile = deltareportr::deltaregions,
   Region_column = "Stratum",
   Regions = c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River",
@@ -20,7 +20,7 @@ DSCDater(
 
 \item{Variables}{Character vector of variables you would like included in the dataset. Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.}
 
-\item{WQ_sources}{Character vector of data sources for the water quality variables. Choices include "EMP", "STN", "FMWT", "EDSM",}
+\item{WQ_sources}{Character vector of data sources for the water quality variables. Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}), "TNS" (Summer Townet Survey, \code{\link{wq_tns}}), "FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}), "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}), "20mm" (20mm Survey, \code{\link{wq_20mm}}), "SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}), and "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).}
 
 \item{Shapefile}{Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.}
 

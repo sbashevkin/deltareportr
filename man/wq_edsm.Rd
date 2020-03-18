@@ -14,7 +14,7 @@ a tibble with 14,851 rows and 11 variables
   \item{Temperature}{Temperature in °C.}
   \item{Secchi}{Secchi depth (cm).}
   \item{Tide}{Tidal stage.}
-  \item{Depth}{Bottom depth in feet.}
+  \item{Depth}{Bottom depth (m).}
   \item{Notes}{Comments.}
   \item{Station}{Station where sample was collected.}
   \item{Source}{Name of the source dataset.}
