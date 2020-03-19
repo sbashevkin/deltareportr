@@ -26,6 +26,6 @@ Phytoplankton abundance dataset from the California Department of Water Resource
 More metadata and information on methods are available \href{https://emp.baydeltalive.com/projects/11282}{here}.
 }
 \seealso{
-\code{\link{DSCPhyter}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+\code{\link{DeltaPhyter}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 }
 \keyword{datasets}

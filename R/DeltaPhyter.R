@@ -1,12 +1,12 @@
 #' Plot phytoplankton data
 #'
 #' Function to process and plot phytoplankton data
-#' @inherit DSCBivalver
+#' @inherit DeltaBivalver
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @export
 
-DSCPhyter<-function(Data,
+DeltaPhyter<-function(Data,
                     Start_year=2002,
                     End_year=2018,
                     Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),

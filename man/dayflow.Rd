@@ -26,6 +26,6 @@ Outflow and X2 from the California Department of Water Resources Dayflow model.
 More metadata and information on methods are available \href{https://data.cnra.ca.gov/dataset/dayflow}{here}.
 }
 \seealso{
-\code{\link{DSCBivalver}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+\code{\link{DeltaBivalver}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 }
 \keyword{datasets}

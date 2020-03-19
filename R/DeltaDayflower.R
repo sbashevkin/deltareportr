@@ -1,12 +1,12 @@
 #' Plot dayflow data
 #'
 #' Function to process and plot dayflow data
-#' @inherit DSCBivalver
+#' @inherit DeltaBivalver
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @export
 
-DSCDayFlower<-function(Start_year=2002,
+DeltaDayFlower<-function(Start_year=2002,
                        End_year=2018){
 
   # Load and summarise data ---------------------------------------------------------------

@@ -1,7 +1,7 @@
 #' Plot water quality data
 #'
 #' Function to process and plot water quality (temperature, Secchi depth, salinity, chlorophyll, and \emph{Microcystis}) data
-#' @inherit DSCBivalver
+#' @inherit DeltaBivalver
 #' @param Temp_season Character vector of seasons to retain for temperature. Should be one of "Summer", "Fall", "Winter", or "Spring".
 #' @param Secchi_season Character vector of seasons to retain for Secchi. Should be one of "Summer", "Fall", "Winter", or "Spring".
 #' @param Salinity_season Character vector of seasons to retain for salinity. Should be one of "Summer", "Fall", "Winter", or "Spring".
@@ -12,7 +12,7 @@
 #' @importFrom rlang :=
 #' @export
 
-DSCWQer<-function(Data,
+DeltaWQer<-function(Data,
                   Start_year=2002,
                   End_year=2018,
                   Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),

@@ -21,6 +21,6 @@ stations
 Locations of all sampling stations.
 }
 \seealso{
-\code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+\code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 }
 \keyword{datasets}

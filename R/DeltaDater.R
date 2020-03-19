@@ -13,7 +13,7 @@
 #' @export
 
 
-DSCDater <- function(Start_year=2002,
+DeltaDater <- function(Start_year=2002,
                      Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
                      WQ_sources = c("EMP", "TNS", "FMWT", "EDSM"),
                      Shapefile = deltareportr::deltaregions,

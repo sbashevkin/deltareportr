@@ -32,6 +32,6 @@ Water quality data from the California Department of Fish and Wildlife 20mm surv
 More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/20mm-Survey}{here}.
 }
 \seealso{
-\code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+\code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 }
 \keyword{datasets}

@@ -26,6 +26,6 @@ Bivalve abundance dataset from the California Department of Water Resources Envi
 More metadata and information on methods are available \href{https://emp.baydeltalive.com/projects/11280}{here}.
 }
 \seealso{
-\code{\link{DSCBivalver}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+\code{\link{DeltaBivalver}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 }
 \keyword{datasets}

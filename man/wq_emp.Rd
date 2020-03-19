@@ -28,6 +28,6 @@ Water quality data from the California Department of Water Resources Environment
 More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.458.2}{here}.
 }
 \seealso{
-\code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+\code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 }
 \keyword{datasets}

@@ -13,7 +13,7 @@
 #'   \item{Source}{Name of the source dataset.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://emp.baydeltalive.com/projects/11280}{here}.
-#' @seealso \code{\link{DSCBivalver}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaBivalver}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 "bivalves"
 
 #' Dayflow dataset
@@ -31,7 +31,7 @@
 #'   \item{Source}{Name of the source dataset.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://data.cnra.ca.gov/dataset/dayflow}{here}.
-#' @seealso \code{\link{DSCBivalver}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaBivalver}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 "dayflow"
 
 #' Delta regions
@@ -43,7 +43,7 @@
 #'   \item{Stratum}{Region.}
 #'   \item{geometry}{Polygon coordinates.}
 #'   }
-#' @seealso \code{\link{DSCMapper}}, \code{\link{DSCDater}}
+#' @seealso \code{\link{DeltaMapper}}, \code{\link{DeltaDater}}
 "deltaregions"
 
 #' Phytoplankton dataset
@@ -61,7 +61,7 @@
 #'   \item{Source}{Name of the source dataset.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://emp.baydeltalive.com/projects/11282}{here}.
-#' @seealso \code{\link{DSCPhyter}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaPhyter}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 "phyto"
 
 #' Delta Smelt EDSM abundance estimates
@@ -77,7 +77,7 @@
 #'   \item{MonthYear}{Month and year of sample collection.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://www.fws.gov/lodi/juvenile_fish_monitoring_program/jfmp_index.htm}{here}.
-#' @seealso \code{\link{DSCSmelter}}
+#' @seealso \code{\link{DeltaSmelter}}
 "smelt_edsm"
 
 #' Delta Smelt IEP indices
@@ -91,7 +91,7 @@
 #'   \item{Source}{Name of the source dataset.}
 #'   }
 #' @details More metadata and information on methods are available here: \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{Fall Midwater Trawl}, \href{https://wildlife.ca.gov/Conservation/Delta/Spring-Kodiak-Trawl}{Spring Kodiak Trawl}, \href{https://wildlife.ca.gov/Conservation/Delta/20mm-Survey}{20mm Survey}, and \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{Summer Townet}.
-#' @seealso \code{\link{DSCSmelter}}
+#' @seealso \code{\link{DeltaSmelter}}
 "smelt_iep"
 
 #' Station locations
@@ -106,7 +106,7 @@
 #'   \item{Longitude}{Longitude in decimal degrees.}
 #'   \item{StationID}{Combined source and station for a unique station ID.}
 #'   }
-#' @seealso \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 "stations"
 
 #' 20mm water quality data
@@ -130,7 +130,7 @@
 #'   \item{Source}{Name of the source dataset.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/20mm-Survey}{here}.
-#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_20mm"
 
 #' EDSM water quality data
@@ -153,7 +153,7 @@
 #'   \item{Datetime}{Date and time of sample collection.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.415.1}{here}.
-#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_edsm"
 
 #' EMP water quality data
@@ -173,7 +173,7 @@
 #'   \item{Source}{Name of the source dataset.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.458.2}{here}.
-#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_emp"
 
 #' FMWT water quality data
@@ -195,7 +195,7 @@
 #'   \item{Datetime}{Date and time of sample collection.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
-#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_fmwt"
 
 #' SKT water quality data
@@ -219,7 +219,7 @@
 #'   \item{Datetime}{Date and time of sample collection.}
 #'   }
 #' @details More metadata and information on methods are available \href{http://www.dfg.ca.gov/delta/projects.asp?ProjectID=SKT}{here}.
-#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_skt"
 
 #' TNS water quality data
@@ -242,7 +242,7 @@
 #'   \item{Datetime}{Date and time of sample collection.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{here}.
-#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_tns"
 
 #' Suisun water quality data
@@ -264,7 +264,7 @@
 #'   \item{Source}{Name of the source dataset.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://watershed.ucdavis.edu/project/suisun-marsh-fish-study}{here}.
-#' @seealso \code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_suisun"
 
 #' Zooplankton mass conversions
@@ -276,7 +276,7 @@
 #'   \item{Mass}{Average individual mass (\eqn{\mu}g).}
 #'   \item{Taxlifestage}{Taxonomic name and lifestage.}
 #'   }
-#' @seealso \code{\link{DSCZooper}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaZooper}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 "zoop_mass_conversions"
 
 #' Mysid data
@@ -294,5 +294,5 @@
 #'   \item{Source}{Name of the source dataset.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Zooplankton-Study}{here}.
-#' @seealso \code{\link{DSCZooper}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+#' @seealso \code{\link{DeltaZooper}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 "zoop_mysid"

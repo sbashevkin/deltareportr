@@ -41,18 +41,18 @@ create_dt <- function(x, caption=NULL){
                                columnDefs = list(list(className = 'dt-right', targets="_all"))))
 }
 
-Data <- DSCDater()
+Data <- DeltaDater()
 
-WQ <- DSCWQer(Data$Water_quality)
-DF <- DSCDayFlower()
-PH <- DSCPhyter(Data$Phytoplankton)
-FISH <- DSCSmelter()
-META <- DSCMetadater(Data)
-ZOOP <- DSCZooper(Data$Zooplankton)
-BIV <- DSCBivalver(Data$Bivalves)
+WQ <- DeltaWQer(Data$Water_quality)
+DF <- DeltaDayFlower()
+PH <- DeltaPhyter(Data$Phytoplankton)
+FISH <- DeltaSmelter()
+META <- DeltaMetadater(Data)
+ZOOP <- DeltaZooper(Data$Zooplankton)
+BIV <- DeltaBivalver(Data$Bivalves)
 
 if(params$Map=="Yes"){
-  DSCMapper(Save=TRUE,
+  DeltaMapper(Save=TRUE,
             Save_location="figures/map.png")
 }
 ```

@@ -26,6 +26,6 @@ Mysid biomass per unit effort from the California Department of Fish and Wildlif
 More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Zooplankton-Study}{here}.
 }
 \seealso{
-\code{\link{DSCZooper}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+\code{\link{DeltaZooper}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 }
 \keyword{datasets}

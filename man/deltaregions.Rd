@@ -18,6 +18,6 @@ deltaregions
 Region polygons for the Sacramento San Joaquin Delta from the United States Fish and Wildlife Service Enhanced Delta Smelt Monitoring Program.
 }
 \seealso{
-\code{\link{DSCMapper}}, \code{\link{DSCDater}}
+\code{\link{DeltaMapper}}, \code{\link{DeltaDater}}
 }
 \keyword{datasets}

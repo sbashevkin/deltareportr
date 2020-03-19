@@ -22,6 +22,6 @@ Delta Smelt abundance indices from the California Department of Fish and Wildlif
 More metadata and information on methods are available here: \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{Fall Midwater Trawl}, \href{https://wildlife.ca.gov/Conservation/Delta/Spring-Kodiak-Trawl}{Spring Kodiak Trawl}, \href{https://wildlife.ca.gov/Conservation/Delta/20mm-Survey}{20mm Survey}, and \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{Summer Townet}.
 }
 \seealso{
-\code{\link{DSCSmelter}}
+\code{\link{DeltaSmelter}}
 }
 \keyword{datasets}

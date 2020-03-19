@@ -1,14 +1,14 @@
 #' Plot Delta Smelt data
 #'
 #' Function to process and plot Delta Smelt data
-#' @inherit DSCBivalver
+#' @inherit DeltaBivalver
 #' @param Save Logical. Should plot be saved?
 #' @param Save_location If \code{Save=TRUE}, where should plot be saved? Must end with a filename with a ".png" extension.
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @export
 
-DSCMapper<-function(Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
+DeltaMapper<-function(Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
                     Save=FALSE,
                     Save_location){
 

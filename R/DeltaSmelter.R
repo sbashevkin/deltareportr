@@ -1,13 +1,13 @@
 #' Plot Delta Smelt data
 #'
 #' Function to process and plot Delta Smelt data
-#' @inherit DSCBivalver
+#' @inherit DeltaBivalver
 #' @param EDSM_regions Character vector of regions to include in the EDSM plot. The data will be filtered to only include these regions and ordered in the order provided here. To include data with NA regions, set \code{Regions=NULL}. No Delta Smelt were caught in the Southern Delta so that region is excluded by default.
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @export
 
-DSCSmelter<-function(Start_year=2002,
+DeltaSmelter<-function(Start_year=2002,
                     End_year=2018,
                     EDSM_regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River")){
 

@@ -30,6 +30,6 @@ Water quality data from the UC Davis Suisun Marsh Fish Study.
 More metadata and information on methods are available \href{https://watershed.ucdavis.edu/project/suisun-marsh-fish-study}{here}.
 }
 \seealso{
-\code{\link{DSCDater}}, \code{\link{DSCWQer}}, \code{\link{DSCMetadater}}
+\code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 }
 \keyword{datasets}

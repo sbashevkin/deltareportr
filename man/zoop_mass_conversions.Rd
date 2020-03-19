@@ -18,6 +18,6 @@ zoop_mass_conversions
 Average dry mass for each meso and micro zooplankton taxa
 }
 \seealso{
-\code{\link{DSCZooper}}, \code{\link{DSCDater}}, \code{\link{DSCMetadater}}
+\code{\link{DeltaZooper}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 }
 \keyword{datasets}

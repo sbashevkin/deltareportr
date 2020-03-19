@@ -24,6 +24,6 @@ Estimated Delta Smelt abundance dataset from the United States Fish and Wildlife
 More metadata and information on methods are available \href{https://www.fws.gov/lodi/juvenile_fish_monitoring_program/jfmp_index.htm}{here}.
 }
 \seealso{
-\code{\link{DSCSmelter}}
+\code{\link{DeltaSmelter}}
 }
 \keyword{datasets}

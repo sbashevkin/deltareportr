@@ -1,12 +1,12 @@
 #' Plot Metadata
 #'
 #' Function to process and plot metadata
-#' @inherit DSCBivalver
+#' @inherit DeltaBivalver
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @export
 
-DSCMetadater<-function(Data,
+DeltaMetadater<-function(Data,
                        Start_year=2002,
                        Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
 
