@@ -9,46 +9,17 @@
 status](https://travis-ci.org/sbashevkin/deltareportr.svg?branch=master)](https://travis-ci.org/sbashevkin/deltareportr)
 <!-- badges: end -->
 
-This repository contains the data and code for our paper:
+An R package to facilitate automated reporting on the Sacramento San
+Joaquin Delta.
 
-> Authors, (YYYY). *Title of your paper goes here*. Name of journal/book
-> <https://doi.org/xxx/xxx>
+## Installation
 
-Our pre-print is online here:
-
-> Authors, (YYYY). *Title of your paper goes here*. Name of
-> journal/book, Accessed 11 Mar 2020. Online at
-> <https://doi.org/xxx/xxx>
-
-### How to cite
-
-Please cite this compendium as:
-
-> Authors, (2020). *Compendium of R code and data for Title of your
-> paper goes here*. Accessed 11 Mar 2020. Online at
-> <https://doi.org/xxx/xxx>
-
-### How to download or install
-
-You can download the compendium as a zip from from this URL:
-<https://github.com/sbashevkin/deltareportr/archive/master.zip>
-
-Or you can install this compendium as an R package, deltareportr, from
-GitHub with:
+You can install the development version from GitHub with:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("sbashevkin/deltareportr")
 ```
-
-### Licenses
-
-**Text and figures :**
-[CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
-
-**Code :** See the [DESCRIPTION](DESCRIPTION) file
-
-**Data :** [CC-0](http://creativecommons.org/publicdomain/zero/1.0/)
 
 ### Contributions
 
