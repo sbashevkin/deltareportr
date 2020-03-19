@@ -185,8 +185,14 @@ DSCDater <- function(Start_year=2002,
     Data_list[["Water_quality"]]<-dplyr::bind_rows(WQ_list)%>%
       dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                     Year=lubridate::year(.data$Date),
-                    Salinity=((0.36966/(((.data$Conductivity*0.001)^(-1.07))-0.00074))*1.28156),
-                    StationID=paste(.data$Source, .data$Station))
+                    StationID=paste(.data$Source, .data$Station))%>%
+      {if("Salinity"%in%names(.)){
+        dplyr::mutate(., Salinity=dplyr::if_else(is.na(.data$Salinity), (wql::ec2pss(.data$Conductivity/1000, t=25)), .data$Salinity))
+      } else{
+        dplyr::mutate(., Salinity=wql::ec2pss(.data$Conductivity/1000, t=25))
+      }}
+
+
 
     # Add regions and summarise -------------------------------------------------------------
 

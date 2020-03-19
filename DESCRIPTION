@@ -34,7 +34,8 @@ Imports:
     ggthemes,
     stats,
     rmarkdown,
-    zooper (>= 0.2.0)
+    zooper (>= 0.2.0),
+    wql
 Suggests: 
     devtools,
     git2r,
