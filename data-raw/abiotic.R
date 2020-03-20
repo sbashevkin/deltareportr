@@ -77,38 +77,48 @@ tz(wq_edsm$Date)<-"America/Los_Angeles"
 
 Fieldfiles <- list.files(path = "data-raw/data/EMP water quality", full.names = T, pattern="Field")
 
+emp_field<-sapply(Fieldfiles, function(x) read_excel(x, guess_max = 5e4))%>%
+  bind_rows()%>%
+  select(Date=SampleDate, Station=StationCode, Parameter=AnalyteName, Value=Result, Notes=TextResult, Matrix, Time=DateResult)%>%
+  filter(Parameter%in%c("Temperature", "Secchi Depth", "Conductance (EC)") & Matrix=="Water")%>%
+  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  group_by(Date, Station, Parameter, Notes, Datetime)%>%
+  summarise(Value=mean(Value, na.rm=T))%>%
+  ungroup()
+tz(emp_field$Date)<-"America/Los_Angeles"
+tz(emp_field$Datetime)<-"America/Los_Angeles"
+
 Labfiles <- list.files(path = "data-raw/data/EMP water quality", full.names = T, pattern="Lab")
 
-wq_emp<-sapply(Fieldfiles, function(x) read_excel(x, guess_max = 5e4))%>%
+emp_lab <- sapply(Labfiles, function(x) read_excel(x, guess_max = 5e4))%>%
   bind_rows()%>%
-  select(Date=SampleDate, Station=StationCode, Parameter=AnalyteName, Value=Result, Notes=TextResult, Matrix)%>%
-  filter(Parameter%in%c("Temperature", "Secchi Depth", "Conductance (EC)") & Matrix=="Water")%>%
+  select(Station=StationCode, Date=SampleDate, Parameter=ConstituentName, Value=Result, Notes=LabAnalysisRemarks)%>%
+  filter(Parameter=="Chlorophyll a")%>%
   group_by(Date, Station, Parameter, Notes)%>%
   summarise(Value=mean(Value, na.rm=T))%>%
-  ungroup()%>%
-  bind_rows(sapply(Labfiles, function(x) read_excel(x, guess_max = 5e4))%>%
-              bind_rows()%>%
-              select(Station=StationCode, Date=SampleDate, Parameter=ConstituentName, Value=Result, Notes=LabAnalysisRemarks)%>%
-              filter(Parameter=="Chlorophyll a")%>%
-              group_by(Date, Station, Parameter, Notes)%>%
-              summarise(Value=mean(Value, na.rm=T))%>%
-              ungroup())%>%
+  ungroup()
+tz(emp_lab$Date)<-"America/Los_Angeles"
+
+emp_2000<-read_excel("data-raw/data/EMP water quality/EMP WQ Combined_2000-2018.xlsx", na=c("N/A", "<R.L.", "Too dark"), col_types = c(rep("text", 2), rep("date", 2), rep("text", 37)))%>%
+  select(Station=`Station Name`, Datetime = `Sample Date`, Date, Chlorophyll=starts_with("Chlorophyll"), Latitude=`North Latitude Degrees (d.dd)`, Longitude=`West Longitude Degrees (d.dd)`, Microcystis=`Microcystis aeruginosa`, Secchi=`Secchi Depth Centimeters`, Temperature=starts_with("Water Temperature"), Conductivity=starts_with("Specific Conductance"))%>%
+  mutate(Chlorophyll=parse_double(ifelse(Chlorophyll%in%c("<0.05", "<0.5"), 0, Chlorophyll)),
+         Latitude=parse_double(Latitude),
+         Longitude=parse_double(Longitude),
+         Microcystis=parse_double(Microcystis),
+         Secchi=parse_double(Secchi),
+         Temperature=parse_double(Temperature),
+         Conductivity=parse_double(Conductivity),
+         Station=ifelse(Station%in%c("EZ2", "EZ6", "EZ2-SJR", "EZ6-SJR"), paste(Station, Date), Station))%>%
+  mutate(Microcystis=round(Microcystis))%>% #EMP has some 2.5 and 3.5 values
+  select(-Latitude, -Longitude)
+tz(emp_2000$Date)<-"America/Los_Angeles"
+tz(emp_2000$Datetime)<-"America/Los_Angeles"
+
+wq_emp<- bind_rows(emp_field, emp_lab)%>%
   pivot_wider(names_from = Parameter, values_from = Value)%>%
   rename(Chlorophyll=`Chlorophyll a`, Secchi=`Secchi Depth`, Conductivity=`Conductance (EC)`)%>%
-  bind_rows(read_excel("data-raw/data/EMP water quality/EMP WQ Combined_2000-2018.xlsx", na=c("N/A", "<R.L.", "Too dark"), col_types = c(rep("text", 3), "date", rep("text", 37)))%>%
-              select(Station=`Station Name`, Date, Chlorophyll=starts_with("Chlorophyll"), Latitude=`North Latitude Degrees (d.dd)`, Longitude=`West Longitude Degrees (d.dd)`, Microcystis=`Microcystis aeruginosa`, Secchi=`Secchi Depth Centimeters`, Temperature=starts_with("Water Temperature"), Conductivity=starts_with("Specific Conductance"))%>%
-              mutate(Chlorophyll=parse_double(ifelse(Chlorophyll%in%c("<0.05", "<0.5"), 0, Chlorophyll)),
-                     Latitude=parse_double(Latitude),
-                     Longitude=parse_double(Longitude),
-                     Microcystis=parse_double(Microcystis),
-                     Secchi=parse_double(Secchi),
-                     Temperature=parse_double(Temperature),
-                     Conductivity=parse_double(Conductivity),
-                     Station=ifelse(Station%in%c("EZ2", "EZ6", "EZ2-SJR", "EZ6-SJR"), paste(Station, Date), Station))%>%
-              mutate(Microcystis=round(Microcystis))%>% #EMP has some 2.5 and 3.5 values
-              select(-Latitude, -Longitude))%>%
+  bind_rows(emp_2000)%>%
   mutate(Source="EMP")
-tz(wq_emp$Date)<-"America/Los_Angeles"
 
 wq_skt <- read_csv("data-raw/data/SKT_tblSample.csv",
                    col_types = cols_only(SampleDate="c", StationCode="c", SampleTimeStart="c", Secchi="d", ConductivityTop="d",
