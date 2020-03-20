@@ -175,9 +175,10 @@ wq_20mm <- read_csv("data-raw/data/20mm_Station.csv",
          Source = "20mm",
          Depth = Depth*0.3048) # Convert feet to meters
 
+#Removing salinity because data do not correspond well with conductivity
 wq_suisun<-read_csv("data-raw/data/Suisun_Sample.csv",
                     col_types = cols_only(StationCode="c", SampleDate="c", SampleTime="c",
-                                          QADone="l", WaterTemperature="d", Salinity="d",
+                                          QADone="l", WaterTemperature="d",
                                           Secchi="d", SpecificConductance="d", TideCode="c"))%>%
   rename(Station=StationCode, Date=SampleDate, Time=SampleTime,
          Temperature=WaterTemperature, Conductivity=SpecificConductance, Tide=TideCode)%>%

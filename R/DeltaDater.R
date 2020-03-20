@@ -186,11 +186,7 @@ DeltaDater <- function(Start_year=2002,
       dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                     Year=lubridate::year(.data$Date),
                     StationID=paste(.data$Source, .data$Station))%>%
-      {if("Salinity"%in%names(.)){
-        dplyr::mutate(., Salinity=dplyr::if_else(is.na(.data$Salinity), (wql::ec2pss(.data$Conductivity/1000, t=25)), .data$Salinity))
-      } else{
-        dplyr::mutate(., Salinity=wql::ec2pss(.data$Conductivity/1000, t=25))
-      }}
+        dplyr::mutate(Salinity=wql::ec2pss(.data$Conductivity/1000, t=25))
 
 
 
