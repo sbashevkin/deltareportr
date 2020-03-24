@@ -65,7 +65,9 @@ wq_edsm <- read_csv("data-raw/data/EDSM_20mm.csv", guess_max=9000)%>%
   select(Date, Latitude=StartLat, Longitude=StartLong, Conductivity=TopEC, Temperature=TopTemp, Secchi=Scchi, Time, Tide, Depth, Notes = SampleComments)%>%
   bind_rows(read_csv("data-raw/data/EDSM_KDTR.csv", guess_max=30000)%>%
               select(Date, Latitude=StartLat, Longitude=StartLong, Conductivity=EC, Temperature=Temp, Secchi=Scchi, Time, Tide, Depth=StartDepth, Notes=Comments))%>%
-  mutate(Secchi=Secchi*100)%>%
+  mutate(Secchi=Secchi*100, # convert Secchi to cm
+         Tide=recode(Tide, HS="High Slack", LS = "Low Slack"),
+         Tide=na_if(Tide, "n/p"))%>% #Standardize tide codes
   mutate(Station=paste(Latitude, Longitude),
          Source="EDSM",
          Date=lubridate::parse_date_time(Date, "%m/%d/%Y"))%>%
@@ -118,7 +120,8 @@ wq_emp<- bind_rows(emp_field, emp_lab)%>%
   pivot_wider(names_from = Parameter, values_from = Value)%>%
   rename(Chlorophyll=`Chlorophyll a`, Secchi=`Secchi Depth`, Conductivity=`Conductance (EC)`)%>%
   bind_rows(emp_2000)%>%
-  mutate(Source="EMP")
+  mutate(Source="EMP",
+         Tide = "High Slack")
 
 wq_skt <- read_csv("data-raw/data/SKT_tblSample.csv",
                    col_types = cols_only(SampleDate="c", StationCode="c", SampleTimeStart="c", Secchi="d", ConductivityTop="d",

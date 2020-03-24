@@ -161,16 +161,19 @@
 #' Water quality data from the California Department of Water Resources Environmental Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 16,293 rows and 8 variables
+#' @format a tibble with 16,356 rows and 11 variables
 #' \describe{
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Station}{Station where sample was collected.}
+#'   \item{Notes}{Notes or comments.}
+#'   \item{Datetime}{Date and time sample was collected.}
 #'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
 #'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
 #'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
 #'   \item{Source}{Name of the source dataset.}
+#'   \item{Tide}{Tidal stage (always High Slack).}
 #'   }
 #' @details More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.458.2}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}

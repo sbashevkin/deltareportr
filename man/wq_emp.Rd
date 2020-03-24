@@ -6,16 +6,19 @@
 \alias{wq_emp}
 \title{EMP water quality data}
 \format{
-a tibble with 16,293 rows and 8 variables
+a tibble with 16,356 rows and 11 variables
 \describe{
   \item{Date}{Date sample was collected.}
   \item{Station}{Station where sample was collected.}
+  \item{Notes}{Notes or comments.}
+  \item{Datetime}{Date and time sample was collected.}
   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
   \item{Secchi}{Secchi depth (cm).}
   \item{Temperature}{Temperature (°C) at surface.}
   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
   \item{Source}{Name of the source dataset.}
+  \item{Tide}{Tidal stage (always High Slack).}
   }
 }
 \usage{
