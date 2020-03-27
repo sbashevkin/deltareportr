@@ -16,7 +16,7 @@ FMWT<-read_excel("data-raw/data/FMWT Station.xlsx")%>%
          Source="FMWT",
          StationID=paste(Source, Station))%>%
   mutate(Latitude=if_else(is.na(Latitude), Lat2, Latitude),
-         Longitude-if_else(is.na(Longitude), Long2, Longitude))%>%
+         Longitude=if_else(is.na(Longitude), Long2, Longitude))%>%
   select(Station, Latitude, Longitude, Source, StationID)%>%
   drop_na()
 
