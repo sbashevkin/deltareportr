@@ -18,6 +18,7 @@ a tibble with 14,253 rows and 10 variables
   \item{Tide}{Tidal stage.}
   \item{Datetime}{Date and time of sample collection.}
   \item{Source}{Name of the source dataset.}
+  \item{Depth}{Bottom depth (m).}
   }
 }
 \usage{

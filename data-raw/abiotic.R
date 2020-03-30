@@ -190,7 +190,7 @@ wq_20mm <- read_csv("data-raw/data/20mm_Station.csv",
 
 #Removing salinity because data do not correspond well with conductivity
 wq_suisun<-read_csv("data-raw/data/Suisun_Sample.csv",
-                    col_types = cols_only(StationCode="c", SampleDate="c", SampleTime="c",
+                    col_types = cols_only(SampleRowID="c", StationCode="c", SampleDate="c", SampleTime="c",
                                           QADone="l", WaterTemperature="d",
                                           Secchi="d", SpecificConductance="d", TideCode="c"))%>%
   rename(Station=StationCode, Date=SampleDate, Time=SampleTime,
@@ -200,7 +200,14 @@ wq_suisun<-read_csv("data-raw/data/Suisun_Sample.csv",
   mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   select(-Time)%>%
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"),
-         Source="Suisun")
+         Source="Suisun")%>%
+  left_join(read_csv("data-raw/data/Suisun_Depth.csv",
+                     col_types=cols_only(SampleRowID="c", Depth="d"))%>%
+              group_by(SampleRowID)%>%
+              summarise(Depth=mean(Depth, na.rm=T))%>%
+              ungroup(),
+            by="SampleRowID")%>%
+  select(-SampleRowID)
 
 
 usethis::use_data(wq_emp, wq_fmwt, wq_tns, wq_edsm, wq_skt, wq_20mm, wq_suisun, overwrite = TRUE)

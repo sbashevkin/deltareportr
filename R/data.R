@@ -265,6 +265,7 @@
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Datetime}{Date and time of sample collection.}
 #'   \item{Source}{Name of the source dataset.}
+#'   \item{Depth}{Bottom depth (m).}
 #'   }
 #' @details More metadata and information on methods are available \href{https://watershed.ucdavis.edu/project/suisun-marsh-fish-study}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
