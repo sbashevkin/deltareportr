@@ -206,7 +206,8 @@ DeltaDater <- function(Start_year=2002,
                                      join=sf::st_within)%>%
                          tibble::as_tibble()%>%
                          dplyr::select(-.data$geometry)%>%
-                         dplyr::rename(Region=!!Region_column))%>%
+                         dplyr::rename(Region=!!Region_column)%>%
+                         dplyr::mutate(Field_coords=TRUE))%>%
       dplyr::filter(lubridate::year(.data$MonthYear)>=Start_year)%>%
       {if (is.null(Regions)){
         dplyr::bind_rows(., dplyr::filter(Data_list[["Water_quality"]], !(.data$StationID%in%Stations$StationID) & (is.na(.data$Latitude) | is.na(.data$Longitude))))
@@ -214,6 +215,11 @@ DeltaDater <- function(Start_year=2002,
         dplyr::filter(., .data$Region%in%Regions)
       }}%>%
       dplyr::mutate(Month=lubridate::month(.data$MonthYear))%>%
+      {if ("Field_coords"%in%names(.)){
+        dplyr::mutate(., Field_coords = tidyr::replace_na(Field_coords, FALSE))
+      } else{
+        .
+      }}%>%
       dplyr::mutate(Season=dplyr::case_when(
         .data$Month%in%c(12,1,2) ~ "Winter",
         .data$Month%in%c(3,4,5) ~ "Spring",
