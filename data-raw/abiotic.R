@@ -232,7 +232,12 @@ wq_djfmp <- read_csv(file.path(tempdir(), "DJFMP_1976-2001.csv"),
          Time=parse_date_time(Time, "%H:%M:%S", tz="America/Los_Angeles"))%>%
   mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   select(-Time)%>%
-  distinct()
+  distinct()%>%
+  group_by(Date, Station)%>%
+  mutate(KEEP=Datetime==min(Datetime))%>%
+  ungroup()%>%
+  filter(KEEP)%>%
+  select(-KEEP)
 
 
-usethis::use_data(wq_emp, wq_fmwt, wq_tns, wq_edsm, wq_skt, wq_20mm, wq_suisun, overwrite = TRUE)
+usethis::use_data(wq_emp, wq_fmwt, wq_tns, wq_edsm, wq_skt, wq_20mm, wq_suisun, wq_djfmp, overwrite = TRUE)

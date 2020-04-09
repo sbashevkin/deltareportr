@@ -190,7 +190,17 @@ DeltaDater <- function(Start_year=2002,
       dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                     Year=lubridate::year(.data$Date),
                     StationID=paste(.data$Source, .data$Station))%>%
-        dplyr::mutate(Salinity=wql::ec2pss(.data$Conductivity/1000, t=25))
+      {if("Conductivity"%in%names(.)){
+        dplyr::mutate(., Salinity=wql::ec2pss(.data$Conductivity/1000, t=25))
+      } else{
+        dplyr::mutate(., Salinity=NA_real_)
+      }}%>%
+      {if("Latitude"%in%names(.)){
+        .
+      } else{
+        dplyr::mutate(., Latitude=NA_real_, Longitude=NA_real_)
+      }}
+
 
 
 
@@ -200,18 +210,23 @@ DeltaDater <- function(Start_year=2002,
     Data_list[["Water_quality"]]<-dplyr::filter(Data_list[["Water_quality"]], .data$StationID%in%Stations$StationID)%>%
       dplyr::select(-.data$Latitude, -.data$Longitude)%>%
       dplyr::left_join(Stations, by=c("Source", "Station", "StationID"))%>%
-      dplyr::bind_rows(dplyr::filter(Data_list[["Water_quality"]], !(.data$StationID%in%Stations$StationID) & !is.na(.data$Latitude) & !is.na(.data$Longitude))%>%
-                         sf::st_as_sf(coords = c("Longitude", "Latitude"), #Add regions to EDSM data
-                                      crs=4326,
-                                      remove = FALSE)%>%
-                         sf::st_transform(crs=sf::st_crs(Shapefile))%>%
-                         sf::st_join(Shapefile%>%
-                                       dplyr::select(!!Region_column),
-                                     join=sf::st_within)%>%
-                         tibble::as_tibble()%>%
-                         dplyr::select(-.data$geometry)%>%
-                         dplyr::rename(Region=!!Region_column)%>%
-                         dplyr::mutate(Field_coords=TRUE))%>%
+      {if(any(!is.na(Data_list[["Water_quality"]]$Latitude))){
+        dplyr::bind_rows(., dplyr::filter(Data_list[["Water_quality"]], !(.data$StationID%in%Stations$StationID) & !is.na(.data$Latitude) & !is.na(.data$Longitude))%>%
+                           sf::st_as_sf(coords = c("Longitude", "Latitude"), #Add regions to EDSM data
+                                        crs=4326,
+                                        remove = FALSE)%>%
+                           sf::st_transform(crs=sf::st_crs(Shapefile))%>%
+                           sf::st_join(Shapefile%>%
+                                         dplyr::select(!!Region_column),
+                                       join=sf::st_within)%>%
+                           tibble::as_tibble()%>%
+                           dplyr::select(-.data$geometry)%>%
+                           dplyr::rename(Region=!!Region_column)%>%
+                           dplyr::mutate(Field_coords=TRUE))
+
+      } else{
+        .
+      }}%>%
       dplyr::filter(lubridate::year(.data$MonthYear)>=Start_year)%>%
       {if (is.null(Regions)){
         dplyr::bind_rows(., dplyr::filter(Data_list[["Water_quality"]], !(.data$StationID%in%Stations$StationID) & (is.na(.data$Latitude) | is.na(.data$Longitude))))

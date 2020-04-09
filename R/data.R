@@ -161,7 +161,7 @@
 #' Water quality data from the United States Fish and Wildlife Service Delta Juvenile Fish Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 136,599 rows and 6 variables
+#' @format a tibble with 23,057 rows and 6 variables
 #' \describe{
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Date}{Date sample was collected.}
