@@ -156,6 +156,24 @@
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_edsm"
 
+#' DJFMP water quality data
+#'
+#' Water quality data from the United States Fish and Wildlife Service Delta Juvenile Fish Monitoring Program.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 136,599 rows and 6 variables
+#' \describe{
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Temperature}{Temperature in °C.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Source}{Name of the source dataset.}
+#'   \item{Datetime}{Date and time of sample collection.}
+#'   }
+#' @details More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.244.3}{here}.
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
+"wq_djfmp"
+
 #' EMP water quality data
 #'
 #' Water quality data from the California Department of Water Resources Environmental Monitoring Program.

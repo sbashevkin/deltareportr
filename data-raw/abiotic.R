@@ -23,6 +23,8 @@ if(Download){
   download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.415.1&entityid=7c76313e27c4ef4685e7fe016c1e4608", "data-raw/data/EDSM_20mm.csv", mode="wb")
   #EDSM KDTR
   download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.415.1&entityid=93c01636cfc51919b8f363c7bfa829ca", "data-raw/data/EDSM_KDTR.csv", mode="wb")
+  #DJFMP downloaded when file is loaded since file sizes are so large
+
 }
 
 wq_fmwt<-read_excel("data-raw/data/FMWT 1967-2018 Catch Matrix_updated.xlsx", sheet="FlatFile",
@@ -61,21 +63,28 @@ wq_tns<-read_excel("data-raw/data/STN Sample.xlsx", guess_max=10000)%>%
          Depth = Depth*0.3048) #Convert feet to meters
 tz(wq_tns$Date)<-"America/Los_Angeles"
 
-wq_edsm <- read_csv("data-raw/data/EDSM_20mm.csv", guess_max=9000)%>%
-  select(Date, Latitude=StartLat, Longitude=StartLong, Conductivity=TopEC, Temperature=TopTemp, Secchi=Scchi, Time, Tide, Depth, Notes = SampleComments)%>%
-  bind_rows(read_csv("data-raw/data/EDSM_KDTR.csv", guess_max=30000)%>%
-              select(Date, Latitude=StartLat, Longitude=StartLong, Conductivity=EC, Temperature=Temp, Secchi=Scchi, Time, Tide, Depth=StartDepth, Notes=Comments))%>%
+#Methods in EDI metadata say they do not know if their data were corrected for temperature so I will not use this data
+wq_edsm <- read_csv("data-raw/data/EDSM_20mm.csv",
+                    col_types=cols_only(Date="c", StartLat="d", StartLong="d",
+                                        TopTemp="d", Scchi="d", Time="c",
+                                        Tide="c", Depth="d", SampleComments="c"))%>%
+  rename(Latitude=StartLat, Longitude=StartLong, Temperature=TopTemp, Secchi=Scchi, Notes = SampleComments)%>%
+  bind_rows(read_csv("data-raw/data/EDSM_KDTR.csv",
+                     col_types=cols_only(Date="c", StartLat="d", StartLong="d",
+                                         Temp="d", Scchi="d", Time="c",
+                                         Tide="c", StartDepth="d", Comments="c"))%>%
+              rename(Latitude=StartLat, Longitude=StartLong, Temperature=Temp, Secchi=Scchi, Depth=StartDepth, Notes=Comments))%>%
   mutate(Secchi=Secchi*100, # convert Secchi to cm
          Tide=recode(Tide, HS="High Slack", LS = "Low Slack"),
          Tide=na_if(Tide, "n/p"))%>% #Standardize tide codes
   mutate(Station=paste(Latitude, Longitude),
          Source="EDSM",
-         Date=lubridate::parse_date_time(Date, "%m/%d/%Y"))%>%
+         Date=parse_date_time(Date, "%m/%d/%Y", tz="America/Los_Angeles"),
+         Time=parse_date_time(Time, c("%I:%M:%S %Op", "%H:%M:%S"), tz="America/Los_Angeles"))%>%
   mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
-  select(-Conductivity, -Time)%>% #Methods in EDI metadata say they do not know if their data were corrected for temperature so I will not use this data
+  select(-Time)%>%
   distinct()%>%
   mutate(Depth = Depth*0.3048) # Convert feet to meters
-tz(wq_edsm$Date)<-"America/Los_Angeles"
 
 Fieldfiles <- list.files(path = "data-raw/data/EMP water quality", full.names = T, pattern="Field")
 
@@ -208,6 +217,22 @@ wq_suisun<-read_csv("data-raw/data/Suisun_Sample.csv",
               ungroup(),
             by="SampleRowID")%>%
   select(-SampleRowID)
+
+download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.3&entityid=71c16ead9b8ffa4da7a52da180f601f4", file.path(tempdir(), "DJFMP_1976-2001.csv"), mode="wb")
+download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.3&entityid=93cb0e8ec9fa92adc7aba9499b3ea6d7", file.path(tempdir(), "DJFMP_2002-2018.csv"), mode="wb")
+
+wq_djfmp <- read_csv(file.path(tempdir(), "DJFMP_1976-2001.csv"),
+                     col_types = cols_only(StationCode = "c", SampleDate="c", SampleTime="c", WaterTemperature="d", Secchi="d"))%>%
+  bind_rows(read_csv(file.path(tempdir(), "DJFMP_2002-2018.csv"),
+                     col_types = cols_only(StationCode = "c", SampleDate="c", SampleTime="c", WaterTemperature="d", Secchi="d")))%>%
+  rename(Station=StationCode, Date=SampleDate, Time=SampleTime, Temperature=WaterTemperature)%>%
+  mutate(Secchi=Secchi*100)%>% # convert Secchi to cm
+  mutate(Source="DJFMP",
+         Date=parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
+         Time=parse_date_time(Time, "%H:%M:%S", tz="America/Los_Angeles"))%>%
+  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  select(-Time)%>%
+  distinct()
 
 
 usethis::use_data(wq_emp, wq_fmwt, wq_tns, wq_edsm, wq_skt, wq_20mm, wq_suisun, overwrite = TRUE)

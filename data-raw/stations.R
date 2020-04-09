@@ -5,6 +5,13 @@ library(tibble)
 library(readr)
 library(readxl)
 
+Download <- FALSE
+
+if(Download){
+  #DJFMP
+  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.3&entityid=99a038d691f27cd306ff93fdcbc03b77", "data-raw/data/DJFMP_stations.csv", mode="wb")
+}
+
 FMWT<-read_excel("data-raw/data/FMWT Station.xlsx")%>%
   select(Station=StationCode, Lat, Long, Lat2=`WGS84 Lat`, Long2=`WGS84 Long`)%>%
   mutate(Lat2=parse_number(Lat2),
@@ -89,6 +96,11 @@ Suisun<-read_csv("data-raw/data/Suisun_StationsLookUp.csv",
   mutate(Source="Suisun",
          StationID=paste(Source, Station))
 
+DJFMP <- read_csv("data-raw/data/DJFMP_stations.csv",
+                  col_types=cols_only(StationCode="c", latitude_location="d", longitude_location="d"))%>%
+  rename(Station=StationCode, Latitude=latitude_location, Longitude=longitude_location)%>%
+  mutate(Source="DJFMP",
+         StationID=paste(Source, Station))
 
 #Load delta regions shapefile (EDSM 2018-19 phase I strata)
 
@@ -105,7 +117,8 @@ stations<-bind_rows(
   EZ,
   SKT,
   EMPBIV,
-  Suisun)%>%
+  Suisun,
+  DJFMP)%>%
   drop_na()
 
 usethis::use_data(stations, overwrite = TRUE)

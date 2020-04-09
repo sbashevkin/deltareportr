@@ -3,7 +3,7 @@
 #' Imports, filters, and processes datasets and outputs a list of desired datasets
 #' @param Start_year Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.
 #' @param Variables Character vector of variables you would like included in the dataset. Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.
-#' @param WQ_sources Character vector of data sources for the water quality variables. Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}), "TNS" (Summer Townet Survey, \code{\link{wq_tns}}), "FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}), "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}), "20mm" (20mm Survey, \code{\link{wq_20mm}}), "SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}), and "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).
+#' @param WQ_sources Character vector of data sources for the water quality variables. Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}), "TNS" (Summer Townet Survey, \code{\link{wq_tns}}), "FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}), "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}), "DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link{wq_djfmp}}), "20mm" (20mm Survey, \code{\link{wq_20mm}}), "SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}), and "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).
 #' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.
 #' @param Region_column Quoted name of the column in the Shapefile with the region designations.
 #' @param Regions Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.
@@ -178,6 +178,10 @@ DeltaDater <- function(Start_year=2002,
     WQ_list[["EDSM"]]<-deltareportr::wq_edsm
     }
 
+    if("DJFMP"%in%WQ_sources){
+      WQ_list[["DJFMP"]]<-deltareportr::wq_djfmp
+    }
+
     if("EMP"%in%WQ_sources){
       WQ_list[["EMP"]]<-deltareportr::wq_emp
     }
@@ -216,7 +220,7 @@ DeltaDater <- function(Start_year=2002,
       }}%>%
       dplyr::mutate(Month=lubridate::month(.data$MonthYear))%>%
       {if ("Field_coords"%in%names(.)){
-        dplyr::mutate(., Field_coords = tidyr::replace_na(Field_coords, FALSE))
+        dplyr::mutate(., Field_coords = tidyr::replace_na(.data$Field_coords, FALSE))
       } else{
         .
       }}%>%
