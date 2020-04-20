@@ -5,18 +5,18 @@ library(readr)
 library(dplyr)
 library(lubridate)
 
-smelt_iep <- read_excel("data-raw/data/FMWT DS index.xlsx")%>%
+smelt_iep <- read_excel(file.path("data-raw", "data", "FMWT", "FMWT DS index.xlsx"))%>%
   select(Year, Index=Total)%>%
   mutate(Source="FMWT")%>%
   bind_rows(
-    read_excel("data-raw/data/STN DS index.xlsx")%>%
+    read_excel(file.path("data-raw", "data", "STN", "STN DS index.xlsx"))%>%
       mutate(Source="STN"),
-    read_excel("data-raw/data/SKT DS index.xlsx")%>%
+    read_excel(file.path("data-raw", "data", "SKT", "SKT DS index.xlsx"))%>%
       mutate(Source="SKT"),
-    read_excel("data-raw/data/20mm DS index.xlsx")%>%
+    read_excel(file.path("data-raw", "data", "20mm", "20mm DS index.xlsx"))%>%
       mutate(Source="20mm"))
 
-smelt_edsm <- read_csv("data-raw/data/edsm_abund_estimates_2019-09-17.csv")%>%
+smelt_edsm <- read_csv(file.path("data-raw", "data", "EDSM", "edsm_abund_estimates_2019-09-17.csv"))%>%
   mutate(Stratum=recode(Stratum, "Cache Slough LI"="Cache Slough/Liberty Island", "Sac DW Ship Channel"="Sac Deep Water Shipping Channel",
                         "Lower Sacramento"="Lower Sacramento River", "Lower San Joaquin"="Lower Joaquin River"),
          Date=WeekStartDate+ceiling((WeekEndDate-WeekStartDate)/2))%>%
