@@ -6,19 +6,20 @@
 \alias{wq_edsm}
 \title{EDSM water quality data}
 \format{
-a tibble with 14,851 rows and 11 variables
+a tibble with 14,851 rows and 12 variables
 \describe{
-  \item{Date}{Date sample was collected.}
+  \item{Source}{Name of the source dataset.}
+  \item{Station}{Station where sample was collected.}
   \item{Latitude}{Latitude in decimal degrees.}
   \item{Longitude}{Longitude in decimal degrees.}
-  \item{Temperature}{Temperature in °C.}
-  \item{Secchi}{Secchi depth (cm).}
-  \item{Tide}{Tidal stage.}
-  \item{Depth}{Bottom depth (m).}
-  \item{Notes}{Comments.}
-  \item{Station}{Station where sample was collected.}
-  \item{Source}{Name of the source dataset.}
+  \item{Date}{Date sample was collected.}
   \item{Datetime}{Date and time of sample collection.}
+  \item{Depth}{Bottom depth (m).}
+  \item{Tide}{Tidal stage.}
+  \item{Secchi}{Secchi depth (cm).}
+  \item{Temperature}{Temperature in °C.}
+  \item{Temperature_bottom}{Temperature (°C) at bottom.}
+  \item{Notes}{Comments.}
   }
 }
 \usage{

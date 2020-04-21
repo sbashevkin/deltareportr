@@ -6,18 +6,19 @@
 \alias{wq_fmwt}
 \title{FMWT water quality data}
 \format{
-a tibble with 27,319 rows and 10 variables
+a tibble with 27,804 rows and 11 variables
 \describe{
-  \item{Date}{Date sample was collected.}
+  \item{Source}{Name of the source dataset.}
   \item{Station}{Station where sample was collected.}
-  \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
-  \item{Secchi}{Secchi depth (cm).}
-  \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
-  \item{Temperature}{Temperature (°C) at surface.}
+  \item{Date}{Date sample was collected.}
+  \item{Datetime}{Date and time of sample collection.}
   \item{Depth}{Bottom depth (m).}
   \item{Tide}{Tidal stage.}
-  \item{Source}{Name of the source dataset.}
-  \item{Datetime}{Date and time of sample collection.}
+  \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
+  \item{Secchi}{Secchi depth (cm).}
+  \item{Temperature}{Temperature (°C) at surface.}
+  \item{Temperature_bottom}{Temperature (°C) at bottom.}
+  \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
   }
 }
 \usage{

@@ -98,7 +98,7 @@
 #'
 #' Locations of all sampling stations.
 #'
-#' @format a tibble with 1,052 rows and 5 variables
+#' @format a tibble with 1,298 rows and 5 variables
 #' \describe{
 #'   \item{Source}{Name of the source dataset..}
 #'   \item{Station}{Station where sample was collected.}
@@ -116,41 +116,64 @@
 #' @encoding UTF-8
 #' @format a tibble with 9,458 rows and 12 variables
 #' \describe{
+#'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
-#'   \item{Temperature}{Temperature in °C.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Notes}{Comments.}
 #'   \item{Latitude}{Latitude in decimal degrees.}
 #'   \item{Longitude}{Longitude in decimal degrees.}
 #'   \item{Date}{Date sample was collected.}
-#'   \item{Tide}{Tidal stage.}
-#'   \item{Depth}{Bottom depth (m).}
 #'   \item{Datetime}{Date and time of sample collection.}
-#'   \item{Source}{Name of the source dataset.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Temperature}{Temperature in °C.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Notes}{Comments.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/20mm-Survey}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_20mm"
+
+#' Bay Study water quality data
+#'
+#' Water quality data from the California Department of Fish and Wildlife Bay Study.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 20,195 rows and 10 variables
+#' \describe{
+#'   \item{Source}{Name of the source dataset.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   }
+#' @details More metadata and information on methods are available \href{http://www.dfg.ca.gov/delta/projects.asp?ProjectID=BAYSTUDY}{here}.
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
+"wq_baystudy"
 
 #' EDSM water quality data
 #'
 #' Water quality data from the United States Fish and Wildlife Service Enhanced Delta Smelt Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 14,851 rows and 11 variables
+#' @format a tibble with 14,851 rows and 12 variables
 #' \describe{
-#'   \item{Date}{Date sample was collected.}
+#'   \item{Source}{Name of the source dataset.}
+#'   \item{Station}{Station where sample was collected.}
 #'   \item{Latitude}{Latitude in decimal degrees.}
 #'   \item{Longitude}{Longitude in decimal degrees.}
-#'   \item{Temperature}{Temperature in °C.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Tide}{Tidal stage.}
-#'   \item{Depth}{Bottom depth (m).}
-#'   \item{Notes}{Comments.}
-#'   \item{Station}{Station where sample was collected.}
-#'   \item{Source}{Name of the source dataset.}
+#'   \item{Date}{Date sample was collected.}
 #'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Temperature}{Temperature in °C.}
+#'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
+#'   \item{Notes}{Comments.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.415.1}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
@@ -161,14 +184,14 @@
 #' Water quality data from the United States Fish and Wildlife Service Delta Juvenile Fish Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 23,057 rows and 6 variables
+#' @format a tibble with 23,998 rows and 6 variables
 #' \describe{
+#'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Date}{Date sample was collected.}
-#'   \item{Temperature}{Temperature in °C.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Source}{Name of the source dataset.}
 #'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Temperature}{Temperature in °C.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.244.3}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
@@ -179,20 +202,22 @@
 #' Water quality data from the California Department of Water Resources Environmental Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 16,356 rows and 11 variables
+#' @format a tibble with 16,356 rows and 12 variables
 #' \describe{
-#'   \item{Date}{Date sample was collected.}
+#'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
-#'   \item{Notes}{Notes or comments.}
+#'   \item{Date}{Date sample was collected.}
 #'   \item{Datetime}{Date and time sample was collected.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Tide}{Tidal stage (always High Slack).}
+#'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
+#'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
-#'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
-#'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
-#'   \item{Source}{Name of the source dataset.}
-#'   \item{Tide}{Tidal stage (always High Slack).}
+#'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Notes}{Notes or comments.}
 #'   }
+#'
 #' @details More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.458.2}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_emp"
@@ -202,18 +227,19 @@
 #' Water quality data from the California Department of Fish and Wildlife Fall Midwater Trawl.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 27,319 rows and 10 variables
+#' @format a tibble with 27,804 rows and 11 variables
 #' \describe{
-#'   \item{Date}{Date sample was collected.}
+#'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
-#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time of sample collection.}
 #'   \item{Depth}{Bottom depth (m).}
 #'   \item{Tide}{Tidal stage.}
-#'   \item{Source}{Name of the source dataset.}
-#'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
@@ -226,68 +252,89 @@
 #' @encoding UTF-8
 #' @format a tibble with 3,965 rows and 12 variables
 #' \describe{
-#'   \item{Date}{Date sample was collected.}
-#'   \item{Station}{Station where sample was collected.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
-#'   \item{Temperature}{Temperature (°C) at surface.}
-#'   \item{Depth}{Bottom depth (m).}
-#'   \item{Tide}{Tidal stage.}
-#'   \item{Notes}{Comments.}
 #'   \item{Source}{Name of the source dataset.}
+#'   \item{Station}{Station where sample was collected.}
 #'   \item{Latitude}{Latitude in decimal degrees.}
 #'   \item{Longitude}{Longitude in decimal degrees.}
+#'   \item{Date}{Date sample was collected.}
 #'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Notes}{Comments.}
 #'   }
 #' @details More metadata and information on methods are available \href{http://www.dfg.ca.gov/delta/projects.asp?ProjectID=SKT}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_skt"
 
-#' TNS water quality data
+#' STN water quality data
 #'
 #' Water quality data from the California Department of Fish and Wildlife Summer Townet Survey.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 8,266 rows and 11 variables
+#' @format a tibble with 8,266 rows and 12 variables
 #' \describe{
-#'   \item{Date}{Date sample was collected.}
+#'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Depth}{Bottom depth (m).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
 #'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
-#'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
-#'   \item{Tide}{Tidal stage.}
-#'   \item{Depth}{Bottom depth (m).}
 #'   \item{Notes}{Comments.}
-#'   \item{Source}{Name of the source dataset.}
-#'   \item{Datetime}{Date and time of sample collection.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
-"wq_tns"
+"wq_stn"
 
 #' Suisun water quality data
 #'
 #' Water quality data from the UC Davis Suisun Marsh Fish Study.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 14,253 rows and 10 variables
+#' @format a tibble with 14,253 rows and 9 variables
 #' \describe{
+#'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Date}{Date sample was collected.}
-#'   \item{QADone}{Was QA completed?}
-#'   \item{Temperature}{Temperature (°C) at surface.}
-#'   \item{Salinity}{Salinity (ppt) at the surface.}
-#'   \item{Secchi}{Secchi depth (cm).}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
-#'   \item{Tide}{Tidal stage.}
 #'   \item{Datetime}{Date and time of sample collection.}
-#'   \item{Source}{Name of the source dataset.}
 #'   \item{Depth}{Bottom depth (m).}
+#'   \item{Tide}{Tidal stage.}
+#'   \item{Secchi}{Secchi depth (cm).}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://watershed.ucdavis.edu/project/suisun-marsh-fish-study}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_suisun"
+
+#' USBR water quality data
+#'
+#' Water quality data from the United States Bureau of Reclamation Sacramento Deepwater Ship Channel cruises.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 904 rows and 11 variables
+#' \describe{
+#'   \item{Source}{Name of the source dataset.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Depth}{Bottom depth (m). Only 1 value per station, probably an average?}
+#'   \item{Sample_depth_surface}{Depth (m) of surface sample.}
+#'   \item{Sample_depth_bottom}{Depth (m) of bottom sample.}
+#'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   }
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
+"wq_usbr"
 
 #' Zooplankton mass conversions
 #'

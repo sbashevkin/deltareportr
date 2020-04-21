@@ -6,19 +6,17 @@
 \alias{wq_suisun}
 \title{Suisun water quality data}
 \format{
-a tibble with 14,253 rows and 10 variables
+a tibble with 14,253 rows and 9 variables
 \describe{
+  \item{Source}{Name of the source dataset.}
   \item{Station}{Station where sample was collected.}
   \item{Date}{Date sample was collected.}
-  \item{QADone}{Was QA completed?}
-  \item{Temperature}{Temperature (°C) at surface.}
-  \item{Salinity}{Salinity (ppt) at the surface.}
-  \item{Secchi}{Secchi depth (cm).}
-  \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
-  \item{Tide}{Tidal stage.}
   \item{Datetime}{Date and time of sample collection.}
-  \item{Source}{Name of the source dataset.}
   \item{Depth}{Bottom depth (m).}
+  \item{Tide}{Tidal stage.}
+  \item{Secchi}{Secchi depth (cm).}
+  \item{Temperature}{Temperature (°C) at surface.}
+  \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
   }
 }
 \usage{

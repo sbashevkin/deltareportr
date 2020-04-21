@@ -58,7 +58,8 @@ twentymm<-read_csv(file.path("data-raw", "data", "20mm", "tbl20mmStations.csv"))
 
 Zoopxl<-read_excel(file.path("data-raw", "data", "zoop_stations.xlsx"))%>%
   rename(Source=Project)%>%
-  mutate(StationID=paste(Source, Station))%>%
+  mutate(Source=recode(Source, TNS="STN"),
+    StationID=paste(Source, Station))%>%
   drop_na()
 
 WQ<-read_csv(file.path("data-raw", "data", "EMP", "wq_stations.csv"))%>%
@@ -96,13 +97,36 @@ Suisun<-read_csv(file.path("data-raw", "data", "Suisun", "Suisun_StationsLookUp.
   mutate(Source="Suisun",
          StationID=paste(Source, Station))
 
+#DJFMP
+
 DJFMP <- read_csv(file.path("data-raw", "data", "DJFMP", "DJFMP_stations.csv"),
                   col_types=cols_only(StationCode="c", latitude_location="d", longitude_location="d"))%>%
   rename(Station=StationCode, Latitude=latitude_location, Longitude=longitude_location)%>%
   mutate(Source="DJFMP",
          StationID=paste(Source, Station))
 
-#Load delta regions shapefile (EDSM 2018-19 phase I strata)
+#Baystudy
+
+Baystudy <- read_excel(file.path("data-raw", "data", "Baystudy", "Bay Study_Station Coordinates for Distribution_2018.xlsx"))%>%
+  separate(Latitude, into=c("Lat_Deg", "Lat_Min"), sep = "°", convert=T)%>%
+  separate(Longitude, into=c("Lon_Deg", "Lon_Min"), sep = "°", convert=T)%>%
+  mutate(Latitude=Lat_Deg+Lat_Min/60,
+         Longitude=Lon_Deg+Lon_Min/60)%>%
+  select(Station, Latitude, Longitude)%>%
+  filter(Station!="211E")%>%
+  mutate(Station=recode(Station, `211W`="211"),
+         Source="Baystudy",
+         StationID=paste(Source, Station))
+
+# USBR
+
+USBR <- read_csv(file.path("data-raw", "data", "USBR", "USBRSiteLocations.csv"),
+                 col_types=cols_only(Station="c", Lat="d", Long="d"))%>%
+  rename(Latitude=Lat, Longitude=Long)%>%
+  mutate(Station=str_remove(Station, "NL "),
+         Station=recode(Station, PS="Pro"),
+         Source="USBR",
+         StationID=paste(Source, Station))
 
 stations<-bind_rows(
   Zoopxl,
@@ -118,7 +142,9 @@ stations<-bind_rows(
   SKT,
   EMPBIV,
   Suisun,
-  DJFMP)%>%
+  DJFMP,
+  Baystudy,
+  USBR)%>%
   drop_na()
 
 usethis::use_data(stations, overwrite = TRUE)

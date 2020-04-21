@@ -8,18 +8,18 @@
 \format{
 a tibble with 3,965 rows and 12 variables
 \describe{
-  \item{Date}{Date sample was collected.}
-  \item{Station}{Station where sample was collected.}
-  \item{Secchi}{Secchi depth (cm).}
-  \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
-  \item{Temperature}{Temperature (°C) at surface.}
-  \item{Depth}{Bottom depth (m).}
-  \item{Tide}{Tidal stage.}
-  \item{Notes}{Comments.}
   \item{Source}{Name of the source dataset.}
+  \item{Station}{Station where sample was collected.}
   \item{Latitude}{Latitude in decimal degrees.}
   \item{Longitude}{Longitude in decimal degrees.}
+  \item{Date}{Date sample was collected.}
   \item{Datetime}{Date and time of sample collection.}
+  \item{Depth}{Bottom depth (m).}
+  \item{Tide}{Tidal stage.}
+  \item{Secchi}{Secchi depth (cm).}
+  \item{Temperature}{Temperature (°C) at surface.}
+  \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+  \item{Notes}{Comments.}
   }
 }
 \usage{
