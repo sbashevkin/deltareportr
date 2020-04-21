@@ -10,7 +10,7 @@ a tibble with 8,652 rows and 7 variables
   \item{Date}{Sample collection date.}
   \item{Station}{Station where sample was collected.}
   \item{Taxa}{Phytoplankton taxa.}
-  \item{CPUE}{Catch per unit effort in number of cells, colonies, or filaments \eqn{ml^{-1}}.}
+  \item{CPUE}{Catch per unit effort in number of cells, colonies, or filaments (\ifelse{html}{\out{ml<sup>-1</sup>}}{\eqn{ml^{-1}}}).}
   \item{Year}{Year sample was collected.}
   \item{MonthYear}{Month and year of sample collection.}
   \item{Source}{Name of the source dataset.}

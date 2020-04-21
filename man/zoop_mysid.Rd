@@ -10,7 +10,7 @@ a tibble with 40 rows and 2 variables
   \item{Date}{Date sample was collected.}
   \item{Station}{Station where sample was collected.}
   \item{Taxa}{Taxonomic name.}
-  \item{BPUE}{Biomass per unit effort (\eqn{\mu}g \eqn{m^{-3}}).}
+  \item{BPUE}{Biomass per unit effort (\eqn{\mu}g \ifelse{html}{\out{m<sup>-3</sup>}}{\eqn{m^{-3}}}).}
   \item{Year}{Year sample was collected.}
   \item{MonthYear}{Month and year sample was collected.}
   \item{Source}{Name of the source dataset.}

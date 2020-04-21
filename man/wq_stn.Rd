@@ -18,7 +18,7 @@ a tibble with 8,266 rows and 12 variables
   \item{Secchi}{Secchi depth (cm).}
   \item{Temperature}{Temperature (°C) at surface.}
   \item{Temperature_bottom}{Temperature (°C) at bottom.}
-  \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+  \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
   \item{Notes}{Comments.}
   }
 }

@@ -7,7 +7,7 @@
 #'   \item{Date}{Sample collection date.}
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Taxa}{Bivalve species name.}
-#'   \item{CPUE}{Catch per unit effort in number of clams \eqn{m^{-2}}.}
+#'   \item{CPUE}{Catch per unit effort in number of clams (\ifelse{html}{\out{m<sup>-2</sup>}}{\eqn{m^{-2}}}).}
 #'   \item{Year}{Year sample was collected.}
 #'   \item{MonthYear}{Month and year of sample collection.}
 #'   \item{Source}{Name of the source dataset.}
@@ -23,12 +23,8 @@
 #' @format a tibble with 8,652 rows and 7 variables
 #' \describe{
 #'   \item{Date}{Date.}
-#'   \item{Out}{Delta outflow (\eqn{ft^{3}} \eqn{s^{-1}}.)}
+#'   \item{Out}{Delta outflow (\ifelse{html}{\out{ft<sup>3</sup>s<sup>-1</sup>}}{\eqn{ft^{3}} \eqn{s^{-1}}}).}
 #'   \item{X2}{X2 (km).}
-#'   \item{CPUE}{Catch per unit effort in number of clams \eqn{m^{-2}}.}
-#'   \item{Year}{Year sample was collected.}
-#'   \item{MonthYear}{Month and year of sample collection.}
-#'   \item{Source}{Name of the source dataset.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://data.cnra.ca.gov/dataset/dayflow}{here}.
 #' @seealso \code{\link{DeltaBivalver}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
@@ -55,7 +51,7 @@
 #'   \item{Date}{Sample collection date.}
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Taxa}{Phytoplankton taxa.}
-#'   \item{CPUE}{Catch per unit effort in number of cells, colonies, or filaments \eqn{ml^{-1}}.}
+#'   \item{CPUE}{Catch per unit effort in number of cells, colonies, or filaments (\ifelse{html}{\out{ml<sup>-1</sup>}}{\eqn{ml^{-1}}}).}
 #'   \item{Year}{Year sample was collected.}
 #'   \item{MonthYear}{Month and year of sample collection.}
 #'   \item{Source}{Name of the source dataset.}
@@ -126,7 +122,7 @@
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature in °C.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
 #'   \item{Notes}{Comments.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/20mm-Survey}{here}.
@@ -149,7 +145,7 @@
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
 #'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
 #'   }
 #' @details More metadata and information on methods are available \href{http://www.dfg.ca.gov/delta/projects.asp?ProjectID=BAYSTUDY}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
@@ -210,11 +206,11 @@
 #'   \item{Datetime}{Date and time sample was collected.}
 #'   \item{Tide}{Tidal stage (always High Slack).}
 #'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
-#'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
+#'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \ifelse{html}{\out{L<sup>-1</sup>}}{\eqn{L^{-1}}}).}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
 #'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
 #'   \item{Notes}{Notes or comments.}
 #'   }
 #'
@@ -239,7 +235,7 @@
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
 #'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://www.dfg.ca.gov/delta/projects.asp?ProjectID=FMWT}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
@@ -262,7 +258,7 @@
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
 #'   \item{Notes}{Comments.}
 #'   }
 #' @details More metadata and information on methods are available \href{http://www.dfg.ca.gov/delta/projects.asp?ProjectID=SKT}{here}.
@@ -286,7 +282,7 @@
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
 #'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
 #'   \item{Notes}{Comments.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://wildlife.ca.gov/Conservation/Delta/Townet-Survey}{here}.
@@ -308,7 +304,7 @@
 #'   \item{Tide}{Tidal stage.}
 #'   \item{Secchi}{Secchi depth (cm).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
 #'   }
 #' @details More metadata and information on methods are available \href{https://watershed.ucdavis.edu/project/suisun-marsh-fish-study}{here}.
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
@@ -328,10 +324,10 @@
 #'   \item{Depth}{Bottom depth (m). Only 1 value per station, probably an average?}
 #'   \item{Sample_depth_surface}{Depth (m) of surface sample.}
 #'   \item{Sample_depth_bottom}{Depth (m) of bottom sample.}
-#'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
+#'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \ifelse{html}{\out{L<sup>-1</sup>}}{\eqn{L^{-1}}}).}
 #'   \item{Temperature}{Temperature (°C) at surface.}
 #'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
-#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+#'   \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
 #'   }
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_usbr"
@@ -357,7 +353,7 @@
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Taxa}{Taxonomic name.}
-#'   \item{BPUE}{Biomass per unit effort (\eqn{\mu}g \eqn{m^{-3}}).}
+#'   \item{BPUE}{Biomass per unit effort (\eqn{\mu}g \ifelse{html}{\out{m<sup>-3</sup>}}{\eqn{m^{-3}}}).}
 #'   \item{Year}{Year sample was collected.}
 #'   \item{MonthYear}{Month and year sample was collected.}
 #'   \item{Source}{Name of the source dataset.}

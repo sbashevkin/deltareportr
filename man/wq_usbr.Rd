@@ -15,10 +15,10 @@ a tibble with 904 rows and 11 variables
   \item{Depth}{Bottom depth (m). Only 1 value per station, probably an average?}
   \item{Sample_depth_surface}{Depth (m) of surface sample.}
   \item{Sample_depth_bottom}{Depth (m) of bottom sample.}
-  \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \eqn{L^{-1}})}
+  \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \ifelse{html}{\out{L<sup>-1</sup>}}{\eqn{L^{-1}}}).}
   \item{Temperature}{Temperature (°C) at surface.}
   \item{Temperature_bottom}{Temperature (°C) at bottom.}
-  \item{Conductivity}{Specific conductance (\eqn{\mu}S \eqn{cm^{-1}}) at surface.}
+  \item{Conductivity}{Specific conductance (\eqn{\mu}S \ifelse{html}{\out{cm<sup>-1</sup>}}{\eqn{cm^{-1}}}) at surface.}
   }
 }
 \usage{

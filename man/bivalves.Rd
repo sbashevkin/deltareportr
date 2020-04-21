@@ -10,7 +10,7 @@ a tibble with 8,652 rows and 7 variables
   \item{Date}{Sample collection date.}
   \item{Station}{Station where sample was collected.}
   \item{Taxa}{Bivalve species name.}
-  \item{CPUE}{Catch per unit effort in number of clams \eqn{m^{-2}}.}
+  \item{CPUE}{Catch per unit effort in number of clams (\ifelse{html}{\out{m<sup>-2</sup>}}{\eqn{m^{-2}}}).}
   \item{Year}{Year sample was collected.}
   \item{MonthYear}{Month and year of sample collection.}
   \item{Source}{Name of the source dataset.}
