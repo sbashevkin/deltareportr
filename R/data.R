@@ -94,7 +94,7 @@
 #'
 #' Locations of all sampling stations.
 #'
-#' @format a tibble with 1,298 rows and 5 variables
+#' @format a tibble with 1,357 rows and 5 variables
 #' \describe{
 #'   \item{Source}{Name of the source dataset..}
 #'   \item{Station}{Station where sample was collected.}
@@ -331,6 +331,28 @@
 #'   }
 #' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
 "wq_usbr"
+
+#' USGS water quality data
+#'
+#' Water quality data from the United States Geological Survey San Francisco Bay Water Quality Survey.
+#'
+#' @encoding UTF-8
+#' @format a tibble with 22,149 rows and 10 variables
+#' \describe{
+#'   \item{Source}{Name of the source dataset.}
+#'   \item{Station}{Station where sample was collected.}
+#'   \item{Date}{Date sample was collected.}
+#'   \item{Datetime}{Date and time of sample collection.}
+#'   \item{Sample_depth_surface}{Depth (m) of surface sample.}
+#'   \item{Sample_depth_bottom}{Depth (m) of bottom sample.}
+#'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \ifelse{html}{\out{L<sup>-1</sup>}}{\eqn{L^{-1}}}).}
+#'   \item{Temperature}{Temperature (°C) at surface.}
+#'   \item{Temperature_bottom}{Temperature (°C) at bottom.}
+#'   \item{Salinity}{Salinity at surface.}
+#'   }
+#' @details More metadata and information on methods are available \href{https://www.sciencebase.gov/catalog/item/5841f97ee4b04fc80e518d9f}{here for data from 1969-2015} and \href{https://www.sciencebase.gov/catalog/item/5966abe6e4b0d1f9f05cf551}{here for data from 2016-present}.
+#' @seealso \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
+"wq_usgs"
 
 #' Zooplankton mass conversions
 #'

@@ -2,8 +2,20 @@
 #'
 #' Imports, filters, and processes datasets and outputs a list of desired datasets
 #' @param Start_year Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.
-#' @param Variables Character vector of variables you would like included in the dataset. Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.
-#' @param WQ_sources Character vector of data sources for the water quality variables. Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}), "STN" (Summer Townet Survey, \code{\link{wq_stn}}), "FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}), "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}), "DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link{wq_djfmp}}), "20mm" (20mm Survey, \code{\link{wq_20mm}}), "SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}), "Baystudy" (Bay Study, \code{\link{wq_baystudy}}), "USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link{wq_usbr}}), and "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).
+#' @param Variables Character vector of variables you would like included in the dataset.
+#'   Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.
+#' @param WQ_sources Character vector of data sources for the water quality variables.
+#'   Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}),
+#'   "STN" (Summer Townet Survey, \code{\link{wq_stn}}),
+#'   "FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}),
+#'   "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}),
+#'   "DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link{wq_djfmp}}),
+#'   "20mm" (20mm Survey, \code{\link{wq_20mm}}),
+#'   "SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}),
+#'   "Baystudy" (Bay Study, \code{\link{wq_baystudy}}),
+#'   "USGS" (USGS San Francisco Bay Surveys, \code{\link{wq_usgs}}),
+#'   "USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link{wq_usbr}}), and
+#'   "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).
 #' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.
 #' @param Region_column Quoted name of the column in the Shapefile with the region designations.
 #' @param Regions Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.
@@ -12,7 +24,8 @@
 #' @return A list of datasets
 #' @examples
 #' Data <- DeltaDater(Start_year = 1900,
-#' WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "DJFMP", "SKT", "20mm", "Suisun", "Baystudy", "USBR"),
+#' WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "DJFMP", "SKT",
+#' "20mm", "Suisun", "Baystudy", "USBR", "USGS"),
 #' Variables = "Water quality",
 #' Regions = NULL)
 #' @export
@@ -198,14 +211,27 @@ DeltaDater <- function(Start_year=2002,
       WQ_list[["USBR"]]<-deltareportr::wq_usbr
     }
 
+    if("USGS"%in%WQ_sources){
+      WQ_list[["USGS"]]<-deltareportr::wq_usgs
+    }
+
     Data_list[["Water_quality"]]<-dplyr::bind_rows(WQ_list)%>%
       dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                     Year=lubridate::year(.data$Date),
                     StationID=paste(.data$Source, .data$Station))%>%
       {if("Conductivity"%in%names(.)){
-        dplyr::mutate(., Salinity=wql::ec2pss(.data$Conductivity/1000, t=25))
+        if("Salinity"%in%names(.)){
+          dplyr::mutate(., Salinity=dplyr::if_else(is.na(.data$Salinity), wql::ec2pss(.data$Conductivity/1000, t=25), .data$Salinity))
+        } else{
+          dplyr::mutate(., Salinity=wql::ec2pss(.data$Conductivity/1000, t=25))
+        }
+
       } else{
-        dplyr::mutate(., Salinity=NA_real_)
+        if("Salinity"%in%names(.)){
+          .
+        } else{
+          dplyr::mutate(., Salinity=NA_real_)
+        }
       }}%>%
       {if("Latitude"%in%names(.)){
         .

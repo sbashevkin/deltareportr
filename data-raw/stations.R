@@ -128,6 +128,15 @@ USBR <- read_csv(file.path("data-raw", "data", "USBR", "USBRSiteLocations.csv"),
          Source="USBR",
          StationID=paste(Source, Station))
 
+# USGS
+
+USGS <- read_excel(file.path("data-raw", "data", "USGS", "USGSSFBayStations.xlsx"))%>%
+  select(Station, Latitude="Latitude degree", Longitude="Longitude degree")%>%
+  mutate(Source="USGS",
+         Station=as.character(Station),
+         StationID=paste(Source, Station))%>%
+  select(Source, Station, StationID, Latitude, Longitude)
+
 stations<-bind_rows(
   Zoopxl,
   FMWT%>%
@@ -144,7 +153,8 @@ stations<-bind_rows(
   Suisun,
   DJFMP,
   Baystudy,
-  USBR)%>%
+  USBR,
+  USGS)%>%
   drop_na()
 
 usethis::use_data(stations, overwrite = TRUE)

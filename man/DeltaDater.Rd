@@ -18,9 +18,21 @@ DeltaDater(
 \arguments{
 \item{Start_year}{Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.}
 
-\item{Variables}{Character vector of variables you would like included in the dataset. Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.}
+\item{Variables}{Character vector of variables you would like included in the dataset.
+Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.}
 
-\item{WQ_sources}{Character vector of data sources for the water quality variables. Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}), "STN" (Summer Townet Survey, \code{\link{wq_stn}}), "FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}), "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}), "DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link{wq_djfmp}}), "20mm" (20mm Survey, \code{\link{wq_20mm}}), "SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}), "Baystudy" (Bay Study, \code{\link{wq_baystudy}}), "USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link{wq_usbr}}), and "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).}
+\item{WQ_sources}{Character vector of data sources for the water quality variables.
+Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}),
+"STN" (Summer Townet Survey, \code{\link{wq_stn}}),
+"FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}),
+"EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}),
+"DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link{wq_djfmp}}),
+"20mm" (20mm Survey, \code{\link{wq_20mm}}),
+"SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}),
+"Baystudy" (Bay Study, \code{\link{wq_baystudy}}),
+"USGS" (USGS San Francisco Bay Surveys, \code{\link{wq_usgs}}),
+"USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link{wq_usbr}}), and
+"Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).}
 
 \item{Shapefile}{Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.}
 
@@ -36,7 +48,8 @@ Imports, filters, and processes datasets and outputs a list of desired datasets
 }
 \examples{
 Data <- DeltaDater(Start_year = 1900,
-WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "DJFMP", "SKT", "20mm", "Suisun", "Baystudy", "USBR"),
+WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "DJFMP", "SKT",
+"20mm", "Suisun", "Baystudy", "USBR", "USGS"),
 Variables = "Water quality",
 Regions = NULL)
 }
