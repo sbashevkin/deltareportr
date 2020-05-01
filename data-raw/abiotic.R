@@ -39,6 +39,7 @@ wq_fmwt <- read_csv(file.path("data-raw", "data", "FMWT", "Sample.csv"),
   rename(Station=StationCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom, Conductivity=ConductivityTop, Temperature=WaterTemperature,
          Temperature_bottom=BottomTemperature)%>%
   mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
+         Time=if_else(hour(Time)==0, parse_date_time(NA_character_, tz="America/Los_Angeles"), Time),
          Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"),
          Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   mutate(Microcystis=if_else(Microcystis==6, 2, Microcystis),
@@ -248,11 +249,9 @@ wq_djfmp <- read_csv(file.path(tempdir(), "DJFMP_1976-2001.csv"),
   mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
   select(-Time)%>%
   distinct()%>%
-  group_by(Date, Station)%>%
-  mutate(KEEP=Datetime==min(Datetime))%>%
+  group_by(Date, Station, Source)%>%
+  summarise(Temperature=mean(Temperature), Secchi=mean(Secchi), Datetime=min(Datetime, na.rm=T)+(max(Datetime, na.rm=T)-min(Datetime, na.rm=T))/2)%>%
   ungroup()%>%
-  filter(KEEP)%>%
-  select(-KEEP)%>%
   select(Source, Station, Date, Datetime, Secchi, Temperature)
 
 #Baystudy
