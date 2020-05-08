@@ -4,6 +4,7 @@ library(tidyr)
 library(tibble)
 library(readr)
 library(readxl)
+require(stringr)
 
 Download <- FALSE
 
@@ -23,7 +24,7 @@ FMWT<-read_excel(file.path("data-raw", "data", "FMWT", "FMWT Station.xlsx"))%>%
          Source="FMWT",
          StationID=paste(Source, Station))%>%
   mutate(Latitude=if_else(is.na(Latitude), Lat2, Latitude),
-         Longitude=if_else(is.na(Longitude), Long2, Longitude))%>%
+         Longitude=if_else(is.na(Longitude), -1*Long2, Longitude))%>%
   select(Station, Latitude, Longitude, Source, StationID)%>%
   drop_na()
 
@@ -107,11 +108,11 @@ DJFMP <- read_csv(file.path("data-raw", "data", "DJFMP", "DJFMP_stations.csv"),
 
 #Baystudy
 
-Baystudy <- read_excel(file.path("data-raw", "data", "Baystudy", "Bay Study_Station Coordinates for Distribution_2018.xlsx"))%>%
+Baystudy <- read_excel(file.path("data-raw", "data", "Baystudy", "Bay Study_Station Coordinates for Distribution_04May2020.xlsx"))%>%
   separate(Latitude, into=c("Lat_Deg", "Lat_Min"), sep = "°", convert=T)%>%
   separate(Longitude, into=c("Lon_Deg", "Lon_Min"), sep = "°", convert=T)%>%
   mutate(Latitude=Lat_Deg+Lat_Min/60,
-         Longitude=Lon_Deg+Lon_Min/60)%>%
+         Longitude=Lon_Deg-Lon_Min/60)%>%
   select(Station, Latitude, Longitude)%>%
   filter(Station!="211E")%>%
   mutate(Station=recode(Station, `211W`="211"),
