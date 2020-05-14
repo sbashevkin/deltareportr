@@ -13,18 +13,11 @@ if(Download){
   download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.3&entityid=99a038d691f27cd306ff93fdcbc03b77", file.path("data-raw", "data", "DJFMP", "DJFMP_stations.csv"), mode="wb")
 }
 
-FMWT<-read_excel(file.path("data-raw", "data", "FMWT", "FMWT Station.xlsx"))%>%
-  select(Station=StationCode, Lat, Long, Lat2=`WGS84 Lat`, Long2=`WGS84 Long`)%>%
-  mutate(Lat2=parse_number(Lat2),
-         Long2=parse_number(Long2))%>%
-  separate(Lat, into=c("Lat_d", "Lat_m", "Lat_s"), sep="[ ]{1,}", convert=T)%>%
-  separate(Long, into=c("Long_d", "Long_m", "Long_s"), sep="[ ]{1,}", convert=T)%>%
-  mutate(Latitude=Lat_d+Lat_m/60+Lat_s/3600,
-         Longitude=Long_d-Long_m/60-Long_s/3600,
-         Source="FMWT",
+FMWT<-read_csv(file.path("data-raw", "data", "FMWT", "FMWT_Station_Locations_corrected.csv"),
+               col_types=cols_only(Station="c", DD_Longitude="d", DD_Latitude="d"))%>%
+  rename(Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
+  mutate(Source="FMWT",
          StationID=paste(Source, Station))%>%
-  mutate(Latitude=if_else(is.na(Latitude), Lat2, Latitude),
-         Longitude=if_else(is.na(Longitude), -1*Long2, Longitude))%>%
   select(Station, Latitude, Longitude, Source, StationID)%>%
   drop_na()
 
@@ -59,6 +52,7 @@ twentymm<-read_csv(file.path("data-raw", "data", "20mm", "tbl20mmStations.csv"))
 
 Zoopxl<-read_excel(file.path("data-raw", "data", "zoop_stations.xlsx"))%>%
   rename(Source=Project)%>%
+  filter(Source!="FMWT")%>% # Remove FMWT stations since we have good ones now
   mutate(Source=recode(Source, TNS="STN"),
     StationID=paste(Source, Station))%>%
   drop_na()
@@ -140,8 +134,7 @@ USGS <- read_excel(file.path("data-raw", "data", "USGS", "USGSSFBayStations.xlsx
 
 stations<-bind_rows(
   Zoopxl,
-  FMWT%>%
-    filter(!(StationID%in%unique(Zoopxl$StationID))),
+  FMWT,
   STN%>%
     filter(!(StationID%in%unique(Zoopxl$StationID))),
   WQ%>%

@@ -6,7 +6,7 @@
 \alias{wq_emp}
 \title{EMP water quality data}
 \format{
-a tibble with 16,356 rows and 12 variables
+a tibble with 16,293 rows and 11 variables
 \describe{
   \item{Source}{Name of the source dataset.}
   \item{Station}{Station where sample was collected.}

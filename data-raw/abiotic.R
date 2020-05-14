@@ -29,16 +29,17 @@ if(Download){
 }
 
 wq_fmwt <- read_csv(file.path("data-raw", "data", "FMWT", "Sample.csv"),
-                        col_types = cols_only(StationCode="c", SampleTimeStart="c", WaterTemperature="d", Secchi="d",
-                                              ConductivityTop="d", TideCode="i", DepthBottom="d",
-                                              Microcystis="d", BottomTemperature="d", DateID="i"))%>%
+                    col_types = cols_only(StationCode="i", SampleTimeStart="c", WaterTemperature="d", Secchi="d",
+                                          ConductivityTop="d", TideCode="i", DepthBottom="d",
+                                          Microcystis="d", BottomTemperature="d", DateID="i"))%>%
   left_join(read_csv(file.path("data-raw", "data", "FMWT", "Date.csv"), col_types=cols_only(DateID="i", SampleDate="c"))%>%
               mutate(SampleDate=parse_date_time(SampleDate, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
               rename(Date=SampleDate),
             by="DateID")%>% # Add dates
   rename(Station=StationCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom, Conductivity=ConductivityTop, Temperature=WaterTemperature,
          Temperature_bottom=BottomTemperature)%>%
-  mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
+  mutate(Station=as.character(Station),
+         Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Time=if_else(hour(Time)==0, parse_date_time(NA_character_, tz="America/Los_Angeles"), Time),
          Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"),
          Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
@@ -98,25 +99,38 @@ Fieldfiles <- list.files(path = file.path("data-raw", "data", "EMP", "Water qual
 
 emp_field<-sapply(Fieldfiles, function(x) read_excel(x, guess_max = 5e4))%>%
   bind_rows()%>%
-  select(Date=SampleDate, Station=StationCode, Parameter=AnalyteName, Value=Result, Notes=TextResult, Matrix, Time=DateResult)%>%
+  select(Date=SampleDate, Station=StationCode, Parameter=AnalyteName, Value=Result, Matrix, Time=DateResult)%>%
   filter(Parameter%in%c("Temperature", "Secchi Depth", "Conductance (EC)") & Matrix=="Water")%>%
-  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
-  group_by(Date, Station, Parameter, Notes, Datetime)%>%
+  group_by(Date, Station, Parameter)%>%
   summarise(Value=mean(Value, na.rm=T))%>%
   ungroup()
 tz(emp_field$Date)<-"America/Los_Angeles"
-tz(emp_field$Datetime)<-"America/Los_Angeles"
 
 Labfiles <- list.files(path = file.path("data-raw", "data", "EMP", "Water quality"), full.names = T, pattern="Lab")
 
 emp_lab <- sapply(Labfiles, function(x) read_excel(x, guess_max = 5e4))%>%
   bind_rows()%>%
-  select(Station=StationCode, Date=SampleDate, Parameter=ConstituentName, Value=Result, Notes=LabAnalysisRemarks)%>%
+  select(Station=StationCode, Date=SampleDate, Parameter=ConstituentName, Value=Result)%>%
   filter(Parameter=="Chlorophyll a")%>%
-  group_by(Date, Station, Parameter, Notes)%>%
+  group_by(Date, Station, Parameter)%>%
   summarise(Value=mean(Value, na.rm=T))%>%
   ungroup()
 tz(emp_lab$Date)<-"America/Los_Angeles"
+
+emp_oldtimes<-read_csv(file.path("data-raw", "data", "EMP", "Water quality", "1975-1999 WQ Data_EDI.csv"), guess_max=11000, locale = locale(encoding = "Latin1"))%>%
+  select(Station="Station Name", Date="Sample Date")%>%
+  separate(Station, sep="-", into=c("Station1", "Station2"))%>%
+  mutate(Station1=replace_na(Station1, paste(rep("NA", 50), collapse=" ")),
+         Station2=replace_na(Station2, paste(rep("NA", 50), collapse=" ")))%>%
+  mutate(Station_which=if_else(nchar(Station1)>nchar(Station2), 2, 1))%>%
+  mutate(Station=trimws(if_else(Station_which==1, Station1, Station2)))%>%
+  mutate(Station=recode(Station, `6000 ?S/cm bottom EC`="EZ6", `2000 ?S/cm bottom EC`="EZ2",
+                        `Honker Bay near Wheeler Point`="D9", `Old River @ Oak Island`="P12A"))%>%
+  select(Station, Date)%>%
+  mutate(Datetime=parse_date_time(Date, orders="%m/%d/%Y %H:%M", tz="America/Los_Angeles"),
+         Date=parse_date_time(paste(month(Datetime), day(Datetime), year(Datetime), sep="/"), orders="%m/%d/%Y", tz="America/Los_Angeles"))%>%
+  mutate(Datetime=if_else(hour(Datetime)==0, parse_date_time(NA_character_, tz="America/Los_Angeles"), Datetime))
+
 
 emp_2000<-read_excel(file.path("data-raw", "data", "EMP", "Water quality", "EMP WQ Combined_2000-2018.xlsx"), na=c("N/A", "<R.L.", "Too dark"), col_types = c(rep("text", 2), rep("date", 2), rep("text", 37)))%>%
   select(Station=`Station Name`, Datetime = `Sample Date`, Date, Chlorophyll=starts_with("Chlorophyll"),
@@ -141,10 +155,11 @@ tz(emp_2000$Datetime)<-"America/Los_Angeles"
 wq_emp<- bind_rows(emp_field, emp_lab)%>%
   pivot_wider(names_from = Parameter, values_from = Value)%>%
   rename(Chlorophyll=`Chlorophyll a`, Secchi=`Secchi Depth`, Conductivity=`Conductance (EC)`)%>%
+  left_join(emp_oldtimes, by=c("Date", "Station"))%>%
   bind_rows(emp_2000)%>%
   mutate(Source="EMP",
          Tide = "High Slack")%>%
-  select(Source, Station, Date, Datetime, Tide, Microcystis, Chlorophyll, Secchi, Temperature, Temperature_bottom, Conductivity, Notes)
+  select(Source, Station, Date, Datetime, Tide, Microcystis, Chlorophyll, Secchi, Temperature, Temperature_bottom, Conductivity)
 
 wq_skt <- read_csv(file.path("data-raw", "data", "SKT", "SKT_tblSample.csv"),
                    col_types = cols_only(SampleDate="c", StationCode="c", SampleTimeStart="c", Secchi="d", ConductivityTop="d",
@@ -324,8 +339,8 @@ wq_usgs <- map_dfr(USGSfiles, ~read_csv(., col_types = cols_only(Date="c", Time=
   rename(Station=Station_Number, Chlorophyll=Calculated_Chlorophyll)%>%
   mutate(Time=paste0(str_sub(Time, end=-3), ":", str_sub(Time, start=-2)))%>%
   bind_rows(read_csv(file.path("data-raw", "data", "USGS", "1969_2015USGS_SFBAY_22APR20.csv"),
-                       col_types = cols_only(Date="c", Time="c", Station="d", `Depth`="d", `Calculated Chl-a`="d",
-                                             Salinity="d", `Temperature`="d"))%>%
+                     col_types = cols_only(Date="c", Time="c", Station="d", `Depth`="d", `Calculated Chl-a`="d",
+                                           Salinity="d", `Temperature`="d"))%>%
               rename(Chlorophyll=starts_with("Calculated")))%>%
   filter(!is.na(Date))%>%
   mutate(Date=parse_date_time(Date, orders=c("%m/%d/%Y", "%m/%d/%y"), tz="America/Los_Angeles"),

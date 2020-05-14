@@ -180,7 +180,7 @@
 #' Water quality data from the California Department of Water Resources Environmental Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 16,356 rows and 12 variables
+#' @format a tibble with 16,293 rows and 11 variables
 #' \describe{
 #'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
