@@ -145,8 +145,7 @@ emp_2000<-read_excel(file.path("data-raw", "data", "EMP", "Water quality", "EMP 
          Secchi=parse_double(Secchi),
          Temperature=parse_double(Temperature),
          Temperature_bottom=parse_double(Temperature_bottom),
-         Conductivity=parse_double(Conductivity),
-         Station=ifelse(Station%in%c("EZ2", "EZ6", "EZ2-SJR", "EZ6-SJR"), paste(Station, Date), Station))%>%
+         Conductivity=parse_double(Conductivity))%>%
   mutate(Microcystis=round(Microcystis))%>% #EMP has some 2.5 and 3.5 values
   select(-Latitude, -Longitude)
 tz(emp_2000$Date)<-"America/Los_Angeles"
@@ -158,7 +157,8 @@ wq_emp<- bind_rows(emp_field, emp_lab)%>%
   left_join(emp_oldtimes, by=c("Date", "Station"))%>%
   bind_rows(emp_2000)%>%
   mutate(Source="EMP",
-         Tide = "High Slack")%>%
+         Tide = "High Slack",
+         Station=ifelse(Station%in%c("EZ2", "EZ6", "EZ2-SJR", "EZ6-SJR"), paste(Station, Date), Station))%>%
   select(Source, Station, Date, Datetime, Tide, Microcystis, Chlorophyll, Secchi, Temperature, Temperature_bottom, Conductivity)
 
 wq_skt <- read_csv(file.path("data-raw", "data", "SKT", "SKT_tblSample.csv"),
