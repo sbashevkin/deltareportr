@@ -42,7 +42,7 @@ wq_fmwt <- read_csv(file.path("data-raw", "data", "FMWT", "Sample.csv"),
          Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Time=if_else(hour(Time)==0, parse_date_time(NA_character_, tz="America/Los_Angeles"), Time),
          Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"),
-         Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+         Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   mutate(Microcystis=if_else(Microcystis==6, 2, Microcystis),
          Source="FMWT",
          Secchi=Secchi*100, #convert to cm
@@ -65,7 +65,7 @@ wq_stn<-read_excel(file.path("data-raw", "data", "STN", "STN Sample.xlsx"), gues
               summarise(Time=min(Time))%>%
               ungroup(),
             by="SampleRowID")%>%
-  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   mutate(Tide=recode(as.character(Tide), `4`="Flood", `3`="Low Slack", `2`="Ebb", `1`="High Slack"),
          Depth = Depth*0.3048)%>% #Convert feet to meters
   select(Source, Station, Date, Datetime, Depth, Tide, Microcystis, Secchi, Temperature, Temperature_bottom, Conductivity, Notes)
@@ -89,7 +89,7 @@ wq_edsm <- read_csv(file.path("data-raw", "data", "EDSM", "EDSM_20mm.csv"),
          Source="EDSM",
          Date=parse_date_time(Date, "%m/%d/%Y", tz="America/Los_Angeles"),
          Time=parse_date_time(Time, c("%I:%M:%S %Op", "%H:%M:%S"), tz="America/Los_Angeles"))%>%
-  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   select(-Time)%>%
   distinct()%>%
   mutate(Depth = Depth*0.3048)%>% # Convert feet to meters
@@ -184,7 +184,7 @@ wq_skt <- read_csv(file.path("data-raw", "data", "SKT", "SKT_tblSample.csv"),
   separate(Longitude, into=c("LonD", "LonM", "LonS"), sep="-", remove=TRUE, convert=TRUE)%>%
   mutate(Latitude=LatD+LatM/60+LatS/3600,
          Longitude=(LonD+LonM/60+LonS/3600)*-1)%>%
-  mutate(Datetime = parse_date_time(paste0(Date, " ", hour(Time), ":", minute(Time)), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  mutate(Datetime = parse_date_time(paste0(Date, " ", hour(Time), ":", minute(Time)), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   select(-Time, -LatD, -LatM, -LatS, -LonD, -LonM, -LonS)%>%
   mutate(Tide=recode(as.character(Tide), `4`="Flood", `3`="Low Slack", `2`="Ebb", `1`="High Slack"),
          Depth = Depth*0.3048)%>% # Convert feet to meters
@@ -222,7 +222,7 @@ wq_20mm <- read_csv(file.path("data-raw", "data", "20mm", "20mm_Station.csv"),
   select(Station, Temperature=Temp, Conductivity=TopEC, Secchi,
          Notes=Comments, Latitude, Longitude, Date,
          Time, Depth=BottomDepth, Tide)%>%
-  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   mutate(Tide=recode(as.character(Tide), `4`="Flood", `3`="Low Slack", `2`="Ebb", `1`="High Slack"),
          Source = "20mm",
          Depth = Depth*0.3048)%>% # Convert feet to meters
@@ -237,7 +237,7 @@ wq_suisun<-read_csv(file.path("data-raw", "data", "Suisun", "Suisun_Sample.csv")
          Temperature=WaterTemperature, Conductivity=SpecificConductance, Tide=TideCode)%>%
   mutate(Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
-  mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   select(-Time)%>%
   mutate(Tide=recode(Tide, flood="Flood", ebb="Ebb", low="Low Slack", high="High Slack", outgoing="Ebb", incoming="Flood"),
          Source="Suisun")%>%
@@ -261,7 +261,7 @@ wq_djfmp <- read_csv(file.path(tempdir(), "DJFMP_1976-2001.csv"),
   mutate(Source="DJFMP",
          Date=parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
          Time=parse_date_time(Time, "%H:%M:%S", tz="America/Los_Angeles"))%>%
-  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"))%>%
+  mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   select(-Time)%>%
   distinct()%>%
   group_by(Date, Station, Source)%>%
@@ -299,7 +299,7 @@ boattow_baystudy<-read_csv(file.path("data-raw", "data", "Baystudy", "BoatTow.cs
 
 wq_baystudy <- left_join(boattow_baystudy, boatstation_baystudy, by=c("Year", "Survey", "Station"))%>%
   mutate(Tide=if_else(is.na(Tidetow), Tidestation, Tidetow),
-         Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
+         Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          Source="Baystudy")%>%
   select(Source, Station, Date, Datetime, Depth, Tide, Secchi, Temperature=TempSurf, Temperature_bottom=TempBott, Conductivity=ECSurf)
 
@@ -346,7 +346,7 @@ wq_usgs <- map_dfr(USGSfiles, ~read_csv(., col_types = cols_only(Date="c", Time=
   mutate(Date=parse_date_time(Date, orders=c("%m/%d/%Y", "%m/%d/%y"), tz="America/Los_Angeles"),
          Time=hm(Time),
          Station=as.character(Station))%>%
-  mutate(Datetime=parse_date_time(paste0(Date, " ", hour(Time), ":", minute(Time)), "%Y-%m-%d %%H:%M", tz="America/Los_Angeles"),
+  mutate(Datetime=parse_date_time(paste0(Date, " ", hour(Time), ":", minute(Time)), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
          Source="USGS")%>%
   select(-Time)%>%
   rename(Sample_depth=Depth)%>%
