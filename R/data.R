@@ -94,7 +94,7 @@
 #'
 #' Locations of all sampling stations.
 #'
-#' @format a tibble with 1,360 rows and 5 variables
+#' @format a tibble with 1,361 rows and 5 variables
 #' \describe{
 #'   \item{Source}{Name of the source dataset..}
 #'   \item{Station}{Station where sample was collected.}

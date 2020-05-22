@@ -13,9 +13,9 @@ if(Download){
   download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.3&entityid=99a038d691f27cd306ff93fdcbc03b77", file.path("data-raw", "data", "DJFMP", "DJFMP_stations.csv"), mode="wb")
 }
 
-FMWT<-read_csv(file.path("data-raw", "data", "FMWT", "FMWT_Station_Locations_corrected.csv"),
-               col_types=cols_only(Station="c", DD_Longitude="d", DD_Latitude="d"))%>%
-  rename(Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
+FMWT<-read_csv(file.path("data-raw", "data", "FMWT", "StationsLookUp.csv"),
+               col_types = cols_only(StationCode="c", DD_Latitude="d", DD_Longitude="d"))%>%
+  rename(Station=StationCode, Latitude=DD_Latitude, Longitude=DD_Longitude)%>%
   mutate(Source="FMWT",
          StationID=paste(Source, Station))%>%
   select(Station, Latitude, Longitude, Source, StationID)%>%

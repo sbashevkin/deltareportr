@@ -29,7 +29,7 @@ if(Download){
 }
 
 wq_fmwt <- read_csv(file.path("data-raw", "data", "FMWT", "Sample.csv"),
-                    col_types = cols_only(StationCode="i", SampleTimeStart="c", WaterTemperature="d", Secchi="d",
+                    col_types = cols_only(StationCode="c", SampleTimeStart="c", WaterTemperature="d", Secchi="d",
                                           ConductivityTop="d", TideCode="i", DepthBottom="d",
                                           Microcystis="d", BottomTemperature="d", DateID="i"))%>%
   left_join(read_csv(file.path("data-raw", "data", "FMWT", "Date.csv"), col_types=cols_only(DateID="i", SampleDate="c"))%>%
@@ -38,8 +38,7 @@ wq_fmwt <- read_csv(file.path("data-raw", "data", "FMWT", "Sample.csv"),
             by="DateID")%>% # Add dates
   rename(Station=StationCode, Tide=TideCode, Time=SampleTimeStart, Depth=DepthBottom, Conductivity=ConductivityTop, Temperature=WaterTemperature,
          Temperature_bottom=BottomTemperature)%>%
-  mutate(Station=as.character(Station),
-         Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
+  mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Time=if_else(hour(Time)==0, parse_date_time(NA_character_, tz="America/Los_Angeles"), Time),
          Tide=recode(Tide, `1` = "High Slack", `2` = "Ebb", `3` = "Low Slack", `4` = "Flood"),
          Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
