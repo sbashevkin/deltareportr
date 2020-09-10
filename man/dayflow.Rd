@@ -5,7 +5,7 @@
 \alias{dayflow}
 \title{Dayflow dataset}
 \format{
-a tibble with 8,652 rows and 7 variables
+a tibble with 13,149 rows and 7 variables
 \describe{
   \item{Date}{Date.}
   \item{Out}{Delta outflow (\ifelse{html}{\out{ft<sup>3</sup>s<sup>-1</sup>}}{\eqn{ft^{3}} \eqn{s^{-1}}}).}
