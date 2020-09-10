@@ -6,7 +6,7 @@
 \alias{wq_edsm}
 \title{EDSM water quality data}
 \format{
-a tibble with 14,851 rows and 12 variables
+a tibble with 21,565 rows and 12 variables
 \describe{
   \item{Source}{Name of the source dataset.}
   \item{Station}{Station where sample was collected.}

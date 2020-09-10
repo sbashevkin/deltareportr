@@ -46,6 +46,6 @@ URL: https://github.com/sbashevkin/deltareportr
 BugReports: https://github.com/sbashevkin/deltareportr/issues
 Remotes: 
     InteragencyEcologicalProgram/zooper
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Language: en-US
 VignetteBuilder: knitr

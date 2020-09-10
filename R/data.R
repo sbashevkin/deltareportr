@@ -110,7 +110,7 @@
 #' Water quality data from the California Department of Fish and Wildlife 20mm survey.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 9,458 rows and 12 variables
+#' @format a tibble with 9,712 rows and 12 variables
 #' \describe{
 #'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -156,7 +156,7 @@
 #' Water quality data from the United States Fish and Wildlife Service Enhanced Delta Smelt Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 14,851 rows and 12 variables
+#' @format a tibble with 21,565 rows and 12 variables
 #' \describe{
 #'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -180,12 +180,13 @@
 #' Water quality data from the California Department of Water Resources Environmental Monitoring Program.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 16,293 rows and 11 variables
+#' @format a tibble with 16,293 rows and 12 variables
 #' \describe{
 #'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Datetime}{Date and time sample was collected.}
+#'   \item{Depth}{Bottom depth (m).}
 #'   \item{Tide}{Tidal stage (always High Slack).}
 #'   \item{Microcystis}{Microcystis bloom intensity on a qualitative scale from 1 to 5 where 1 = absent, 2 = low, 3 = medium, 4 = high, and 5 = very high.}
 #'   \item{Chlorophyll}{Chlorophyll concentration (\eqn{\mu}g \ifelse{html}{\out{L<sup>-1</sup>}}{\eqn{L^{-1}}}).}
@@ -246,7 +247,7 @@
 #' Water quality data from the California Department of Fish and Wildlife Spring Kodiak Trawl.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 3,965 rows and 12 variables
+#' @format a tibble with 4,114 rows and 12 variables
 #' \describe{
 #'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}
@@ -270,7 +271,7 @@
 #' Water quality data from the California Department of Fish and Wildlife Summer Townet Survey.
 #'
 #' @encoding UTF-8
-#' @format a tibble with 8,266 rows and 12 variables
+#' @format a tibble with 8,506 rows and 12 variables
 #' \describe{
 #'   \item{Source}{Name of the source dataset.}
 #'   \item{Station}{Station where sample was collected.}

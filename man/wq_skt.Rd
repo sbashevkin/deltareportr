@@ -6,7 +6,7 @@
 \alias{wq_skt}
 \title{SKT water quality data}
 \format{
-a tibble with 3,965 rows and 12 variables
+a tibble with 4,114 rows and 12 variables
 \describe{
   \item{Source}{Name of the source dataset.}
   \item{Station}{Station where sample was collected.}

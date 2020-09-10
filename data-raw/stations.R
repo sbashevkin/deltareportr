@@ -5,12 +5,13 @@ library(tibble)
 library(readr)
 library(readxl)
 require(stringr)
+require(lubridate)
 
 Download <- FALSE
 
 if(Download){
   #DJFMP
-  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.3&entityid=99a038d691f27cd306ff93fdcbc03b77", file.path("data-raw", "data", "DJFMP", "DJFMP_stations.csv"), mode="wb")
+  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.4&entityid=99a038d691f27cd306ff93fdcbc03b77", file.path("data-raw", "data", "DJFMP", "DJFMP_stations.csv"), mode="wb")
 }
 
 FMWT<-read_csv(file.path("data-raw", "data", "FMWT", "StationsLookUp.csv"),
@@ -21,8 +22,10 @@ FMWT<-read_csv(file.path("data-raw", "data", "FMWT", "StationsLookUp.csv"),
   select(Station, Latitude, Longitude, Source, StationID)%>%
   drop_na()
 
-STN<-read_excel(file.path("data-raw", "data", "STN", "STN Station.xlsx"))%>%
-  select(Station=StationCodeSTN, LatD, LatM, LatS, LonD, LonM, LonS)%>%
+STN<-read_csv(file.path("data-raw", "data", "STN", "luStation.csv"),
+              col_types = cols_only(StationCodeSTN="c", LatD='d', LatM="d", LatS="d",
+                                    LonD='d', LonM='d', LonS='d'))%>%
+  rename(Station=StationCodeSTN)%>%
   mutate(Latitude=LatD+LatM/60+LatS/3600,
          Longitude=(LonD+LonM/60+LonS/3600)*-1,
          Source="STN",
@@ -30,8 +33,9 @@ STN<-read_excel(file.path("data-raw", "data", "STN", "STN Station.xlsx"))%>%
   select(Station, Latitude, Longitude, Source, StationID)%>%
   drop_na()
 
-SKT<-read_csv(file.path("data-raw", "data", "SKT", "lktblStationsSKT.csv"))%>%
-  select(Station, LatDeg, LatMin, LatSec, LongDec, LongMin, LongSec)%>%
+SKT<-read_csv(file.path("data-raw", "data", "SKT", "lktblStationsSKT.csv"),
+              col_types=cols_only(Station="c", LatDeg="d", LatMin="d", LatSec="d",
+                                  LongDec="d", LongMin="d", LongSec="d"))%>%
   mutate(Latitude=LatDeg+LatMin/60+LatSec/3600,
          Longitude=(LongDec+LongMin/60+LongSec/3600)*-1,
          Source="SKT",
@@ -40,8 +44,9 @@ SKT<-read_csv(file.path("data-raw", "data", "SKT", "lktblStationsSKT.csv"))%>%
   select(Station, Latitude, Longitude, Source, StationID)%>%
   drop_na()
 
-twentymm<-read_csv(file.path("data-raw", "data", "20mm", "tbl20mmStations.csv"))%>%
-  select(Station, LatD, LatM, LatS, LonD, LonM, LonS)%>%
+twentymm<-read_csv(file.path("data-raw", "data", "20mm", "20mmStations.csv"),
+                   col_types=cols_only(Station="c", LatD="d", LatM="d", LatS="d",
+                                       LonD="d", LonM="d", LonS="d"))%>%
   mutate(Latitude=LatD+LatM/60+LatS/3600,
          Longitude=(LonD+LonM/60+LonS/3600)*-1,
          Source="20mm",
@@ -54,10 +59,11 @@ Zoopxl<-read_excel(file.path("data-raw", "data", "zoop_stations.xlsx"))%>%
   rename(Source=Project)%>%
   filter(Source!="FMWT")%>% # Remove FMWT stations since we have good ones now
   mutate(Source=recode(Source, TNS="STN"),
-    StationID=paste(Source, Station))%>%
+         StationID=paste(Source, Station))%>%
   drop_na()
 
-WQ<-read_csv(file.path("data-raw", "data", "EMP", "wq_stations.csv"))%>%
+WQ<-read_csv(file.path("data-raw", "data", "EMP", "wq_stations.csv"),
+             col_types=cols_only(site="c", lat="d", long="d"))%>%
   select(Station=site, Latitude=lat, Longitude=long)%>%
   mutate(Source="EMP",
          StationID=paste(Source, Station))%>%
@@ -65,11 +71,11 @@ WQ<-read_csv(file.path("data-raw", "data", "EMP", "wq_stations.csv"))%>%
 
 #EZ stations
 
-EZ<-read_excel(file.path("data-raw", "data", "EMP", "Water quality", "EMP WQ Combined_2000-2018.xlsx"), na=c("N/A", "<R.L.", "Too dark"), col_types = c(rep("text", 3), "date", rep("text", 37)))%>%
-  select(Station=`Station Name`, Date, Latitude=`North Latitude Degrees (d.dd)`, Longitude=`West Longitude Degrees (d.dd)`)%>%
-  mutate(Latitude=parse_double(Latitude),
-         Longitude=parse_double(Longitude))%>%
-  mutate(Station=paste(Station, Date),
+EZ<-read_csv(file.path("data-raw", "data", "EMP", "Water quality", "SACSJ_delta_water_quality_2000_2018.csv"), na=c("N/A", "ND"),
+             col_types = cols_only(Station="c", Date="c", NorthLat="d", WestLong="d"))%>%
+  rename(Latitude=NorthLat, Longitude=WestLong)%>%
+  mutate(Date=parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
+         Station=paste(Station, Date),
          Source="EMP")%>%
   select(Station, Latitude, Longitude, Source)%>%
   mutate(StationID=paste(Source, Station))%>%
@@ -87,7 +93,7 @@ EMPBIV <-read_excel(file.path("data-raw", "data", "EMP", "1975-18 CPUE bivalves 
 #Suisun Study
 
 Suisun<-read_csv(file.path("data-raw", "data", "Suisun", "Suisun_StationsLookUp.csv"),
-         col_types=cols_only(StationCode="c", x_WGS84="d", y_WGS84="d"))%>%
+                 col_types=cols_only(StationCode="c", x_WGS84="d", y_WGS84="d"))%>%
   rename(Longitude=x_WGS84, Latitude=y_WGS84, Station=StationCode)%>%
   mutate(Source="Suisun",
          StationID=paste(Source, Station))
@@ -95,8 +101,8 @@ Suisun<-read_csv(file.path("data-raw", "data", "Suisun", "Suisun_StationsLookUp.
 #DJFMP
 
 DJFMP <- read_csv(file.path("data-raw", "data", "DJFMP", "DJFMP_stations.csv"),
-                  col_types=cols_only(StationCode="c", latitude_location="d", longitude_location="d"))%>%
-  rename(Station=StationCode, Latitude=latitude_location, Longitude=longitude_location)%>%
+                  col_types=cols_only(StationCode="c", Latitude_location="d", Longitude_location="d"))%>%
+  rename(Station=StationCode, Latitude=Latitude_location, Longitude=Longitude_location)%>%
   mutate(Source="DJFMP",
          StationID=paste(Source, Station))
 

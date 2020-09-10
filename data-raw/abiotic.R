@@ -13,18 +13,14 @@ Download <- FALSE
 
 #FMWT
 if(Download){
-  #FMWT
-  temp <- tempfile()
-  download.file("ftp://ftp.dfg.ca.gov/TownetFallMidwaterTrawl/FMWT%20Data/FMWT%201967-2019%20Catch%20Matrix_updated.zip", temp)
-  unzip (temp, exdir=file.path("data-raw", "data", "FMWT"))
-  unlink(temp)
-  #TNS
-  download.file("ftp://ftp.dfg.ca.gov/TownetFallMidwaterTrawl/TNS%20MS%20Access%20Data/TNS%20data/Townet_Data_1959-2018.xlsx", file.path("data-raw", "data", "TNS", "Townet_Data_1959-2018.xlsx"), mode="wb")
   #EDSM 20mm
-  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.415.1&entityid=7c76313e27c4ef4685e7fe016c1e4608", file.path("data-raw", "data", "EDSM", "EDSM_20mm.csv"), mode="wb")
+  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.415.3&entityid=d468c513fa69c4fc6ddc02e443785f28", file.path("data-raw", "data", "EDSM", "EDSM_20mm.csv"), mode="wb")
   #EDSM KDTR
-  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.415.1&entityid=93c01636cfc51919b8f363c7bfa829ca", file.path("data-raw", "data", "EDSM", "EDSM_KDTR.csv"), mode="wb")
+  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.415.3&entityid=4d7de6f0a38eff744a009a92083d37ae", file.path("data-raw", "data", "EDSM", "EDSM_KDTR.csv"), mode="wb")
   #DJFMP downloaded when file is loaded since file sizes are so large
+
+  #EMP
+  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.458.2&entityid=41970f4dfdf288570bcda6e3214029a7", file.path("data-raw", "data", "EMP", "Water quality", "SACSJ_delta_water_quality_2000_2018.csv"), mode="wb")
 
 }
 
@@ -49,16 +45,22 @@ wq_fmwt <- read_csv(file.path("data-raw", "data", "FMWT", "Sample.csv"),
   select(Source, Station, Date, Datetime, Depth, Tide, Microcystis, Secchi, Temperature, Temperature_bottom, Conductivity)
 
 
-wq_stn<-read_excel(file.path("data-raw", "data", "STN", "STN Sample.xlsx"), guess_max=10000)%>%
-  select(Date=SampleDate, Station=StationCode, Secchi,
-         Temperature=`TemperatureTop`, Conductivity=`ConductivityTop`,
-         Microcystis, Tide=TideCode, Depth=DepthBottom, Notes=SampleComments,
-         SampleRowID, Temperature_bottom=TemperatureBottom)%>%
-  mutate(Source="STN")%>%
-  left_join(read_excel(file.path("data-raw", "data", "STN", "STN_TowEffort.xlsx"),
-                       col_types=c(rep("numeric", 3), "date", "date",
-                                   "text", rep("numeric", 3), "text", "text"))%>%
+wq_stn<-read_csv(file.path("data-raw", "data", "STN", "Sample.csv"),
+                 col_types=cols_only(SampleRowID="i", SampleDate="c", StationCode="c",
+                                TemperatureTop="d", TemperatureBottom="d",
+                                Secchi="d", ConductivityTop="d",
+                                TideCode="i", DepthBottom='d', SampleComments="c",
+                                Microcystis="d"))%>%
+  rename(Date=SampleDate, Station=StationCode,
+         Temperature=TemperatureTop, Conductivity=ConductivityTop,
+         Tide=TideCode, Depth=DepthBottom, Notes=SampleComments,
+         Temperature_bottom=TemperatureBottom)%>%
+  mutate(Source="STN",
+         Date=parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
+  left_join(read_csv(file.path("data-raw", "data", "STN", "TowEffort.csv"),
+                       col_types=cols_only(SampleRowID="i", TimeStart="c"))%>%
               select(SampleRowID, Time=TimeStart)%>%
+              mutate(Time=parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
               drop_na()%>%
               group_by(SampleRowID)%>%
               summarise(Time=min(Time))%>%
@@ -86,8 +88,8 @@ wq_edsm <- read_csv(file.path("data-raw", "data", "EDSM", "EDSM_20mm.csv"),
          Tide=na_if(Tide, "n/p"))%>% #Standardize tide codes
   mutate(Station=paste(Latitude, Longitude),
          Source="EDSM",
-         Date=parse_date_time(Date, "%m/%d/%Y", tz="America/Los_Angeles"),
-         Time=parse_date_time(Time, c("%I:%M:%S %Op", "%H:%M:%S"), tz="America/Los_Angeles"))%>%
+         Date=parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
+         Time=parse_date_time(Time, "%H:%M:%S", tz="America/Los_Angeles"))%>%
   mutate(Datetime = parse_date_time(if_else(is.na(Time), NA_character_, paste0(Date, " ", hour(Time), ":", minute(Time))), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"))%>%
   select(-Time)%>%
   distinct()%>%
@@ -99,7 +101,7 @@ Fieldfiles <- list.files(path = file.path("data-raw", "data", "EMP", "Water qual
 emp_field<-sapply(Fieldfiles, function(x) read_excel(x, guess_max = 5e4))%>%
   bind_rows()%>%
   select(Date=SampleDate, Station=StationCode, Parameter=AnalyteName, Value=Result, Matrix, Time=DateResult)%>%
-  filter(Parameter%in%c("Temperature", "Secchi Depth", "Conductance (EC)") & Matrix=="Water")%>%
+  filter(Parameter%in%c("Temperature", "Secchi Depth", "Conductance (EC)", "Depth") & Matrix=="Water")%>%
   group_by(Date, Station, Parameter)%>%
   summarise(Value=mean(Value, na.rm=T))%>%
   ungroup()
@@ -131,24 +133,16 @@ emp_oldtimes<-read_csv(file.path("data-raw", "data", "EMP", "Water quality", "19
   mutate(Datetime=if_else(hour(Datetime)==0, parse_date_time(NA_character_, tz="America/Los_Angeles"), Datetime))
 
 
-emp_2000<-read_excel(file.path("data-raw", "data", "EMP", "Water quality", "EMP WQ Combined_2000-2018.xlsx"), na=c("N/A", "<R.L.", "Too dark"), col_types = c(rep("text", 2), rep("date", 2), rep("text", 37)))%>%
-  select(Station=`Station Name`, Datetime = `Sample Date`, Date, Chlorophyll=starts_with("Chlorophyll"),
-         Latitude=`North Latitude Degrees (d.dd)`, Longitude=`West Longitude Degrees (d.dd)`,
-         Microcystis=`Microcystis aeruginosa`, Secchi=`Secchi Depth Centimeters`,
-         Temperature=starts_with("Water Temperature"), Conductivity=starts_with("Specific Conductance"),
-         Temperature_bottom=starts_with("(Bottom) Water Temperature"))%>%
-  mutate(Chlorophyll=parse_double(ifelse(Chlorophyll%in%c("<0.05", "<0.5"), 0, Chlorophyll)),
-         Latitude=parse_double(Latitude),
-         Longitude=parse_double(Longitude),
-         Microcystis=parse_double(Microcystis),
-         Secchi=parse_double(Secchi),
-         Temperature=parse_double(Temperature),
-         Temperature_bottom=parse_double(Temperature_bottom),
-         Conductivity=parse_double(Conductivity))%>%
-  mutate(Microcystis=round(Microcystis))%>% #EMP has some 2.5 and 3.5 values
-  select(-Latitude, -Longitude)
-tz(emp_2000$Date)<-"America/Los_Angeles"
-tz(emp_2000$Datetime)<-"America/Los_Angeles"
+emp_2000<-read_csv(file.path("data-raw", "data", "EMP", "Water quality", "SACSJ_delta_water_quality_2000_2018.csv"), na=c("N/A", "ND"),
+                   col_types = cols_only(Station="c", Date="c", Time="c", Chla="d",
+                                         Depth="d", Secchi="d", Microcystis="d", SpCndSurface="d",
+                                         WTSurface="d", WTBottom='d'))%>%
+  rename(Chlorophyll=Chla, Conductivity=SpCndSurface, Temperature=WTSurface,
+         Temperature_bottom=WTBottom)%>%
+  mutate(Datetime=parse_date_time(paste(Date, Time), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
+         Date=parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
+         Microcystis=round(Microcystis))%>% #EMP has some 2.5 and 3.5 values
+  select(-Time)
 
 wq_emp<- bind_rows(emp_field, emp_lab)%>%
   pivot_wider(names_from = Parameter, values_from = Value)%>%
@@ -157,10 +151,11 @@ wq_emp<- bind_rows(emp_field, emp_lab)%>%
   bind_rows(emp_2000)%>%
   mutate(Source="EMP",
          Tide = "High Slack",
-         Station=ifelse(Station%in%c("EZ2", "EZ6", "EZ2-SJR", "EZ6-SJR"), paste(Station, Date), Station))%>%
-  select(Source, Station, Date, Datetime, Tide, Microcystis, Chlorophyll, Secchi, Temperature, Temperature_bottom, Conductivity)
+         Station=ifelse(Station%in%c("EZ2", "EZ6", "EZ2-SJR", "EZ6-SJR"), paste(Station, Date), Station),
+         Depth=Depth*0.3048)%>% # Convert feet to meters
+  select(Source, Station, Date, Datetime, Depth, Tide, Microcystis, Chlorophyll, Secchi, Temperature, Temperature_bottom, Conductivity)
 
-wq_skt <- read_csv(file.path("data-raw", "data", "SKT", "SKT_tblSample.csv"),
+wq_skt <- read_csv(file.path("data-raw", "data", "SKT", "tblSample.csv"),
                    col_types = cols_only(SampleDate="c", StationCode="c", SampleTimeStart="c", Secchi="d", ConductivityTop="d",
                                          WaterTemperature="d", DepthBottom="d", TideCode="i",
                                          SampleComments="c", Latitude="c", Longitude="c"))%>%
@@ -169,9 +164,9 @@ wq_skt <- read_csv(file.path("data-raw", "data", "SKT", "SKT_tblSample.csv"),
          Notes=SampleComments, Latitude, Longitude)%>%
   mutate(Latitude=na_if(Latitude, "0"),
          Longitude=na_if(Longitude, "0"),
-         Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
+         Date = parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"),
          Source="SKT",
-         Time = parse_date_time(Time, "%Y-%m-%d %H:%M:%S", tz="America/Los_Angeles"))%>%
+         Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
   mutate(Longitude=if_else(Longitude=="121-29.41.7", "121-29-41.7", Longitude))%>%
   mutate(Latitude = str_remove(Latitude, '".*'),
          Longitude = str_remove(Longitude, '".*'))%>%
@@ -191,22 +186,22 @@ wq_skt <- read_csv(file.path("data-raw", "data", "SKT", "SKT_tblSample.csv"),
 
 
 
-wq_20mm <- read_csv(file.path("data-raw", "data", "20mm", "20mm_Station.csv"),
+wq_20mm <- read_csv(file.path("data-raw", "data", "20mm", "Station.csv"),
                     col_types = cols_only(StationID="c", SurveyID="c", Station="c",
                                           LatDeg="d", LatMin="d", LatSec="d", LonDeg="d",
                                           LonMin="d", LonSec="d", Temp="d", TopEC="d",
                                           Secchi="d", Comments="c"))%>%
   mutate(Latitude=LatDeg+LatMin/60+LatSec/3600,
          Longitude=(LonDeg+LonMin/60+LonSec/3600)*-1)%>%
-  left_join(read_csv(file.path("data-raw", "data", "20mm", "20mm_Survey.csv"),
+  left_join(read_csv(file.path("data-raw", "data", "20mm", "Survey.csv"),
                      col_types = cols_only(SurveyID="c", SampleDate = "c"))%>%
               rename(Date=SampleDate)%>%
-              mutate(Date = parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles")),
+              mutate(Date = parse_date_time(Date, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles")),
             by="SurveyID")%>%
-  left_join(read_csv(file.path("data-raw", "data", "20mm", "20mm_Tow.csv"),
+  left_join(read_csv(file.path("data-raw", "data", "20mm", "Tow.csv"),
                      col_types = cols_only(StationID="c", TowTime="c", Tide="d", BottomDepth="d", TowNum="d"))%>%
               rename(Time=TowTime)%>%
-              mutate(Time = parse_date_time(Time, "%Y-%m-%d %H:%M:%S", tz="America/Los_Angeles"))%>%
+              mutate(Time = parse_date_time(Time, "%m/%d/%Y %H:%M:%S", tz="America/Los_Angeles"))%>%
               group_by(StationID)%>%
               mutate(Retain=if_else(Time==min(Time), TRUE, FALSE))%>%
               ungroup()%>%
@@ -252,9 +247,11 @@ download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244
 download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.4&entityid=c4726f68b76c93a7e8a1e13e343ebae2", file.path(tempdir(), "DJFMP_2002-2019.csv"), mode="wb",method="libcurl")
 
 wq_djfmp <- read_csv(file.path(tempdir(), "DJFMP_1976-2001.csv"),
-                     col_types = cols_only(StationCode = "c", SampleDate="c", SampleTime="c", WaterTemperature="d", Secchi="d"))%>%
+                     col_types = cols_only(StationCode = "c", SampleDate="c",
+                                           SampleTime="c", WaterTemperature="d", Secchi="d"))%>%
   bind_rows(read_csv(file.path(tempdir(), "DJFMP_2002-2019.csv"),
-                     col_types = cols_only(StationCode = "c", SampleDate="c", SampleTime="c", WaterTemperature="d", Secchi="d")))%>%
+                     col_types = cols_only(StationCode = "c", SampleDate="c",
+                                           SampleTime="c", WaterTemperature="d", Secchi="d")))%>%
   rename(Station=StationCode, Date=SampleDate, Time=SampleTime, Temperature=WaterTemperature)%>%
   mutate(Secchi=Secchi*100)%>% # convert Secchi to cm
   mutate(Source="DJFMP",
@@ -302,6 +299,8 @@ wq_baystudy <- left_join(boattow_baystudy, boatstation_baystudy, by=c("Year", "S
          Source="Baystudy")%>%
   select(Source, Station, Date, Datetime, Depth, Tide, Secchi, Temperature=TempSurf, Temperature_bottom=TempBott, Conductivity=ECSurf)
 
+#USBR
+
 wq_usbr <- read_csv(file.path("data-raw", "data", "USBR", "YSILongTermSites_AllDepths.csv"),
                     col_types=cols_only(Station="c", DateTime.PT="c", Depth.feet="d",
                                         Temp.C="d", SpCond.uS="d", Chl.ug.L="d", Date="c"))%>%
@@ -330,6 +329,8 @@ wq_usbr <- read_csv(file.path("data-raw", "data", "USBR", "YSILongTermSites_AllD
          Sample_depth_bottom = Sample_depth_bottom*0.3048)%>% # Convert to meters
   select(Source, Station, Date, Datetime, Depth, Sample_depth_surface, Sample_depth_bottom, Chlorophyll=Chlorophyll_surface,
          Temperature=Temperature_surface, Temperature_bottom, Conductivity=Conductivity_surface)
+
+#USGS
 
 USGSfiles <- list.files(path = file.path("data-raw", "data", "USGS"), full.names = T, pattern="SanFranciscoBayWaterQualityData.csv")
 
