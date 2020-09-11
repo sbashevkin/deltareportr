@@ -25,14 +25,14 @@ bivalves<-read_excel(file.path("data-raw", "data", "EMP", "1975-19 CPUE only, 20
          Source="EMP")
 tz(bivalves$Date)<-"America/Los_Angeles"
 
-zoop_mysid<-read_excel(file.path("data-raw", "data", "EMP", "EMPMysidBPUEMatrixAug2019.xlsx"),
-                       sheet="MysidBPUEMatrix1972-2018",
-                       col_types = c(rep("numeric", 4), "date", "text", "text", "numeric", "numeric", "text", "text", rep("numeric", 16)))%>%
-  select(Date, Station, `Acanthomysis aspera`:`Unidentified mysid`)%>%
+zoop_mysid<-read_excel(file.path("data-raw", "data", "EMP", "1972-2019MysidMatrixBPUE.xlsx"),
+                       sheet="Mysid BPUE Matrix 1972-2019", na = "NA",
+                       col_types = c(rep("numeric", 4), "date", "text", "text", rep("text", 7), rep("numeric", 8)))%>%
+  select(Date=SampleDate, Station=StationNZ, `Acanthomysis aspera`:Unidentified)%>%
   mutate(Mysida=rowSums(select(., -Date, -Station), na.rm=T))%>%
-  pivot_longer(c(-Date, -Station), names_to = "Taxa", values_to = "BPUE")%>%
-  mutate(BPUE=BPUE*1000,
-         Taxa="Mysida")%>% # Convert to ug
+  select(Date, Station, BPUE=Mysida)%>%
+  mutate(BPUE=BPUE*1000, # Convert to ug
+         Taxa="Mysida")%>%
   dplyr::mutate(Year=lubridate::year(.data$Date),
                 MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                 Source="EMP")
