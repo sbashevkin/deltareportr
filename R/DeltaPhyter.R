@@ -64,7 +64,10 @@ DeltaPhyter<-function(Data,
     ggplot2::scale_y_continuous(labels = function(x) format(x, scientific=F, big.mark=","))+
     ggplot2::facet_wrap(~.data$Region, scales="free_x")+
     ggplot2::theme_bw()+
-    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), plot.title = ggplot2::element_text(hjust = 0.5, size=20), legend.position = c(0.85,0.2), legend.background=ggplot2::element_rect(fill="white", color="black"), legend.text = ggplot2::element_text(size=8))
+    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(),
+                   plot.title = ggplot2::element_text(hjust = 0.5, size=20), legend.position = c(0.85,0.2),
+                   legend.background=ggplot2::element_rect(fill="white", color="black"),
+                   legend.text = ggplot2::element_text(size=8), plot.margin = ggplot2::margin(r=10))
 
   pcyano<-ggplot2::ggplot()+
     ggplot2::geom_bar(data=dplyr::filter(Phytosum, .data$Taxa=="Cyanobacteria"), ggplot2::aes(x=.data$Year, y=.data$CPUE), fill="chartreuse4", stat="identity")+
@@ -78,7 +81,8 @@ DeltaPhyter<-function(Data,
     ggplot2::scale_y_continuous(labels = function(x) format(x, scientific=F, big.mark=","), expand=ggplot2::expansion(0,0))+
     ggplot2::facet_wrap(~.data$Region, scales="free_x")+
     ggplot2::theme_bw()+
-    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), plot.title = ggplot2::element_text(hjust = 0.5, size=20))
+    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(),
+                   plot.title = ggplot2::element_text(hjust = 0.5, size=20), plot.margin = ggplot2::margin(r=10))
 
   Data_out <- Phytosum%>%
     dplyr::mutate(CPUE=round(.data$CPUE,2))%>%

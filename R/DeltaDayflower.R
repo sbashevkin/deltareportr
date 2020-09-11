@@ -38,23 +38,33 @@ DeltaDayFlower<-function(End_year,
     ggplot2::geom_line(data=dplyr::filter(DF, lubridate::year(.data$MonthYear)==End_year), ggplot2::aes(x=.data$MonthYear, y=.data$X2), color="firebrick3", size=2)+
     ggplot2::geom_rect(data=Fallshade, ggplot2::aes(xmin=.data$September, xmax=.data$November, ymin=.data$X2min, ymax=.data$X2max), alpha=0.4, fill="darkorange1")+
     ggplot2::coord_cartesian(expand=0)+
-    ggplot2::scale_x_datetime(labels=insert_minor(seq(2000, 2020, by=5), 4), breaks = seq(lubridate::floor_date(as.POSIXct(as.character(2000), format="%Y"), "year"), lubridate::floor_date(as.POSIXct(as.character(2020), format="%Y"), "year"), by="1 years"), limits=c(lubridate::floor_date(as.POSIXct(as.character(Start_year), format="%Y"), "year"), lubridate::floor_date(as.POSIXct(as.character(End_year), format="%Y"), "year")+lubridate::years(1)), expand=ggplot2::expansion(0,0))+
+    ggplot2::scale_x_datetime(labels=insert_minor(seq(2000, 2020, by=5), 4),
+                              breaks = seq(lubridate::floor_date(as.POSIXct(as.character(2000), format="%Y"), "year"),
+                                           lubridate::floor_date(as.POSIXct(as.character(2020), format="%Y"), "year"), by="1 years"),
+                              limits=c(lubridate::floor_date(as.POSIXct(as.character(Start_year), format="%Y"), "year"),
+                                       lubridate::floor_date(as.POSIXct(as.character(End_year), format="%Y"), "year")+lubridate::years(1)),
+                              expand=ggplot2::expansion(0,0))+
     ggplot2::ylab("X2 (km)")+
     ggplot2::xlab("Date")+
     ggplot2::theme_bw()+
-    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), plot.title = ggplot2::element_text(hjust = 0.5, size=20))
+    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), plot.title = ggplot2::element_text(hjust = 0.5, size=20), plot.margin = ggplot2::margin(r=10))
 
   p$Out<-ggplot2::ggplot()+
     ggplot2::geom_line(data=DF, ggplot2::aes(x=.data$MonthYear, y=.data$OUT), color="dodgerblue4")+
     ggplot2::geom_line(data=dplyr::filter(DF, lubridate::year(.data$MonthYear)==End_year), ggplot2::aes(x=.data$MonthYear, y=.data$OUT), color="firebrick3", size=2)+
     ggplot2::geom_rect(data=Fallshade, ggplot2::aes(xmin=.data$September, xmax=.data$November, ymin=.data$OUTmin, ymax=.data$OUTmax), alpha=0.4, fill="darkorange1")+
     ggplot2::coord_cartesian(expand=0)+
-    ggplot2::scale_x_datetime(labels=insert_minor(seq(2000, 2020, by=5), 4), breaks = seq(lubridate::floor_date(as.POSIXct(as.character(2000), format="%Y"), "year"), lubridate::floor_date(as.POSIXct(as.character(2020), format="%Y"), "year"), by="1 years"), limits=c(lubridate::floor_date(as.POSIXct(as.character(Start_year), format="%Y"), "year"), lubridate::floor_date(as.POSIXct(as.character(End_year), format="%Y"), "year")+lubridate::years(1)), expand=ggplot2::expansion(0,0))+
+    ggplot2::scale_x_datetime(labels=insert_minor(seq(2000, 2020, by=5), 4),
+                              breaks = seq(lubridate::floor_date(as.POSIXct(as.character(2000), format="%Y"), "year"),
+                                           lubridate::floor_date(as.POSIXct(as.character(2020), format="%Y"), "year"), by="1 years"),
+                              limits=c(lubridate::floor_date(as.POSIXct(as.character(Start_year), format="%Y"), "year"),
+                                       lubridate::floor_date(as.POSIXct(as.character(End_year), format="%Y"), "year")+lubridate::years(1)),
+                              expand=ggplot2::expansion(0,0))+
     ggplot2::scale_y_continuous(labels = function(x) format(x, scientific=F, big.mark=","))+
     ggplot2::ylab(bquote("Delta"~outflow~"("*ft^3*"/s)"))+
     ggplot2::xlab("Date")+
     ggplot2::theme_bw()+
-    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), plot.title = ggplot2::element_text(hjust = 0.5, size=20))
+    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), plot.title = ggplot2::element_text(hjust = 0.5, size=20), plot.margin = ggplot2::margin(r=10))
 
   Data_out <- DF%>%
     dplyr::mutate(Month = lubridate::month(.data$MonthYear),

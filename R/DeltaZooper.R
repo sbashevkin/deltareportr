@@ -78,7 +78,10 @@ DeltaZooper<-function(Data,
     ggplot2::ylab(bquote(Biomass~"("*mu*g*") /"~m^3))+
     ggplot2::facet_wrap(~.data$Region, scales="free_x")+
     ggplot2::theme_bw()+
-    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), plot.title = ggplot2::element_text(hjust = 0.5, size=20), legend.position = c(0.85,0.2), legend.text=ggplot2::element_text(size=8), legend.background=ggplot2::element_rect(fill="white", color="black"))
+    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(),
+                   plot.title = ggplot2::element_text(hjust = 0.5, size=20),
+                   legend.position = c(0.85,0.2), legend.text=ggplot2::element_text(size=8),
+                   legend.background=ggplot2::element_rect(fill="white", color="black"), plot.margin = ggplot2::margin(r=10))
 
   Data_out <- Zoopsum%>%
     dplyr::mutate(BPUE=round(.data$BPUE,3))%>%

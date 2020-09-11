@@ -67,7 +67,8 @@ DeltaBivalver<-function(Data,
     ggplot2::scale_fill_manual(values=c("#d8b365", "#5ab4ac"), guide=ggplot2::guide_legend(title=NULL))+
     ggplot2::facet_wrap(~.data$Region, scales="free_x")+
     ggplot2::theme_bw()+
-    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), legend.position = c(0.85, 0.2), legend.background=ggplot2::element_rect(fill="white", color="black"))
+    ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), legend.position = c(0.85, 0.2),
+                   legend.background=ggplot2::element_rect(fill="white", color="black"), plot.margin = ggplot2::margin(r=10))
 
   Data_out <- Bivsum%>%
     dplyr::mutate(CPUE=round(.data$CPUE,2))%>%
