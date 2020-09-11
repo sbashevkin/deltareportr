@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/sbashevkin/deltareportr.svg?branch=master)](https://travis-ci.org/sbashevkin/deltareportr)
 [![R build
 status](https://github.com/sbashevkin/deltareportr/workflows/R-CMD-check/badge.svg)](https://github.com/sbashevkin/deltareportr/actions)
 <!-- badges: end -->
