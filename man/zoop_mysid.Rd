@@ -5,7 +5,7 @@
 \alias{zoop_mysid}
 \title{Mysid data}
 \format{
-a tibble with 40 rows and 2 variables
+a tibble with 22,558 rows and 2 variables
 \describe{
   \item{Date}{Date sample was collected.}
   \item{Station}{Station where sample was collected.}

@@ -80,7 +80,7 @@
 #'
 #' Delta Smelt abundance indices from the California Department of Fish and Wildlife surveys.
 #'
-#' @format a tibble with 152 rows and 3 variables
+#' @format a tibble with 157 rows and 3 variables
 #' \describe{
 #'   \item{Year}{Index year.}
 #'   \item{Index}{Delta Smelt index number.}
@@ -371,7 +371,7 @@
 #'
 #' Mysid biomass per unit effort from the California Department of Fish and Wildlife Environmental Monitoring Program
 #'
-#' @format a tibble with 40 rows and 2 variables
+#' @format a tibble with 22,558 rows and 2 variables
 #' \describe{
 #'   \item{Date}{Date sample was collected.}
 #'   \item{Station}{Station where sample was collected.}

@@ -5,7 +5,7 @@
 \alias{smelt_iep}
 \title{Delta Smelt IEP indices}
 \format{
-a tibble with 152 rows and 3 variables
+a tibble with 157 rows and 3 variables
 \describe{
   \item{Year}{Index year.}
   \item{Index}{Delta Smelt index number.}
