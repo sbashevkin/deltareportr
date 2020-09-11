@@ -1,6 +1,6 @@
-#' Plot Delta Smelt data
+#' Plot Delta Regions Map
 #'
-#' Function to process and plot Delta Smelt data
+#' Function to map delta regions
 #' @inherit DeltaBivalver
 #' @param Save Logical. Should plot be saved?
 #' @param Save_location If \code{Save=TRUE}, where should plot be saved? Must end with a filename with a ".png" extension.

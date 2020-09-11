@@ -14,10 +14,10 @@
 
 
 DeltaBivalver<-function(Data,
-                      Start_year=2002,
-                      End_year=2018,
-                      Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
-                      Seasons="Fall"){
+                        End_year,
+                        Start_year=2002,
+                        Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
+                        Seasons="Fall"){
 
   # Load and combine data ---------------------------------------------------
 
@@ -39,7 +39,7 @@ DeltaBivalver<-function(Data,
     dplyr::summarise(CPUE=mean(.data$CPUE, na.rm=T))%>%
     dplyr::ungroup()%>%
     dplyr::mutate(missing="na",
-           Region=as.character(.data$Region))%>%
+                  Region=as.character(.data$Region))%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"))%>%
     dplyr::mutate(Region=factor(.data$Region, levels=Regions))

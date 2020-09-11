@@ -11,7 +11,7 @@ StationBrowser(
 )
 }
 \arguments{
-\item{Data}{Station location data. Defaults to \code{\link{stations}}, which only incldues fixed station locations + EMP EZ locations post 2004. Does not incldue EDSM.
+\item{Data}{Station location data. Defaults to \code{\link{stations}}, which only includes fixed station locations + EMP EZ locations post 2004. Does not include EDSM.
 Data must include columns named Latitude, Longitude, Source, and StationID.}
 
 \item{Sources}{Which data sources would you like to include? Set \code{Sources=NULL} (the default) to include all.}

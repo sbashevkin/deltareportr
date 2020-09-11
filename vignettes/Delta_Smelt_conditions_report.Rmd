@@ -41,15 +41,17 @@ create_dt <- function(x, caption=NULL){
                                columnDefs = list(list(className = 'dt-right', targets="_all"))))
 }
 
+End_year=2019
+
 Data <- DeltaDater()
 
-WQ <- DeltaWQer(Data$Water_quality)
-DF <- DeltaDayFlower()
-PH <- DeltaPhyter(Data$Phytoplankton)
-FISH <- DeltaSmelter()
+WQ <- DeltaWQer(Data$Water_quality, End_year=End_year)
+DF <- DeltaDayFlower(End_year=End_year)
+PH <- DeltaPhyter(Data$Phytoplankton, End_year=End_year)
+FISH <- DeltaSmelter(End_year=End_year)
 META <- DeltaMetadater(Data)
-ZOOP <- DeltaZooper(Data$Zooplankton)
-BIV <- DeltaBivalver(Data$Bivalves)
+ZOOP <- DeltaZooper(Data$Zooplankton, End_year=End_year)
+BIV <- DeltaBivalver(Data$Bivalves, End_year=End_year)
 
 if(params$Map=="Yes"){
   DeltaMapper(Save=TRUE,

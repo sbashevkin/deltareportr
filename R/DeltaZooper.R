@@ -7,13 +7,18 @@
 #' @export
 
 DeltaZooper<-function(Data,
-                    Start_year=2002,
-                    End_year=2018,
-                    Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Lower Joaquin River", "Southern Delta"),
-                    Seasons="Fall"){
+                      End_year,
+                      Start_year=2002,
+                      Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Lower Joaquin River", "Southern Delta"),
+                      Seasons="Fall"){
 
 
-  # Load and combine data ---------------------------------------------------
+  # Filter to only months, years, and regions represented in mysid a --------
+
+
+
+
+  # Load and combine data --------------------------------------------------
 
 
   Zoopsum<-Data%>%
@@ -22,7 +27,24 @@ DeltaZooper<-function(Data,
       .
     } else{
       dplyr::filter(., .data$Region%in%Regions)
-    }}%>%
+    }}
+
+  # Filter to only months, years, and regions represented in mysid and other zoop data
+
+  Mysid<-Zoopsum%>%
+    dplyr::filter(.data$Taxa=="Mysida")%>%
+    dplyr::select(.data$Region, .data$MonthYear)%>%
+    dplyr::distinct()
+
+  Meso_Micro<-Zoopsum%>%
+    dplyr::filter(.data$Taxa!="Mysida")%>%
+    dplyr::select(.data$Region, .data$MonthYear)%>%
+    dplyr::distinct()
+
+  Keep<-dplyr::intersect(Mysid, Meso_Micro)
+
+  Zoopsum<-Zoopsum%>%
+    dplyr::inner_join(Keep, by=c("MonthYear", "Region"))%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Taxa)%>%
     dplyr::summarise(BPUE=mean(.data$BPUE, na.rm=T))%>%

@@ -6,8 +6,8 @@
 \usage{
 DeltaZooper(
   Data,
+  End_year,
   Start_year = 2002,
-  End_year = 2018,
   Regions = c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River",
     "Lower Joaquin River", "Southern Delta"),
   Seasons = "Fall"
@@ -16,9 +16,9 @@ DeltaZooper(
 \arguments{
 \item{Data}{Input dataset created by \code{\link{DeltaDater}}.}
 
-\item{Start_year}{First year (integer) that should be included in the plot}
-
 \item{End_year}{Last year (integer) that should be included in the plot. This year will also be highlighted.}
+
+\item{Start_year}{First year (integer) that should be included in the plot}
 
 \item{Regions}{Character vector of regions to include in the plot. The data will be filtered to only include these regions and ordered in the order provided here. To include data with NA regions, set \code{Regions=NULL}.}
 

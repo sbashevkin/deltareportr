@@ -23,6 +23,7 @@ bivalves<-read_excel(file.path("data-raw", "data", "EMP", "1975-19 CPUE only, 20
   mutate(Year=year(Date),
          MonthYear=floor_date(Date, unit = "month"),
          Source="EMP")
+tz(bivalves$Date)<-"America/Los_Angeles"
 
 zoop_mysid<-read_excel(file.path("data-raw", "data", "EMP", "EMPMysidBPUEMatrixAug2019.xlsx"),
                        sheet="MysidBPUEMatrix1972-2018",
@@ -35,6 +36,8 @@ zoop_mysid<-read_excel(file.path("data-raw", "data", "EMP", "EMPMysidBPUEMatrixA
   dplyr::mutate(Year=lubridate::year(.data$Date),
                 MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
                 Source="EMP")
+tz(zoop_mysid$Date)<-"America/Los_Angeles"
+tz(zoop_mysid$MonthYear)<-"America/Los_Angeles"
 
 zoop_mass_conversions<-read_csv(file.path("data-raw", "data", "EMP", "zoop_individual_mass.csv"), col_types = "cd")%>%
   left_join(zooper::crosswalk%>%
@@ -55,6 +58,7 @@ phyto<-read_csv(file.path("data-raw", "data", "EMP", "Phytoplankton_Algal_Type_D
   mutate(Year=year(Date),
          MonthYear=floor_date(Date, unit = "month"),
          Source="EMP")
+tz(phyto$Date)<-"America/Los_Angeles"
 
 
 usethis::use_data(bivalves, zoop_mysid, zoop_mass_conversions, phyto, overwrite = TRUE)

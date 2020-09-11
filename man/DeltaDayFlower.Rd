@@ -4,12 +4,12 @@
 \alias{DeltaDayFlower}
 \title{Plot dayflow data}
 \usage{
-DeltaDayFlower(Start_year = 2002, End_year = 2018)
+DeltaDayFlower(End_year, Start_year = 2002)
 }
 \arguments{
-\item{Start_year}{First year (integer) that should be included in the plot}
-
 \item{End_year}{Last year (integer) that should be included in the plot. This year will also be highlighted.}
+
+\item{Start_year}{First year (integer) that should be included in the plot}
 }
 \value{
 A list with the plot and processed data.

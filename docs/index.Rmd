@@ -7,8 +7,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-An R package to facilitate the creation of custom reports
+An R package to facilitate the creation of custom reports using monitoring data from the Sacramento San Joaquin Delta
 
 # Reports
 
-* [Delta Smelt conditions report](Delta_Smelt_conditions_report.html)
+## Delta Smelt Conditions Report
+
+* [V1, 2018 reporting year, finalized March 2020](Delta_Smelt_conditions_report_2018.html)
+
+* [V2, 2019 reporting year, in progress](Delta_Smelt_conditions_report_2019.html)

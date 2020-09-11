@@ -7,9 +7,9 @@
 #' @importFrom rlang .data
 #' @export
 
-DeltaSmelter<-function(Start_year=2002,
-                    End_year=2018,
-                    EDSM_regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River")){
+DeltaSmelter<-function(End_year,
+                       Start_year=2002,
+                       EDSM_regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River")){
 
   # Load and combine data ---------------------------------------------------
 
@@ -28,10 +28,10 @@ DeltaSmelter<-function(Start_year=2002,
     dplyr::summarise(Abundance=mean(.data$Abundance, na.rm=T), Abundance_CV=sqrt((1/dplyr::n()^2)*sum(.data$Variance))/.data$Abundance)%>%
     dplyr::ungroup()%>%
     dplyr::mutate(l95=stats::qlnorm(0.025, meanlog=log(.data$Abundance/sqrt(1+.data$Abundance_CV^2)), sdlog=log(1+.data$Abundance_CV^2)),
-           u95=stats::qlnorm(0.975, meanlog=log(.data$Abundance/sqrt(1+.data$Abundance_CV^2)), sdlog=log(1+.data$Abundance_CV^2)))%>%
+                  u95=stats::qlnorm(0.975, meanlog=log(.data$Abundance/sqrt(1+.data$Abundance_CV^2)), sdlog=log(1+.data$Abundance_CV^2)))%>%
     dplyr::mutate(Abundance_l=log10(.data$Abundance+1),
-           l95_l=log10(.data$l95),
-           u95_l=log10(.data$u95))%>%
+                  l95_l=log10(.data$l95),
+                  u95_l=log10(.data$u95))%>%
     {if (is.null(EDSM_regions)){
       .
     } else{
@@ -88,10 +88,10 @@ DeltaSmelter<-function(Start_year=2002,
 
   EDSM_out <- EDSM%>%
     dplyr::mutate(Month=lubridate::month(.data$MonthYear),
-           Year=lubridate::year(.data$MonthYear),
-           Abundance=round(.data$Abundance, 2),
-           l95 = round(.data$l95, 2),
-           u95 = round(.data$u95, 2))%>%
+                  Year=lubridate::year(.data$MonthYear),
+                  Abundance=round(.data$Abundance, 2),
+                  l95 = round(.data$l95, 2),
+                  u95 = round(.data$u95, 2))%>%
     dplyr::select(.data$Month, .data$Year, `Estimated abundance` = .data$Abundance, `Lower 95% CI` = .data$l95, `Upper 95% CI` = .data$u95)
 
   return(list(IEP = list(Plot = p$IEP, Data = IEP_Indices), EDSM= list(Plot = p$EDSM, Data = EDSM_out)))

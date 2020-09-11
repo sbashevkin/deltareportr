@@ -7,10 +7,10 @@
 #' @export
 
 DeltaPhyter<-function(Data,
-                    Start_year=2002,
-                    End_year=2018,
-                    Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
-                    Seasons="Summer"){
+                      End_year,
+                      Start_year=2002,
+                      Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
+                      Seasons="Summer"){
 
   # Load and combine data ---------------------------------------------------
 

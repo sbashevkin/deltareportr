@@ -2,7 +2,7 @@
 #'
 #' Launches a leaflet map to browse station locations.
 #'
-#' @param Data Station location data. Defaults to \code{\link{stations}}, which only incldues fixed station locations + EMP EZ locations post 2004. Does not incldue EDSM.
+#' @param Data Station location data. Defaults to \code{\link{stations}}, which only includes fixed station locations + EMP EZ locations post 2004. Does not include EDSM.
 #' Data must include columns named Latitude, Longitude, Source, and StationID.
 #' @param Sources Which data sources would you like to include? Set \code{Sources=NULL} (the default) to include all.
 #' @param StationIDs Which StationIDs to include. StationIDs take the form "Source, Station". Set \code{StationIDs=NULL} (the default) to include all.

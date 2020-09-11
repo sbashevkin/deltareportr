@@ -2,7 +2,7 @@
 % Please edit documentation in R/DeltaMapper.R
 \name{DeltaMapper}
 \alias{DeltaMapper}
-\title{Plot Delta Smelt data}
+\title{Plot Delta Regions Map}
 \usage{
 DeltaMapper(
   Regions = c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River",
@@ -23,7 +23,7 @@ DeltaMapper(
 A list with the plot and processed data.
 }
 \description{
-Function to process and plot Delta Smelt data
+Function to map delta regions
 }
 \seealso{
 \code{\link{DeltaDater}}

@@ -13,14 +13,14 @@
 #' @export
 
 DeltaWQer<-function(Data,
-                  Start_year=2002,
-                  End_year=2018,
-                  Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
-                  Temp_season="Summer",
-                  Secchi_season="Fall",
-                  Salinity_season="Fall",
-                  Chl_season="Summer",
-                  Micro_season="Summer"){
+                    End_year,
+                    Start_year=2002,
+                    Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
+                    Temp_season="Summer",
+                    Secchi_season="Fall",
+                    Salinity_season="Fall",
+                    Chl_season="Summer",
+                    Micro_season="Summer"){
 
   Secchisum<-Data%>%
     {if (is.null(Regions)){
@@ -124,7 +124,7 @@ DeltaWQer<-function(Data,
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"),
-           Region=factor(.data$Region, levels=Regions))
+                  Region=factor(.data$Region, levels=Regions))
 
   Micromissing<-Microsum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
@@ -153,7 +153,7 @@ DeltaWQer<-function(Data,
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"),
-           Region=factor(.data$Region, levels=Regions))
+                  Region=factor(.data$Region, levels=Regions))
 
   Tempmissing<-Tempsum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
@@ -172,9 +172,9 @@ DeltaWQer<-function(Data,
   Chlrange<-Chlrange%>%
     dplyr::mutate(ymin=0, ymax=10, Quality="Bad")%>%
     dplyr::bind_rows(Chlrange%>%
-                dplyr::mutate(ymin=10,
-                              ymax=max(Chlsum$Chlorophyll, na.rm=T),
-                              Quality="Good"))%>%
+                       dplyr::mutate(ymin=10,
+                                     ymax=max(Chlsum$Chlorophyll, na.rm=T),
+                                     Quality="Good"))%>%
     dplyr::mutate(Region=factor(.data$Region, levels=Regions))
 
   # Plot --------------------------------------------------------------------
@@ -197,17 +197,17 @@ DeltaWQer<-function(Data,
 
   TempShades<-expand.grid(Region=unique(Tempsum$Region), Quality=c("Good", "Marginal", "Bad"))%>%
     dplyr::mutate(xmin=Start_year,
-           xmax=End_year+1,
-           ymin=dplyr::case_when(
-             Quality=="Good" ~ min(Tempsum$Temperature-Tempsum$SD),
-             Quality=="Marginal" ~ 20,
-             Quality=="Bad" ~ 22
-           ),
-           ymax=dplyr::case_when(
-             Quality=="Good" ~ 20,
-             Quality=="Marginal" ~ 22,
-             Quality=="Bad" ~ max(Tempsum$Temperature+Tempsum$SD)
-           ))
+                  xmax=End_year+1,
+                  ymin=dplyr::case_when(
+                    Quality=="Good" ~ min(Tempsum$Temperature-Tempsum$SD),
+                    Quality=="Marginal" ~ 20,
+                    Quality=="Bad" ~ 22
+                  ),
+                  ymax=dplyr::case_when(
+                    Quality=="Good" ~ 20,
+                    Quality=="Marginal" ~ 22,
+                    Quality=="Bad" ~ max(Tempsum$Temperature+Tempsum$SD)
+                  ))
 
 
   pTemp<-plotWQ(Tempsum, "Temperature", bquote(Temperature~"("*degree*c*")"))+
@@ -245,7 +245,7 @@ DeltaWQer<-function(Data,
     Parameter <- rlang::enquo(Parameter)
     out <- Data%>%
       dplyr::mutate(SD=round(.data$SD, 2),
-             !!Parameter := round(!!Parameter, 2))%>%
+                    !!Parameter := round(!!Parameter, 2))%>%
       dplyr::select(.data$Year, .data$Region, `Standard deviation` = .data$SD, !!Parameter)
     return(out)
   }
