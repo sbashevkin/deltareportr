@@ -8,9 +8,6 @@ library(lubridate)
 Download <- FALSE
 
 if (Download){
-  #EMP Zoop CB
-  download.file("ftp://ftp.wildlife.ca.gov/IEP_Zooplankton/1972-2018CBMatrix.xlsx",
-                file.path("data-raw", "data", "EMP", "1972-2018CBMatrix.xlsx"), mode="wb")
   #EMP Zoop Pump
   download.file("ftp://ftp.wildlife.ca.gov/IEP_Zooplankton/1972-2018Pump Matrix.xlsx",
                 file.path("data-raw", "data", "EMP", "1972-2018Pump Matrix.xlsx"), mode="wb")
@@ -19,9 +16,9 @@ if (Download){
                 file.path("data-raw", "data", "EMP", "Phytoplankton_Algal_Type_Data_1975_-2016.csv"), mode="wb")
 }
 
-bivalves<-read_excel(file.path("data-raw", "data", "EMP", "1975-18 CPUE bivalves only, 2019Sept9.xlsx"),
-                     sheet = "75-18 CPUE per m2", skip=1)%>%
-  select(Date, Station=StationCode, `Potamocorbula amurensis`, `Corbicula fluminea`)%>%
+bivalves<-read_excel(file.path("data-raw", "data", "EMP", "1975-19 CPUE only, 2020Sept10.xlsx"),
+                     sheet = "75-19 CPUE m2")%>%
+  select(Date=SampleDate, Station=StationCode, `Potamocorbula amurensis`, `Corbicula fluminea`)%>%
   pivot_longer(c(-Date, -Station), names_to = "Taxa", values_to = "CPUE")%>%
   mutate(Year=year(Date),
          MonthYear=floor_date(Date, unit = "month"),
