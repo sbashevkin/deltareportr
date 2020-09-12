@@ -30,18 +30,6 @@
 #' @seealso \code{\link{DeltaBivalver}}, \code{\link{DeltaDater}}, \code{\link{DeltaMetadater}}
 "dayflow"
 
-#' Delta regions
-#'
-#' Region polygons for the Sacramento San Joaquin Delta from the United States Fish and Wildlife Service Enhanced Delta Smelt Monitoring Program.
-#'
-#' @format an sf tibble with 8 rows and 2 variables
-#' \describe{
-#'   \item{Stratum}{Region.}
-#'   \item{geometry}{Polygon coordinates.}
-#'   }
-#' @seealso \code{\link{DeltaMapper}}, \code{\link{DeltaDater}}
-"deltaregions"
-
 #' Phytoplankton dataset
 #'
 #' Phytoplankton abundance dataset from the California Department of Water Resources Environmental Monitoring Program.

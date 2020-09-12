@@ -8,7 +8,7 @@ DeltaDater(
   Start_year = 2002,
   Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
   WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
-  Shapefile = deltareportr::deltaregions,
+  Shapefile = deltamapr::R_EDSM_Strata_1819P1,
   Region_column = "Stratum",
   Regions = c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River",
     "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island",
@@ -34,7 +34,7 @@ Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}),
 "USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link{wq_usbr}}), and
 "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).}
 
-\item{Shapefile}{Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.}
+\item{Shapefile}{Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link[deltamapr]{R_EDSM_Strata_1819P1}}.}
 
 \item{Region_column}{Quoted name of the column in the Shapefile with the region designations.}
 

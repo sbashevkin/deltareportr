@@ -12,7 +12,7 @@ DeltaMapper<-function(Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento 
                     Save=FALSE,
                     Save_location){
 
-  Deltaregions<-deltareportr::deltaregions%>%
+  Deltaregions<-deltamapr::R_EDSM_Strata_1819P1%>%
     sf::st_transform(crs=4326)%>%
     dplyr::rename(Region=.data$Stratum)%>%
     {if (is.null(Regions)){

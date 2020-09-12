@@ -16,7 +16,7 @@
 #'   "USGS" (USGS San Francisco Bay Surveys, \code{\link{wq_usgs}}),
 #'   "USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link{wq_usbr}}), and
 #'   "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).
-#' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link{deltaregions}}.
+#' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link[deltamapr]{R_EDSM_Strata_1819P1}}.
 #' @param Region_column Quoted name of the column in the Shapefile with the region designations.
 #' @param Regions Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.
 #' @importFrom magrittr %>%
@@ -34,7 +34,7 @@
 DeltaDater <- function(Start_year=2002,
                      Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
                      WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
-                     Shapefile = deltareportr::deltaregions,
+                     Shapefile = deltamapr::R_EDSM_Strata_1819P1,
                      Region_column = "Stratum",
                      Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
 
