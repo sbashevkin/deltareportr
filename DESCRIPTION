@@ -15,8 +15,6 @@ LazyData: true
 Depends: 
      R (>= 3.5.0)
 Imports: 
-    bookdown,
-    here,
     sf,
     readxl,
     dplyr,
@@ -33,12 +31,14 @@ Imports:
     rlang,
     ggthemes,
     stats,
-    rmarkdown,
     zooper (>= 0.2.0),
     wql,
     deltamapr
 Suggests: 
     devtools,
+    rmarkdown,
+    bookdown,
+    here,
     git2r,
     spelling,
     knitr,
@@ -46,7 +46,7 @@ Suggests:
 URL: https://github.com/sbashevkin/deltareportr
 BugReports: https://github.com/sbashevkin/deltareportr/issues
 Remotes: 
-    InteragencyEcologicalProgram/zooper
+    InteragencyEcologicalProgram/zooper,
     InteragencyEcologicalProgram/deltamapr
 RoxygenNote: 7.1.1
 Language: en-US

@@ -464,5 +464,5 @@ create_dt(FISH$EDSM$Data)
 The current Git commit details are:
 
 ```{r}
-if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
+if (all(c("git2r", "here") %in% installed.packages()) & git2r::in_repository(path = ".")) git2r::repository(here::here())  
 ```
