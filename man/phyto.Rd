@@ -5,7 +5,7 @@
 \alias{phyto}
 \title{Phytoplankton dataset}
 \format{
-a tibble with 8,652 rows and 7 variables
+a tibble with 202,420 rows and 7 variables
 \describe{
   \item{Date}{Sample collection date.}
   \item{Station}{Station where sample was collected.}

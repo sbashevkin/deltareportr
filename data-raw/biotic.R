@@ -52,8 +52,8 @@ phyto<-read_csv(file.path("data-raw", "data", "EMP", "Phytoplankton_Algal_Type_D
                 col_types = "ccddddddddddddddddddd")%>%
   rename(Date=SampleDate, Station=StationCode)%>%
   mutate(Date=parse_date_time(Date, "mdy"))%>%
-  bind_rows(read_excel(file.path("data-raw", "data", "EMP", "Phytoplankton 2017.xlsx"))%>%
-              rename(Station=`Station Code`, Cryptophytes=Cryptomonads))%>%
+  bind_rows(read_excel(file.path("data-raw", "data", "EMP", "2017 through 2019 Data.xlsx"))%>%
+              rename(Station=`Station Code`))%>%
   pivot_longer(c(-Date, -Station), names_to = "Taxa", values_to = "CPUE")%>%
   mutate(Year=year(Date),
          MonthYear=floor_date(Date, unit = "month"),
