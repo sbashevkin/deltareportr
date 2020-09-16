@@ -51,7 +51,7 @@ DF <- DeltaDayFlower(End_year=End_year)
 PH <- DeltaPhyter(Data$Phytoplankton, End_year=End_year)
 FISH <- DeltaSmelter(End_year=End_year)
 META <- DeltaMetadater(Data)
-ZOOP <- readRDS("ZOOP.Rds")
+ZOOP <- readRDS("ZOOP.Rds") # Created using most recent version of deltareportr, but with data filtered to 2018 or earlier. 
 BIV <- DeltaBivalver(Data$Bivalves, End_year=End_year)
 
 if(params$Map=="Yes"){
