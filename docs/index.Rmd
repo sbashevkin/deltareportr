@@ -9,10 +9,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 An R package to facilitate the creation of custom reports using monitoring data from the Sacramento San Joaquin Delta
 
-# Reports
+# Delta Smelt Conditions Report
 
-## Delta Smelt Conditions Report
+## [2019 reporting year (V2), in progress](Delta_Smelt_conditions_report_2019.html)
 
-* [V1, 2018 reporting year, finalized March 2020](Delta_Smelt_conditions_report_2018.html)
 
-* [V2, 2019 reporting year, in progress](Delta_Smelt_conditions_report_2019.html)
+## [2018 reporting year (V1)](Delta_Smelt_conditions_report_2018_fixed.html)
+
+
+***NOTE: The zooplankton graph and data were incorrect due to a bug in the code. Mysid BPUE was incorrectly calculated and under-represented. Please use the corrected version, but [the original is here](Delta_Smelt_conditions_report_2018.html) for reference***
