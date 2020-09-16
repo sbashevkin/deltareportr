@@ -52,7 +52,7 @@
 #'
 #' Estimated Delta Smelt abundance dataset from the United States Fish and Wildlife Service Enhanced Delta Smelt Monitoring Program.
 #'
-#' @format a tibble with 961 rows and 7 variables
+#' @format a tibble with 1,370 rows and 5 variables
 #' \describe{
 #'   \item{Region}{Region of abundance estimate.}
 #'   \item{Date}{Abundance estimate date. Abundances are estimated weekly, but these dates represent the midpoint of each week.}

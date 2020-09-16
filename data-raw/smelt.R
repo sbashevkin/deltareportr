@@ -16,7 +16,7 @@ smelt_iep <- read_excel(file.path("data-raw", "data", "FMWT", "FMWT DS index.xls
     read_excel(file.path("data-raw", "data", "20mm", "20mm DS index.xlsx"))%>%
       mutate(Source="20mm"))
 
-smelt_edsm <- read_csv(file.path("data-raw", "data", "EDSM", "edsm_abund_estimates_2019-09-17.csv"))%>%
+smelt_edsm <- read_csv(file.path("data-raw", "data", "EDSM", "edsm_abund_estimates_2020-09-16.csv"))%>%
   mutate(Stratum=recode(Stratum, "Cache Slough LI"="Cache Slough/Liberty Island", "Sac DW Ship Channel"="Sac Deep Water Shipping Channel",
                         "Lower Sacramento"="Lower Sacramento River", "Lower San Joaquin"="Lower Joaquin River"),
          Date=WeekStartDate+ceiling((WeekEndDate-WeekStartDate)/2))%>%
