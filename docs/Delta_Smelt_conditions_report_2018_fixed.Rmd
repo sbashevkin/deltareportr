@@ -62,13 +62,13 @@ if(params$Map=="Yes"){
 
 <br>
 
-# Erratum
-
-A prior version of this report contained an incorrect zooplankton graph and dataset. This version of the report has now been corrected but [the original report with the incorrect zooplankton data is here for reference](https://sbashevkin.github.io/deltareportr/Delta_Smelt_conditions_report_2018.html). 
-
 # Accessibility
 
 For any assistance accessing the map, graphs, images, or other material in this report, please contact us at [accessibility@deltacouncil.ca.gov](mailto:accessibility@deltacouncil.ca.gov?subject=Delta%20Smelt%20Conditions%20Report).
+
+# Erratum
+
+A prior version of this report contained an incorrect zooplankton graph and dataset. This version of the report has now been corrected but [the original report with the incorrect zooplankton data is here for reference](https://sbashevkin.github.io/deltareportr/Delta_Smelt_conditions_report_2018.html). 
 
 # Introduction
 
