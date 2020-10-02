@@ -5,7 +5,7 @@
 \alias{zoop_mass_conversions}
 \title{Zooplankton mass conversions}
 \format{
-a tibble with 40 rows and 2 variables
+a tibble with 37 rows and 2 variables
 \describe{
   \item{Mass}{Average individual mass (\eqn{\mu}g).}
   \item{Taxlifestage}{Taxonomic name and lifestage.}

@@ -105,6 +105,8 @@ DeltaDater <- function(Start_year=2002,
                                                     "Oithona davisae", "Oithona similis", "Oithona"), "Adult") ~ "Cyclopoida",
                       .data$Taxlifestage%in%paste(c("Bosmina longirostris", "Daphnia", "Diaphanosoma", "Cladocera"), "Adult") ~ "Cladocera"))%>%
       dplyr::select(-.data$CPUE, -.data$Mass, -.data$Taxlifestage)%>%
+      dplyr::group_by(.data$Source, .data$SampleID, .data$Year, .data$Date, .data$Station, .data$MonthYear, .data$Taxa)%>%
+      dplyr::summarise(BPUE=sum(.data$BPUE, na.rm=T), .groups="drop")%>%
       dplyr::bind_rows(deltareportr::zoop_mysid)
 
     #Add regions and lat/long to zoop dataset

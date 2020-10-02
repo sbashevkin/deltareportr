@@ -347,7 +347,7 @@
 #'
 #' Average dry mass for each meso and micro zooplankton taxa
 #'
-#' @format a tibble with 40 rows and 2 variables
+#' @format a tibble with 37 rows and 2 variables
 #' \describe{
 #'   \item{Mass}{Average individual mass (\eqn{\mu}g).}
 #'   \item{Taxlifestage}{Taxonomic name and lifestage.}

@@ -46,7 +46,8 @@ zoop_mass_conversions<-read_csv(file.path("data-raw", "data", "EMP", "zoop_indiv
   mutate(Taxlifestage=paste(Taxname, Lifestage))%>%
   filter(!is.na(Taxname) & !is.na(Lifestage))%>%
   select(-taxon, -Taxname, -Lifestage)%>%
-  rename(Mass=mass_indiv_ug)
+  rename(Mass=mass_indiv_ug)%>%
+  distinct()
 
 phyto<-read_csv(file.path("data-raw", "data", "EMP", "Phytoplankton_Algal_Type_Data_1975_-2016.csv"),
                 col_types = "ccddddddddddddddddddd")%>%
