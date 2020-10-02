@@ -51,8 +51,7 @@ DeltaDater <- function(Start_year=2002,
                  remove=FALSE)%>%
     sf::st_transform(crs=sf::st_crs(Shapefile))%>%
     sf::st_join(Shapefile%>%
-                  dplyr::select(!!Region_column),
-                join=sf::st_within)%>%
+                  dplyr::select(!!Region_column))%>%
     tibble::as_tibble()%>%
     dplyr::select(-.data$geometry)%>%
     dplyr::rename(Region=!!Region_column)
@@ -255,8 +254,7 @@ DeltaDater <- function(Start_year=2002,
                                         remove = FALSE)%>%
                            sf::st_transform(crs=sf::st_crs(Shapefile))%>%
                            sf::st_join(Shapefile%>%
-                                         dplyr::select(!!Region_column),
-                                       join=sf::st_within)%>%
+                                         dplyr::select(!!Region_column))%>%
                            tibble::as_tibble()%>%
                            dplyr::select(-.data$geometry)%>%
                            dplyr::rename(Region=!!Region_column)%>%

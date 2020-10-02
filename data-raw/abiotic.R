@@ -20,7 +20,7 @@ if(Download){
   #DJFMP downloaded when file is loaded since file sizes are so large
 
   #EMP
-  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.458.2&entityid=41970f4dfdf288570bcda6e3214029a7", file.path("data-raw", "data", "EMP", "Water quality", "SACSJ_delta_water_quality_2000_2018.csv"), mode="wb")
+  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.458.3&entityid=abedcf730c2490fde0237df58c897556", file.path("data-raw", "data", "EMP", "SACSJ_delta_water_quality_1975_2019.csv"), mode="wb")
 
 }
 
@@ -96,59 +96,17 @@ wq_edsm <- read_csv(file.path("data-raw", "data", "EDSM", "EDSM_20mm.csv"),
   mutate(Depth = Depth*0.3048)%>% # Convert feet to meters
   select(Source, Station, Latitude, Longitude, Date, Datetime, Depth, Tide, Secchi, Temperature, Temperature_bottom, Notes)
 
-Fieldfiles <- list.files(path = file.path("data-raw", "data", "EMP", "Water quality"), full.names = T, pattern="Field")
-
-emp_field<-sapply(Fieldfiles, function(x) read_excel(x, guess_max = 5e4))%>%
-  bind_rows()%>%
-  select(Date=SampleDate, Station=StationCode, Parameter=AnalyteName, Value=Result, Matrix, Time=DateResult)%>%
-  filter(Parameter%in%c("Temperature", "Secchi Depth", "Conductance (EC)", "Depth") & Matrix=="Water")%>%
-  group_by(Date, Station, Parameter)%>%
-  summarise(Value=mean(Value, na.rm=T))%>%
-  ungroup()
-tz(emp_field$Date)<-"America/Los_Angeles"
-
-Labfiles <- list.files(path = file.path("data-raw", "data", "EMP", "Water quality"), full.names = T, pattern="Lab")
-
-emp_lab <- sapply(Labfiles, function(x) read_excel(x, guess_max = 5e4))%>%
-  bind_rows()%>%
-  select(Station=StationCode, Date=SampleDate, Parameter=ConstituentName, Value=Result)%>%
-  filter(Parameter=="Chlorophyll a")%>%
-  group_by(Date, Station, Parameter)%>%
-  summarise(Value=mean(Value, na.rm=T))%>%
-  ungroup()
-tz(emp_lab$Date)<-"America/Los_Angeles"
-
-emp_oldtimes<-read_csv(file.path("data-raw", "data", "EMP", "Water quality", "1975-1999 WQ Data_EDI.csv"), guess_max=11000, locale = locale(encoding = "Latin1"))%>%
-  select(Station="Station Name", Date="Sample Date")%>%
-  separate(Station, sep="-", into=c("Station1", "Station2"))%>%
-  mutate(Station1=replace_na(Station1, paste(rep("NA", 50), collapse=" ")),
-         Station2=replace_na(Station2, paste(rep("NA", 50), collapse=" ")))%>%
-  mutate(Station_which=if_else(nchar(Station1)>nchar(Station2), 2, 1))%>%
-  mutate(Station=trimws(if_else(Station_which==1, Station1, Station2)))%>%
-  mutate(Station=recode(Station, `6000 ?S/cm bottom EC`="EZ6", `2000 ?S/cm bottom EC`="EZ2",
-                        `Honker Bay near Wheeler Point`="D9", `Old River @ Oak Island`="P12A"))%>%
-  select(Station, Date)%>%
-  mutate(Datetime=parse_date_time(Date, orders="%m/%d/%Y %H:%M", tz="America/Los_Angeles"),
-         Date=parse_date_time(paste(month(Datetime), day(Datetime), year(Datetime), sep="/"), orders="%m/%d/%Y", tz="America/Los_Angeles"))%>%
-  mutate(Datetime=if_else(hour(Datetime)==0, parse_date_time(NA_character_, tz="America/Los_Angeles"), Datetime))
-
-
-emp_2000<-read_csv(file.path("data-raw", "data", "EMP", "Water quality", "SACSJ_delta_water_quality_2000_2018.csv"), na=c("N/A", "ND"),
+wq_emp<-read_csv(file.path("data-raw", "data", "EMP", "SACSJ_delta_water_quality_1975_2019.csv"), na=c("NA", "ND"),
                    col_types = cols_only(Station="c", Date="c", Time="c", Chla="d",
                                          Depth="d", Secchi="d", Microcystis="d", SpCndSurface="d",
                                          WTSurface="d", WTBottom='d'))%>%
   rename(Chlorophyll=Chla, Conductivity=SpCndSurface, Temperature=WTSurface,
          Temperature_bottom=WTBottom)%>%
-  mutate(Datetime=parse_date_time(paste(Date, Time), "%Y-%m-%d %H:%M", tz="America/Los_Angeles"),
-         Date=parse_date_time(Date, "%Y-%m-%d", tz="America/Los_Angeles"),
+  mutate(Datetime=parse_date_time(if_else(is.na(Time), NA_character_, paste(Date, Time)), "%m/%d/%Y %H:%M", tz="America/Los_Angeles"),
+         Date=parse_date_time(Date, "%m/%d/%Y", tz="America/Los_Angeles"),
          Microcystis=round(Microcystis))%>% #EMP has some 2.5 and 3.5 values
-  select(-Time)
-
-wq_emp<- bind_rows(emp_field, emp_lab)%>%
-  pivot_wider(names_from = Parameter, values_from = Value)%>%
-  rename(Chlorophyll=`Chlorophyll a`, Secchi=`Secchi Depth`, Conductivity=`Conductance (EC)`)%>%
-  left_join(emp_oldtimes, by=c("Date", "Station"))%>%
-  bind_rows(emp_2000)%>%
+  select(-Time)%>%
+  mutate(Datetime=if_else(hour(Datetime)==0, parse_date_time(NA_character_, tz="America/Los_Angeles"), Datetime))%>%
   mutate(Source="EMP",
          Tide = "High Slack",
          Station=ifelse(Station%in%c("EZ2", "EZ6", "EZ2-SJR", "EZ6-SJR"), paste(Station, Date), Station),

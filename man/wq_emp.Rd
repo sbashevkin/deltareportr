@@ -6,7 +6,7 @@
 \alias{wq_emp}
 \title{EMP water quality data}
 \format{
-a tibble with 16,293 rows and 12 variables
+a tibble with 16,508 rows and 12 variables
 \describe{
   \item{Source}{Name of the source dataset.}
   \item{Station}{Station where sample was collected.}
@@ -30,7 +30,7 @@ wq_emp
 Water quality data from the California Department of Water Resources Environmental Monitoring Program.
 }
 \details{
-More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.458.2}{here}.
+More metadata and information on methods are available \href{https://portal.edirepository.org/nis/mapbrowse?packageid=edi.458.3}{here}.
 }
 \seealso{
 \code{\link{DeltaDater}}, \code{\link{DeltaWQer}}, \code{\link{DeltaMetadater}}
