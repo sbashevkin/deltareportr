@@ -1,6 +1,6 @@
 Package: deltareportr
 Title: Tools and Data for Automated Delta Reporting
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R:
     person(given = "Sam",
            family = "Bashevkin",
