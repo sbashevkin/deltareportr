@@ -15,7 +15,7 @@ DeltaDayFlower<-function(End_year,
     dplyr::filter(lubridate::year(.data$Date)>=Start_year)%>%
     dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"))%>%
     dplyr::group_by(.data$MonthYear)%>%
-    dplyr::summarise(OUT=mean(.data$OUT, na.rm=T), X2=mean(.data$X2, na.rm=T))
+    dplyr::summarise(OUT=mean(.data$OUT, na.rm=T), X2=mean(.data$X2, na.rm=T), .groups="drop")
 
 
   # Plot data ---------------------------------------------------------------
