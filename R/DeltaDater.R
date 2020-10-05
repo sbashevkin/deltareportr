@@ -139,22 +139,21 @@ DeltaDater <- function(Start_year=2002,
                                           .data$Taxa%in%c("Cryptophytes", "Green Algae", "Chrysophytes", "Dinoflagellates", "Cyanobacteria") ~ .data$Taxa,
                                           TRUE ~ "Other taxa"))%>%
       dplyr::mutate(Station=ifelse(.data$Station%in%c("EZ2", "EZ6", "EZ2-SJR", "EZ6-SJR"), paste(.data$Station, .data$Date), .data$Station))%>%
-      dplyr::filter(.data$Year>=2008 & .data$Year>Start_year)
+      dplyr::filter(.data$Year>=2008 & .data$Year>Start_year)%>%
+      dplyr::group_by(.data$Taxa, .data$Year, .data$Date, .data$Station, .data$Source)%>%
+      dplyr::summarise(CPUE=sum(.data$CPUE, na.rm=T), .groups="drop")
 
     # Add regions and summarise -------------------------------------------------------------
 
     #Add regions and lat/long to phyto dataset
     Data_list[["Phytoplankton"]]<-Data_list[["Phytoplankton"]]%>%
       dplyr::left_join(Stations%>%
-                         dplyr::select(-.data$StationID), by=c("Source", "Station"))%>%
+                         dplyr::select(.data$Station, .data$Source, .data$Region), by=c("Source", "Station"))%>%
       {if (is.null(Regions)){
         .
       } else{
         dplyr::filter(., .data$Region%in%Regions)
       }}%>%
-      dplyr::group_by(.data$Taxa, .data$Region, .data$Year, .data$Date, .data$Station)%>%
-      dplyr::summarise(CPUE=sum(.data$CPUE, na.rm=T))%>%
-      dplyr::ungroup()%>%
       dplyr::mutate(Month=lubridate::month(.data$Date))%>%
       dplyr::mutate(Season=dplyr::case_when(
         .data$Month%in%c(12,1,2) ~ "Winter",

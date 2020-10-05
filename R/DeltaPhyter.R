@@ -23,8 +23,7 @@ DeltaPhyter<-function(Data,
     }}%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Taxa)%>%
-    dplyr::summarise(CPUE=mean(.data$CPUE, na.rm=T))%>%
-    dplyr::ungroup()%>%
+    dplyr::summarise(CPUE=mean(.data$CPUE, na.rm=T), .groups="drop")%>%
     dplyr::filter(.data$Year>=Start_year)%>%
     dplyr::mutate(Taxa=factor(.data$Taxa, levels=c("Diatoms", "Cryptophytes", "Green Algae", "Chrysophytes", "Cyanobacteria", "Dinoflagellates", "Other flagellates", "Other taxa")),
                   missing="na",
@@ -52,7 +51,7 @@ DeltaPhyter<-function(Data,
   pphyto<-ggplot2::ggplot()+
     ggplot2::geom_bar(data=dplyr::filter(Phytosum, .data$Taxa!="Cyanobacteria"), ggplot2::aes(x=.data$Year, y=.data$CPUE, fill=.data$Taxa), stat="identity", alpha=1)+
     {if(End_year%in%unique(Phytosum$Year)){
-      ggplot2::geom_bar(data=Phytosum%>%dplyr::filter(.data$Taxa!="Cyanobacteria" & .data$Year==End_year)%>%dplyr::group_by(.data$Region, .data$Year)%>%dplyr::summarise(CPUE=sum(.data$CPUE))%>%dplyr::ungroup()%>%droplevels(), ggplot2::aes(x=.data$Year, y=.data$CPUE), stat="identity", color="firebrick3", fill=NA, size=1)
+      ggplot2::geom_bar(data=Phytosum%>%dplyr::filter(.data$Taxa!="Cyanobacteria" & .data$Year==End_year)%>%dplyr::group_by(.data$Region, .data$Year)%>%dplyr::summarise(CPUE=sum(.data$CPUE), .groups="drop")%>%droplevels(), ggplot2::aes(x=.data$Year, y=.data$CPUE), stat="identity", color="firebrick3", fill=NA, size=1)
     }}+
     ggplot2::geom_vline(data=Phytomissing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
     ggplot2::geom_label(data=Peak, ggplot2::aes(x=.data$Year-2, y=30000, label=.data$label), size=3)+

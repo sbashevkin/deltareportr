@@ -42,8 +42,7 @@ DeltaZooper<-function(Data,
     dplyr::inner_join(Keep, by=c("MonthYear", "Region"))%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Taxa)%>%
-    dplyr::summarise(BPUE=mean(.data$BPUE, na.rm=T))%>%
-    dplyr::ungroup()%>%
+    dplyr::summarise(BPUE=mean(.data$BPUE, na.rm=T), .groups="drop")%>%
     droplevels()%>%
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:End_year, .data$Region, fill=list(missing="n.d."))%>%
@@ -64,7 +63,7 @@ DeltaZooper<-function(Data,
 
   p<-ggplot2::ggplot()+
     ggplot2::geom_bar(data=Zoopsum, ggplot2::aes(x=.data$Year, y=.data$BPUE, fill=.data$Taxa), stat="identity")+
-    ggplot2::geom_bar(data=Zoopsum%>%dplyr::filter(.data$Year==End_year)%>%dplyr::group_by(.data$Region, .data$Year)%>%dplyr::summarise(BPUE=sum(.data$BPUE)), ggplot2::aes(x=.data$Year, y=.data$BPUE), stat="identity", color="firebrick3", fill=NA, size=1)+
+    ggplot2::geom_bar(data=Zoopsum%>%dplyr::filter(.data$Year==End_year)%>%dplyr::group_by(.data$Region, .data$Year)%>%dplyr::summarise(BPUE=sum(.data$BPUE), .groups="drop"), ggplot2::aes(x=.data$Year, y=.data$BPUE), stat="identity", color="firebrick3", fill=NA, size=1)+
     ggplot2::geom_vline(data=Zoopmissing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
     ggplot2::scale_x_continuous(labels=insert_minor(seq(2000, 2020, by=5), 4), breaks = 2000:2020, limits=c(Start_year-1,End_year+1), expand=ggplot2::expansion(0,0))+
     ggplot2::scale_fill_brewer(type="div", palette="BrBG", guide=ggplot2::guide_legend(title=NULL, keyheight=0.8))+

@@ -46,9 +46,8 @@ DeltaMetadater<-function(Data,
   # Phytoplankton -----------------------------------------------------------
 
   Phytosum<-Data$Phytoplankton%>%
-    dplyr::select(.data$Region, .data$Season, .data$Year)%>%
-    dplyr::mutate(Source="EMP",
-                  Parameter="Phytoplankton")
+    dplyr::select(.data$Region, .data$Season, .data$Year, .data$Source)%>%
+    dplyr::mutate(Parameter="Phytoplankton")
 
   # Combine all datasets ----------------------------------------------------
 
@@ -57,8 +56,7 @@ DeltaMetadater<-function(Data,
     dplyr::mutate(Years=length(unique(.data$Year)))%>%
     dplyr::ungroup()%>%
     dplyr::group_by(.data$Region, .data$Season, .data$Source, .data$Parameter, .data$Years)%>%
-    dplyr::summarise(N=dplyr::n())%>%
-    dplyr::ungroup()%>%
+    dplyr::summarise(N=dplyr::n(), .groups="drop")%>%
     {if (is.null(Regions)){
       .
     } else{

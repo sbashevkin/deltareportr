@@ -33,8 +33,7 @@ DeltaWQer<-function(Data,
     dplyr::filter(.data$Season%in%Secchi_season)%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year)%>%
-    dplyr::summarise(SD=stats::sd(.data$Secchi, na.rm=T), Secchi=mean(.data$Secchi, na.rm=T))%>%
-    dplyr::ungroup()%>%
+    dplyr::summarise(SD=stats::sd(.data$Secchi, na.rm=T), Secchi=mean(.data$Secchi, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"))%>%
@@ -59,8 +58,7 @@ DeltaWQer<-function(Data,
     dplyr::filter(.data$Season%in%Salinity_season)%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year)%>%
-    dplyr::summarise(SD=stats::sd(.data$Salinity, na.rm=T), Salinity=mean(.data$Salinity, na.rm=T))%>%
-    dplyr::ungroup()%>%
+    dplyr::summarise(SD=stats::sd(.data$Salinity, na.rm=T), Salinity=mean(.data$Salinity, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"))%>%
@@ -85,8 +83,7 @@ DeltaWQer<-function(Data,
     dplyr::filter(.data$Season%in%Chl_season)%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year)%>%
-    dplyr::summarise(SD=stats::sd(.data$Chlorophyll, na.rm=T), Chlorophyll=mean(.data$Chlorophyll, na.rm=T))%>%
-    dplyr::ungroup()%>%
+    dplyr::summarise(SD=stats::sd(.data$Chlorophyll, na.rm=T), Chlorophyll=mean(.data$Chlorophyll, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"))%>%
@@ -116,8 +113,7 @@ DeltaWQer<-function(Data,
                      Microcystis2=length(which(.data$Microcystis==2))/.data$N_Microcystis,
                      Microcystis3=length(which(.data$Microcystis==3))/.data$N_Microcystis,
                      Microcystis4=length(which(.data$Microcystis==4))/.data$N_Microcystis,
-                     Microcystis5=length(which(.data$Microcystis==5))/.data$N_Microcystis)%>%
-    dplyr::ungroup()%>%
+                     Microcystis5=length(which(.data$Microcystis==5))/.data$N_Microcystis, .groups="drop")%>%
     dplyr::filter(.data$N_Microcystis>0)%>%
     tidyr::pivot_longer(c(.data$Microcystis1, .data$Microcystis2, .data$Microcystis3, .data$Microcystis4, .data$Microcystis5), names_to = "Severity", values_to = "Frequency")%>%
     dplyr::mutate(Severity=dplyr::recode(.data$Severity, "Microcystis1"="Absent", "Microcystis2"="Low", "Microcystis3"="Medium", "Microcystis4"="High", "Microcystis5"="Very high"))%>%
@@ -148,8 +144,7 @@ DeltaWQer<-function(Data,
     dplyr::group_by(.data$Year, .data$Region)%>%
     dplyr::mutate(Nmonths = dplyr::n_distinct(.data$Month))%>%
     dplyr::filter(.data$Nmonths>=3)%>%
-    dplyr::summarise(SD=stats::sd(.data$Temperature, na.rm=T), Temperature=mean(.data$Temperature, na.rm=T))%>%
-    dplyr::ungroup()%>%
+    dplyr::summarise(SD=stats::sd(.data$Temperature, na.rm=T), Temperature=mean(.data$Temperature, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"),
@@ -166,7 +161,7 @@ DeltaWQer<-function(Data,
   Salrange<-Salsum%>%
     dplyr::filter(!is.na(.data$Salinity))%>%
     dplyr::group_by(.data$Region)%>%
-    dplyr::summarise(Salrange=paste0("min: ", round(min(.data$Salinity), 2), ", max: ", round(max(.data$Salinity), 2)))
+    dplyr::summarise(Salrange=paste0("min: ", round(min(.data$Salinity), 2), ", max: ", round(max(.data$Salinity), 2)), .groups="drop")
 
   Chlrange<-tibble::tibble(xmin=min(Chlsum$Year), xmax=max(Chlsum$Year), Region=unique(as.character(dplyr::filter(Chlsum, !is.na(.data$Chlorophyll))$Region)))
   Chlrange<-Chlrange%>%
