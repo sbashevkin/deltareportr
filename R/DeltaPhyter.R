@@ -40,9 +40,12 @@ DeltaPhyter<-function(Data,
     dplyr::filter(is.na(.data$missing))%>%
     dplyr::select(-.data$missing)
 
-  Peak<-tibble::tibble(Region=dplyr::filter(Phytosum, .data$Taxa!="Cyanobacteria")$Region[which.max(dplyr::filter(Phytosum, .data$Taxa!="Cyanobacteria")$CPUE)],
-                       Year=dplyr::filter(Phytosum, .data$Taxa!="Cyanobacteria")$Year[which.max(dplyr::filter(Phytosum, .data$Taxa!="Cyanobacteria")$CPUE)],
-                       label=paste0("Peak CPUE: ", format(round(max(dplyr::filter(Phytosum, .data$Taxa!="Cyanobacteria")$CPUE)), big.mark=",")))%>%
+  Peak<-Phytosum%>%
+    dplyr::filter(.data$Taxa!="Cyanobacteria")%>%
+    dplyr::group_by(.data$Region, .data$Year)%>%
+    dplyr::summarise(CPUE=sum(.data$CPUE, na.rm=T), .groups="drop")%>%
+    dplyr::filter(.data$CPUE>35000)%>%
+    dplyr::mutate(label=format(round(.data$CPUE), big.mark=","))%>%
     dplyr::mutate(Region=factor(.data$Region, levels=Regions))
 
 
@@ -54,7 +57,7 @@ DeltaPhyter<-function(Data,
       ggplot2::geom_bar(data=Phytosum%>%dplyr::filter(.data$Taxa!="Cyanobacteria" & .data$Year==End_year)%>%dplyr::group_by(.data$Region, .data$Year)%>%dplyr::summarise(CPUE=sum(.data$CPUE), .groups="drop")%>%droplevels(), ggplot2::aes(x=.data$Year, y=.data$CPUE), stat="identity", color="firebrick3", fill=NA, size=1)
     }}+
     ggplot2::geom_vline(data=Phytomissing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
-    ggplot2::geom_label(data=Peak, ggplot2::aes(x=.data$Year-2, y=30000, label=.data$label), size=3)+
+    ggplot2::geom_label(data=Peak, ggplot2::aes(x=.data$Year, y=30000, label=.data$label), size=3)+
     ggplot2::scale_fill_brewer(type="div", palette="BrBG", guide=ggplot2::guide_legend(keyheight=0.6, title=NULL), direction=-1)+
     ggplot2::xlab("Date")+
     ggplot2::ylab("Number of cells, colonies, or filaments / ml")+

@@ -314,7 +314,7 @@ Chlorophyll is a measure of productivity at the base of the food web. **Higher c
 
 ## Phytoplankton composition {#Phytoplanktongraphs}
 
-(ref:Phytoplankton) Seasonal phytoplankton community composition from EMP. Cyanobacteria are presented in <a href="#fig:Cyanobacteria"> figure 11</a>. Means were calculated by pooling discrete measurements for the specified season of each year. No data are available from the Sac Deep Water Shipping Channel or Cache/Slough/Liberty Island regions. Data are only shown from 2008 - present to reflect the time frame of consistent sample processing methodology. Vertical dotted lines represent years with missing data. Raw data are available in <a href="#tab:Phytodata"> table 9.</a>
+(ref:Phytoplankton) Seasonal phytoplankton community composition from EMP. Cyanobacteria are presented in <a href="#fig:Cyanobacteria"> figure 11</a>. Means were calculated by pooling discrete measurements for the specified season of each year. No data are available from the Sac Deep Water Shipping Channel or Cache/Slough/Liberty Island regions. Data are only shown from 2008 - present to reflect the time frame of consistent sample processing methodology. Values in white boxes indicate total phytoplankton abundance values that exceed the y-axis range. Vertical dotted lines represent years with missing data. Raw data are available in <a href="#tab:Phytodata"> table 9.</a>
 
 <details>
   <summary>**Winter**</summary>

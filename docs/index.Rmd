@@ -19,4 +19,4 @@ An R package to facilitate the creation of custom reports using monitoring data 
 ## [2018 reporting year (V1)](Delta_Smelt_conditions_report_2018_fixed.html)
 
 
-***NOTE: The zooplankton graph and data were incorrect due to a bug in the code. Mysid BPUE was incorrectly calculated and under-represented. Please use the corrected version, but [the original is here](Delta_Smelt_conditions_report_2018.html) for reference***
+***NOTE: The zooplankton graph and data were incorrect due to a bug in the code. Please use the corrected version, but [the original is here](Delta_Smelt_conditions_report_2018.html) for reference***

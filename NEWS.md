@@ -3,6 +3,7 @@
 * Fixed error in calculation of zoop BPUE. No change in overall pattern of zoop abundance across years.
 * Updated datasets (https://github.com/sbashevkin/deltareportr/issues/3)
 * Created 2019 version of report
+* Fixed phytoplankton peak label.
 
 # deltareportr 0.2.0
 

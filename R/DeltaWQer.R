@@ -234,7 +234,7 @@ DeltaWQer<-function(Data,
     ggplot2::xlab("Date")+
     ggplot2::theme_bw()+
     ggplot2::theme(panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(),
-                   plot.title = ggplot2::element_text(hjust = 0.5, size=20), legend.position=c(0.63, 0.13),
+                   plot.title = ggplot2::element_text(hjust = 0.5, size=20), legend.position=c(0.85,0.2),
                    legend.background=ggplot2::element_rect(fill="white", color="black"),
                    legend.text = ggplot2::element_text(size=8), plot.margin = ggplot2::margin(r=10))
 
