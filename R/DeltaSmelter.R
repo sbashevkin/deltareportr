@@ -13,9 +13,6 @@ DeltaSmelter<-function(End_year,
 
   # Load and combine data ---------------------------------------------------
 
-
-  #**********Only including OTHCYCAD from CB because biomass indicates they're large, and only including small cyclopoids from pump sample******#
-
   IEP_Indices<-deltareportr::smelt_iep%>%
     dplyr::filter(.data$Year>=Start_year)%>%
     dplyr::mutate(Source=factor(.data$Source, levels=c("SKT", "STN", "20mm", "FMWT")))%>%
@@ -48,10 +45,6 @@ DeltaSmelter<-function(End_year,
   EDSM<-EDSM%>%
     dplyr::filter(is.na(.data$missing))%>%
     dplyr::select(-.data$missing)
-
-
-  # Add regions and dplyr::summarise -------------------------------------------------------------
-
 
   # Plot --------------------------------------------------------------------
 
