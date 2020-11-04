@@ -1,4 +1,4 @@
-# deltareportr (development version)
+# deltareportr 1.0.0
 
 * Added zooplankton EZ stations
 * Moved water quality integrated dataset to the [`discretewq`](https://github.com/sbashevkin/discretewq) package

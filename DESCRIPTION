@@ -1,6 +1,6 @@
 Package: deltareportr
 Title: Tools and Data for Automated Delta Reporting
-Version: 0.2.0.9000
+Version: 1.0.0
 Authors@R:
     person(given = "Sam",
            family = "Bashevkin",
@@ -46,7 +46,7 @@ Suggests:
     DT
 URL: https://github.com/sbashevkin/deltareportr
 BugReports: https://github.com/sbashevkin/deltareportr/issues
-Remotes:  
+Remotes: 
     InteragencyEcologicalProgram/zooper,
     InteragencyEcologicalProgram/deltamapr,
     sbashevkin/discretewq
