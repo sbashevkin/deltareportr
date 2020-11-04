@@ -1,5 +1,7 @@
 # deltareportr (development version)
 
+* Added zooplankton EZ stations
+* Moved water quality integrated dataset to the [`discretewq`](https://github.com/sbashevkin/discretewq) package
 * Fixed error in calculation of zoop BPUE. No change in overall pattern of zoop abundance across years.
 * Updated datasets (https://github.com/sbashevkin/deltareportr/issues/3)
 * Created 2019 version of report

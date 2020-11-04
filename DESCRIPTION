@@ -33,7 +33,8 @@ Imports:
     stats,
     zooper (>= 0.2.0),
     wql,
-    deltamapr
+    deltamapr,
+    discretewq (>= 0.0.0.9000)
 Suggests: 
     devtools,
     rmarkdown,
@@ -45,9 +46,10 @@ Suggests:
     DT
 URL: https://github.com/sbashevkin/deltareportr
 BugReports: https://github.com/sbashevkin/deltareportr/issues
-Remotes: 
+Remotes:  
     InteragencyEcologicalProgram/zooper,
-    InteragencyEcologicalProgram/deltamapr
+    InteragencyEcologicalProgram/deltamapr,
+    sbashevkin/discretewq
 RoxygenNote: 7.1.1
 Language: en-US
 VignetteBuilder: knitr

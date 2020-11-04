@@ -5,7 +5,7 @@
 \alias{stations}
 \title{Station locations}
 \format{
-a tibble with 1,361 rows and 5 variables
+a tibble with 1,266 rows and 5 variables
 \describe{
   \item{Source}{Name of the source dataset..}
   \item{Station}{Station where sample was collected.}

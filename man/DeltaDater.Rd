@@ -6,6 +6,7 @@
 \usage{
 DeltaDater(
   Start_year = 2002,
+  End_year = 2020,
   Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
   WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
   Shapefile = deltamapr::R_EDSM_Strata_1819P1,
@@ -18,21 +19,23 @@ DeltaDater(
 \arguments{
 \item{Start_year}{Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.}
 
+\item{End_year}{Latest year you would like included in the dataset. Must be an integer. Defaults to \code{2020}.}
+
 \item{Variables}{Character vector of variables you would like included in the dataset.
 Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.}
 
-\item{WQ_sources}{Character vector of data sources for the water quality variables.
-Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}),
-"STN" (Summer Townet Survey, \code{\link{wq_stn}}),
-"FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}),
-"EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}),
-"DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link{wq_djfmp}}),
-"20mm" (20mm Survey, \code{\link{wq_20mm}}),
-"SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}),
-"Baystudy" (Bay Study, \code{\link{wq_baystudy}}),
-"USGS" (USGS San Francisco Bay Surveys, \code{\link{wq_usgs}}),
-"USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link{wq_usbr}}), and
-"Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).}
+\item{WQ_sources}{Character vector of data sources for the water quality variables, pulled from the \code{\link[discretewq]{discretewq}} package.
+Choices include "EMP" (Environmental Monitoring Program, \code{\link[discretewq]{EMP}}),
+"STN" (Summer Townet Survey, \code{\link[discretewq]{STN}}),
+"FMWT" (Fall Midwater Trawl, \code{\link[discretewq]{FMWT}}),
+"EDSM" (Enhanced Delta Smelt Monitoring, \code{\link[discretewq]{EDSM}}),
+"DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link[discretewq]{DJFMP}}),
+"20mm" (20mm Survey, \code{\link[discretewq]{twentymm}}),
+"SKT" (Spring Kodiak Trawl, \code{\link[discretewq]{SKT}}),
+"Baystudy" (Bay Study, \code{\link[discretewq]{baystudy}}),
+"USGS" (USGS San Francisco Bay Surveys, \code{\link[discretewq]{USGS}}),
+"USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link[discretewq]{USBR}}), and
+"Suisun" (Suisun Marsh Fish Study, \code{\link[discretewq]{suisun}}).}
 
 \item{Shapefile}{Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link[deltamapr]{R_EDSM_Strata_1819P1}}.}
 

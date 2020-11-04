@@ -2,20 +2,21 @@
 #'
 #' Imports, filters, and processes datasets and outputs a list of desired datasets
 #' @param Start_year Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.
+#' @param End_year Latest year you would like included in the dataset. Must be an integer. Defaults to \code{2020}.
 #' @param Variables Character vector of variables you would like included in the dataset.
 #'   Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.
-#' @param WQ_sources Character vector of data sources for the water quality variables.
-#'   Choices include "EMP" (Environmental Monitoring Program, \code{\link{wq_emp}}),
-#'   "STN" (Summer Townet Survey, \code{\link{wq_stn}}),
-#'   "FMWT" (Fall Midwater Trawl, \code{\link{wq_fmwt}}),
-#'   "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link{wq_edsm}}),
-#'   "DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link{wq_djfmp}}),
-#'   "20mm" (20mm Survey, \code{\link{wq_20mm}}),
-#'   "SKT" (Spring Kodiak Trawl, \code{\link{wq_skt}}),
-#'   "Baystudy" (Bay Study, \code{\link{wq_baystudy}}),
-#'   "USGS" (USGS San Francisco Bay Surveys, \code{\link{wq_usgs}}),
-#'   "USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link{wq_usbr}}), and
-#'   "Suisun" (Suisun Marsh Fish Study, \code{\link{wq_suisun}}).
+#' @param WQ_sources Character vector of data sources for the water quality variables, pulled from the \code{\link[discretewq]{discretewq}} package.
+#'   Choices include "EMP" (Environmental Monitoring Program, \code{\link[discretewq]{EMP}}),
+#'   "STN" (Summer Townet Survey, \code{\link[discretewq]{STN}}),
+#'   "FMWT" (Fall Midwater Trawl, \code{\link[discretewq]{FMWT}}),
+#'   "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link[discretewq]{EDSM}}),
+#'   "DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link[discretewq]{DJFMP}}),
+#'   "20mm" (20mm Survey, \code{\link[discretewq]{twentymm}}),
+#'   "SKT" (Spring Kodiak Trawl, \code{\link[discretewq]{SKT}}),
+#'   "Baystudy" (Bay Study, \code{\link[discretewq]{baystudy}}),
+#'   "USGS" (USGS San Francisco Bay Surveys, \code{\link[discretewq]{USGS}}),
+#'   "USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link[discretewq]{USBR}}), and
+#'   "Suisun" (Suisun Marsh Fish Study, \code{\link[discretewq]{suisun}}).
 #' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link[deltamapr]{R_EDSM_Strata_1819P1}}.
 #' @param Region_column Quoted name of the column in the Shapefile with the region designations.
 #' @param Regions Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.
@@ -32,14 +33,15 @@
 
 
 DeltaDater <- function(Start_year=2002,
-                     Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
-                     WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
-                     Shapefile = deltamapr::R_EDSM_Strata_1819P1,
-                     Region_column = "Stratum",
-                     Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
+                       End_year=2020,
+                       Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
+                       WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
+                       Shapefile = deltamapr::R_EDSM_Strata_1819P1,
+                       Region_column = "Stratum",
+                       Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
 
-  Region_column <- rlang::sym(Region_column)
-  Region_column <- rlang::enquo(Region_column)
+  Region_column2 <- rlang::sym(Region_column)
+  Region_column2 <- rlang::enquo(Region_column2)
 
   Data_list <- list()
 
@@ -51,10 +53,10 @@ DeltaDater <- function(Start_year=2002,
                  remove=FALSE)%>%
     sf::st_transform(crs=sf::st_crs(Shapefile))%>%
     sf::st_join(Shapefile%>%
-                  dplyr::select(!!Region_column))%>%
+                  dplyr::select(!!Region_column2))%>%
     tibble::as_tibble()%>%
     dplyr::select(-.data$geometry)%>%
-    dplyr::rename(Region=!!Region_column)
+    dplyr::rename(Region=!!Region_column2)
 
   # Bivalves ----------------------------------------------------------------
 
@@ -112,6 +114,7 @@ DeltaDater <- function(Start_year=2002,
     #Add regions and lat/long to zoop dataset
     Data_list[["Zooplankton"]]<-Data_list[["Zooplankton"]]%>%
       dplyr::filter(.data$Year>=Start_year)%>%
+      dplyr::mutate(Station=ifelse(.data$Station%in%c("NZEZ2", "NZEZ6", "NZEZ2SJR", "NZEZ6SJR"), paste(.data$Station, .data$Date), .data$Station))%>%
       dplyr::left_join(Stations%>%
                          dplyr::select(-.data$StationID), by=c("Source", "Station"))%>%
       {if (is.null(Regions)){
@@ -168,121 +171,12 @@ DeltaDater <- function(Start_year=2002,
 
   if("Water quality"%in%Variables){
 
-    # Load and combine data ---------------------------------------------------
-    WQ_list<-list()
-
-    if("FMWT"%in%WQ_sources){
-    WQ_list[["FMWT"]]<-deltareportr::wq_fmwt
-    }
-
-    if("Baystudy"%in%WQ_sources){
-      WQ_list[["Baystudy"]]<-deltareportr::wq_baystudy
-    }
-
-    if("STN"%in%WQ_sources){
-    WQ_list[["STN"]]<-deltareportr::wq_stn
-    }
-
-    if("Suisun"%in%WQ_sources){
-      WQ_list[["Suisun"]]<-deltareportr::wq_suisun
-    }
-
-    if("SKT"%in%WQ_sources){
-      WQ_list[["SKT"]]<-deltareportr::wq_skt
-    }
-
-    if("20mm"%in%WQ_sources){
-      WQ_list[["twentymm"]]<-deltareportr::wq_20mm
-    }
-
-    if("EDSM"%in%WQ_sources){
-    WQ_list[["EDSM"]]<-deltareportr::wq_edsm
-    }
-
-    if("DJFMP"%in%WQ_sources){
-      WQ_list[["DJFMP"]]<-deltareportr::wq_djfmp
-    }
-
-    if("EMP"%in%WQ_sources){
-      WQ_list[["EMP"]]<-deltareportr::wq_emp
-    }
-
-    if("USBR"%in%WQ_sources){
-      WQ_list[["USBR"]]<-deltareportr::wq_usbr
-    }
-
-    if("USGS"%in%WQ_sources){
-      WQ_list[["USGS"]]<-deltareportr::wq_usgs
-    }
-
-    Data_list[["Water_quality"]]<-dplyr::bind_rows(WQ_list)%>%
-      dplyr::mutate(MonthYear=lubridate::floor_date(.data$Date, unit = "month"),
-                    Year=lubridate::year(.data$Date),
-                    StationID=paste(.data$Source, .data$Station))%>%
-      {if("Conductivity"%in%names(.)){
-        if("Salinity"%in%names(.)){
-          dplyr::mutate(., Salinity=dplyr::if_else(is.na(.data$Salinity), wql::ec2pss(.data$Conductivity/1000, t=25), .data$Salinity))
-        } else{
-          dplyr::mutate(., Salinity=wql::ec2pss(.data$Conductivity/1000, t=25))
-        }
-
-      } else{
-        if("Salinity"%in%names(.)){
-          .
-        } else{
-          dplyr::mutate(., Salinity=NA_real_)
-        }
-      }}%>%
-      {if("Latitude"%in%names(.)){
-        .
-      } else{
-        dplyr::mutate(., Latitude=NA_real_, Longitude=NA_real_)
-      }}
-
-
-
-
-    # Add regions and summarise -------------------------------------------------------------
-
-    #Add regions and lat/long to dataset
-    Data_list[["Water_quality"]]<-dplyr::filter(Data_list[["Water_quality"]], .data$StationID%in%Stations$StationID)%>%
-      dplyr::select(-.data$Latitude, -.data$Longitude)%>%
-      dplyr::left_join(Stations, by=c("Source", "Station", "StationID"))%>%
-      {if(any(!is.na(Data_list[["Water_quality"]]$Latitude))){
-        dplyr::bind_rows(., dplyr::filter(Data_list[["Water_quality"]], !(.data$StationID%in%Stations$StationID) & !is.na(.data$Latitude) & !is.na(.data$Longitude))%>%
-                           sf::st_as_sf(coords = c("Longitude", "Latitude"), #Add regions to EDSM data
-                                        crs=4326,
-                                        remove = FALSE)%>%
-                           sf::st_transform(crs=sf::st_crs(Shapefile))%>%
-                           sf::st_join(Shapefile%>%
-                                         dplyr::select(!!Region_column))%>%
-                           tibble::as_tibble()%>%
-                           dplyr::select(-.data$geometry)%>%
-                           dplyr::rename(Region=!!Region_column)%>%
-                           dplyr::mutate(Field_coords=TRUE))
-
-      } else{
-        .
-      }}%>%
-      dplyr::filter(lubridate::year(.data$MonthYear)>=Start_year)%>%
-      {if (is.null(Regions)){
-        dplyr::bind_rows(., dplyr::filter(Data_list[["Water_quality"]], !(.data$StationID%in%Stations$StationID) & (is.na(.data$Latitude) | is.na(.data$Longitude))))
-      } else{
-        dplyr::filter(., .data$Region%in%Regions)
-      }}%>%
-      dplyr::mutate(Month=lubridate::month(.data$MonthYear))%>%
-      {if ("Field_coords"%in%names(.)){
-        dplyr::mutate(., Field_coords = tidyr::replace_na(.data$Field_coords, FALSE))
-      } else{
-        .
-      }}%>%
-      dplyr::mutate(Season=dplyr::case_when(
-        .data$Month%in%c(12,1,2) ~ "Winter",
-        .data$Month%in%c(3,4,5) ~ "Spring",
-        .data$Month%in%c(6,7,8) ~ "Summer",
-        .data$Month%in%c(9,10,11) ~ "Fall"),
-        Year=dplyr::if_else(.data$Month==12, .data$Year-1, .data$Year)
-      )
+    Data_list[["Water_quality"]]<-discretewq::wq(Start_year=Start_year,
+                                                 End_year=End_year,
+                                                 Sources=WQ_sources,
+                                                 Shapefile = Shapefile,
+                                                 Region_column = Region_column,
+                                                 Regions = Regions)
   }
 
   # Return ------------------------------------------------------------------
