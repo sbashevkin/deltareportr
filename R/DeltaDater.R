@@ -64,7 +64,6 @@ DeltaDater <- function(Start_year=2002,
 
     #Add regions and lat/long to zoop dataset
     Data_list[["Bivalves"]]<-deltareportr::bivalves%>%
-      dplyr::filter(.data$Year>=Start_year)%>%
       dplyr::left_join(Stations%>%
                          dplyr::select(-.data$StationID), by=c("Source", "Station"))%>%
       {if (is.null(Regions)){
@@ -78,8 +77,9 @@ DeltaDater <- function(Start_year=2002,
         .data$Month%in%c(3,4,5) ~ "Spring",
         .data$Month%in%c(6,7,8) ~ "Summer",
         .data$Month%in%c(9,10,11) ~ "Fall"),
-        Year=dplyr::if_else(.data$Month==12, .data$Year-1, .data$Year)
-      )
+        Year=dplyr::if_else(.data$Month==12, .data$Year+1, .data$Year)
+      )%>%
+      dplyr::filter(.data$Year>=Start_year & .data$Year<=End_year)
 
   }
 
@@ -113,7 +113,6 @@ DeltaDater <- function(Start_year=2002,
 
     #Add regions and lat/long to zoop dataset
     Data_list[["Zooplankton"]]<-Data_list[["Zooplankton"]]%>%
-      dplyr::filter(.data$Year>=Start_year)%>%
       dplyr::mutate(Station=ifelse(.data$Station%in%c("NZEZ2", "NZEZ6", "NZEZ2SJR", "NZEZ6SJR"), paste(.data$Station, .data$Date), .data$Station))%>%
       dplyr::left_join(Stations%>%
                          dplyr::select(-.data$StationID), by=c("Source", "Station"))%>%
@@ -128,8 +127,9 @@ DeltaDater <- function(Start_year=2002,
         .data$Month%in%c(3,4,5) ~ "Spring",
         .data$Month%in%c(6,7,8) ~ "Summer",
         .data$Month%in%c(9,10,11) ~ "Fall"),
-        Year=dplyr::if_else(.data$Month==12, .data$Year-1, .data$Year)
-      )
+        Year=dplyr::if_else(.data$Month==12, .data$Year+1, .data$Year)
+      )%>%
+      dplyr::filter(.data$Year>=Start_year & .data$Year<=End_year)
 
   }
   # Phytoplankton -----------------------------------------------------------
@@ -142,7 +142,6 @@ DeltaDater <- function(Start_year=2002,
                                           .data$Taxa%in%c("Cryptophytes", "Green Algae", "Chrysophytes", "Dinoflagellates", "Cyanobacteria") ~ .data$Taxa,
                                           TRUE ~ "Other taxa"))%>%
       dplyr::mutate(Station=ifelse(.data$Station%in%c("EZ2", "EZ6", "EZ2-SJR", "EZ6-SJR"), paste(.data$Station, .data$Date), .data$Station))%>%
-      dplyr::filter(.data$Year>=2008 & .data$Year>Start_year)%>%
       dplyr::group_by(.data$Taxa, .data$Year, .data$Date, .data$Station, .data$Source)%>%
       dplyr::summarise(CPUE=sum(.data$CPUE, na.rm=T), .groups="drop")
 
@@ -163,20 +162,35 @@ DeltaDater <- function(Start_year=2002,
         .data$Month%in%c(3,4,5) ~ "Spring",
         .data$Month%in%c(6,7,8) ~ "Summer",
         .data$Month%in%c(9,10,11) ~ "Fall"),
-        Year=dplyr::if_else(.data$Month==12, .data$Year-1, .data$Year)
-      )
+        Year=dplyr::if_else(.data$Month==12, .data$Year+1, .data$Year)
+      )%>%
+      dplyr::filter(lubridate::year(.data$Date)>=2008 & .data$Year>Start_year & .data$Year<=End_year)
   }
 
   # Water quality -----------------------------------------------------------
 
   if("Water quality"%in%Variables){
 
-    Data_list[["Water_quality"]]<-discretewq::wq(Start_year=Start_year,
+    Data_list[["Water_quality"]]<-discretewq::wq(Start_year=Start_year-1, # Ensure that Dec of prior year is included since this function filters based on calendar year
                                                  End_year=End_year,
-                                                 Sources=WQ_sources,
-                                                 Shapefile = Shapefile,
-                                                 Region_column = Region_column,
-                                                 Regions = Regions)
+                                                 Sources=WQ_sources)
+
+    Data_list[["Water_quality"]]<-dplyr::filter(Data_list[["Water_quality"]], !is.na(.data$Latitude) & !is.na(.data$Longitude))%>%
+      sf::st_as_sf(coords = c("Longitude", "Latitude"),
+                   crs=4326,
+                   remove=FALSE)%>%
+      sf::st_transform(crs=sf::st_crs(Shapefile))%>%
+      sf::st_join(Shapefile%>%
+                    dplyr::select(!!Region_column2))%>%
+      sf::st_drop_geometry()%>%
+      dplyr::rename(Region=!!Region_column2)%>%
+      {if (is.null(Regions)){
+        dplyr::bind_rows(., dplyr::filter(Data_list[["Water_quality"]], is.na(.data$Latitude) | is.na(.data$Longitude)))
+      } else{
+        dplyr::filter(., .data$Region%in%Regions)
+      }}%>%
+      dplyr::mutate(Year=dplyr::if_else(.data$Month==12, .data$Year+1, .data$Year))%>%
+      dplyr::filter(.data$Year>=Start_year & .data$Year<=End_year) # Re-filter to desired years now that Dec has been pushed forward a year
   }
 
   # Return ------------------------------------------------------------------
