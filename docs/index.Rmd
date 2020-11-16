@@ -11,9 +11,7 @@ An R package to facilitate the creation of custom reports using monitoring data 
 
 # Delta Smelt Conditions Report
 
-## [2019 reporting year (V2), in progress](Delta_Smelt_conditions_report_2019.html)
-
-[***Full 2019 report with all seasons***](Delta_Smelt_conditions_report_full_2019.html)
+## [2019 reporting year (V2), in progress](Delta_Smelt_conditions_report_full_2019.html)
 
 
 ## [2018 reporting year (V1)](Delta_Smelt_conditions_report_2018_fixed.html)
