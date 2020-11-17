@@ -1,3 +1,6 @@
+* Altered plotting functions to output 1 plot for each season.
+* Added SKT, 20mm, Suisun, USGS, and Baystudy data to water quality graphs
+* Committed to full report showing all seasons, removed 1-season version.
 * Moved region designation back to this package from [`discretewq`](https://github.com/sbashevkin/discretewq)
 * Fixed error where December was being assigned to the prior year instead of the next year (to keep winters in the same year)
 * Changed the year filtering so that December is counted in the next year before filtering by years (so now Dec 2001 will be included in the 2002 data used in the report)

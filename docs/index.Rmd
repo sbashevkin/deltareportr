@@ -1,6 +1,8 @@
 ---
 title: "deltareportr"
-output: html_document
+output: 
+  html_document:
+    anchor_sections: false
 ---
 
 ```{r setup, include=FALSE}
@@ -11,8 +13,8 @@ An R package to facilitate the creation of custom reports using monitoring data 
 
 # Delta Smelt Conditions Report
 
-## [2019 reporting year (V2), in progress](Delta_Smelt_conditions_report_full_2019.html)
-
+## [2019 reporting year (V2), static version for editing](Delta_Smelt_conditions_report_full_2019.html)
+*[in progress version](Delta_Smelt_conditions_report_2019.html)*
 
 ## [2018 reporting year (V1)](Delta_Smelt_conditions_report_2018_fixed.html)
 

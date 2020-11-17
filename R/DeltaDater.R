@@ -35,7 +35,7 @@
 DeltaDater <- function(Start_year=2002,
                        End_year=2020,
                        Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality"),
-                       WQ_sources = c("EMP", "STN", "FMWT", "EDSM"),
+                       WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "SKT", "20mm", "Suisun"),
                        Shapefile = deltamapr::R_EDSM_Strata_1819P1,
                        Region_column = "Stratum",
                        Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){

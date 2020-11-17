@@ -11,7 +11,7 @@ DeltaPhyter(
   Regions = c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River",
     "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island",
     "Lower Joaquin River", "Southern Delta"),
-  Seasons = "Summer"
+  Seasons = c("Winter", "Spring", "Summer", "Fall")
 )
 }
 \arguments{
@@ -23,7 +23,7 @@ DeltaPhyter(
 
 \item{Regions}{Character vector of regions to include in the plot. The data will be filtered to only include these regions and ordered in the order provided here. To include data with NA regions, set \code{Regions=NULL}.}
 
-\item{Seasons}{Character vector of seasons to include in the dataset. Should be one of "Summer", "Fall", "Winter", or "Spring".}
+\item{Seasons}{Character vector of seasons to include. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".}
 }
 \value{
 A list with the plot and processed data.

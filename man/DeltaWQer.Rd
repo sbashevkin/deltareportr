@@ -11,11 +11,11 @@ DeltaWQer(
   Regions = c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River",
     "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island",
     "Lower Joaquin River", "Southern Delta"),
-  Temp_season = "Summer",
-  Secchi_season = "Fall",
-  Salinity_season = "Fall",
-  Chl_season = "Summer",
-  Micro_season = "Summer"
+  Temp_seasons = c("Winter", "Spring", "Summer", "Fall"),
+  Secchi_seasons = c("Winter", "Spring", "Summer", "Fall"),
+  Salinity_seasons = c("Winter", "Spring", "Summer", "Fall"),
+  Chl_seasons = c("Winter", "Spring", "Summer", "Fall"),
+  Micro_seasons = c("Winter", "Spring", "Summer", "Fall")
 )
 }
 \arguments{
@@ -27,15 +27,15 @@ DeltaWQer(
 
 \item{Regions}{Character vector of regions to include in the plot. The data will be filtered to only include these regions and ordered in the order provided here. To include data with NA regions, set \code{Regions=NULL}.}
 
-\item{Temp_season}{Character vector of seasons to retain for temperature. Should be one of "Summer", "Fall", "Winter", or "Spring".}
+\item{Temp_seasons}{Character vector of seasons to retain for temperature. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".}
 
-\item{Secchi_season}{Character vector of seasons to retain for Secchi. Should be one of "Summer", "Fall", "Winter", or "Spring".}
+\item{Secchi_seasons}{Character vector of seasons to retain for Secchi. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".}
 
-\item{Salinity_season}{Character vector of seasons to retain for salinity. Should be one of "Summer", "Fall", "Winter", or "Spring".}
+\item{Salinity_seasons}{Character vector of seasons to retain for salinity. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".}
 
-\item{Chl_season}{Character vector of seasons to retain for chlorophyll. Should be one of "Summer", "Fall", "Winter", or "Spring".}
+\item{Chl_seasons}{Character vector of seasons to retain for chlorophyll. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".}
 
-\item{Micro_season}{Character vector of seasons to retain for \emph{Microcystis}. Should be one of "Summer", "Fall", "Winter", or "Spring".}
+\item{Micro_seasons}{Character vector of seasons to retain for \emph{Microcystis}. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".}
 }
 \value{
 A list with the plot and processed data.

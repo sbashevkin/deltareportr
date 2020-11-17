@@ -2,11 +2,11 @@
 #'
 #' Function to process and plot water quality (temperature, Secchi depth, salinity, chlorophyll, and \emph{Microcystis}) data
 #' @inherit DeltaBivalver
-#' @param Temp_season Character vector of seasons to retain for temperature. Should be one of "Summer", "Fall", "Winter", or "Spring".
-#' @param Secchi_season Character vector of seasons to retain for Secchi. Should be one of "Summer", "Fall", "Winter", or "Spring".
-#' @param Salinity_season Character vector of seasons to retain for salinity. Should be one of "Summer", "Fall", "Winter", or "Spring".
-#' @param Chl_season Character vector of seasons to retain for chlorophyll. Should be one of "Summer", "Fall", "Winter", or "Spring".
-#' @param Micro_season Character vector of seasons to retain for \emph{Microcystis}. Should be one of "Summer", "Fall", "Winter", or "Spring".
+#' @param Temp_seasons Character vector of seasons to retain for temperature. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".
+#' @param Secchi_seasons Character vector of seasons to retain for Secchi. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".
+#' @param Salinity_seasons Character vector of seasons to retain for salinity. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".
+#' @param Chl_seasons Character vector of seasons to retain for chlorophyll. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".
+#' @param Micro_seasons Character vector of seasons to retain for \emph{Microcystis}. One plot will be produced for each season. Should be a combination of "Summer", "Fall", "Winter", or "Spring".
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @importFrom rlang :=
@@ -16,11 +16,11 @@ DeltaWQer<-function(Data,
                     End_year,
                     Start_year=2002,
                     Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
-                    Temp_season="Summer",
-                    Secchi_season="Fall",
-                    Salinity_season="Fall",
-                    Chl_season="Summer",
-                    Micro_season="Summer"){
+                    Temp_seasons=c("Winter", "Spring", "Summer", "Fall"),
+                    Secchi_seasons=c("Winter", "Spring", "Summer", "Fall"),
+                    Salinity_seasons=c("Winter", "Spring", "Summer", "Fall"),
+                    Chl_seasons=c("Winter", "Spring", "Summer", "Fall"),
+                    Micro_seasons=c("Winter", "Spring", "Summer", "Fall")){
 
   Secchisum<-Data%>%
     {if (is.null(Regions)){
@@ -30,18 +30,18 @@ DeltaWQer<-function(Data,
     }}%>%
     dplyr::select(.data$Month, .data$Region, .data$Secchi, .data$Year, .data$Season)%>%
     dplyr::filter(!is.na(.data$Secchi))%>%
-    dplyr::filter(.data$Season%in%Secchi_season)%>%
+    dplyr::filter(.data$Season%in%Secchi_seasons)%>%
     droplevels()%>%
-    dplyr::group_by(.data$Region, .data$Year)%>%
+    dplyr::group_by(.data$Region, .data$Year, .data$Season)%>%
     dplyr::summarise(SD=stats::sd(.data$Secchi, na.rm=T), Secchi=mean(.data$Secchi, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
-    tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
+    tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"))%>%
     dplyr::mutate(Region=factor(.data$Region, levels=Regions))
 
   Secchimissing<-Secchisum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
-    dplyr::select(.data$Year, .data$Region)
+    dplyr::select(.data$Year, .data$Region, .data$Season)
 
   Secchisum<-Secchisum%>%
     dplyr::filter(is.na(.data$missing))%>%
@@ -55,18 +55,18 @@ DeltaWQer<-function(Data,
     }}%>%
     dplyr::select(.data$Month, .data$Region, .data$Salinity, .data$Year, .data$Season)%>%
     dplyr::filter(!is.na(.data$Salinity))%>%
-    dplyr::filter(.data$Season%in%Salinity_season)%>%
+    dplyr::filter(.data$Season%in%Salinity_seasons)%>%
     droplevels()%>%
-    dplyr::group_by(.data$Region, .data$Year)%>%
+    dplyr::group_by(.data$Region, .data$Year, .data$Season)%>%
     dplyr::summarise(SD=stats::sd(.data$Salinity, na.rm=T), Salinity=mean(.data$Salinity, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
-    tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
+    tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"))%>%
     dplyr::mutate(Region=factor(.data$Region, levels=Regions))
 
   Salmissing<-Salsum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
-    dplyr::select(.data$Year, .data$Region)
+    dplyr::select(.data$Year, .data$Region, .data$Season)
 
   Salsum<-Salsum%>%
     dplyr::filter(is.na(.data$missing))%>%
@@ -80,18 +80,18 @@ DeltaWQer<-function(Data,
     }}%>%
     dplyr::select(.data$Month, .data$Region, .data$Chlorophyll, .data$Year, .data$Season)%>%
     dplyr::filter(!is.na(.data$Chlorophyll))%>%
-    dplyr::filter(.data$Season%in%Chl_season)%>%
+    dplyr::filter(.data$Season%in%Chl_seasons)%>%
     droplevels()%>%
-    dplyr::group_by(.data$Region, .data$Year)%>%
+    dplyr::group_by(.data$Region, .data$Year, .data$Season)%>%
     dplyr::summarise(SD=stats::sd(.data$Chlorophyll, na.rm=T), Chlorophyll=mean(.data$Chlorophyll, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
-    tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
+    tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"))%>%
     dplyr::mutate(Region=factor(.data$Region, levels=Regions))
 
   Chlmissing<-Chlsum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
-    dplyr::select(.data$Year, .data$Region)
+    dplyr::select(.data$Year, .data$Region, .data$Season)
 
   Chlsum<-Chlsum%>%
     dplyr::filter(is.na(.data$missing))%>%
@@ -105,9 +105,9 @@ DeltaWQer<-function(Data,
     }}%>%
     dplyr::select(.data$Month, .data$Region, .data$Microcystis, .data$Year, .data$Season)%>%
     dplyr::filter(!is.na(.data$Microcystis))%>%
-    dplyr::filter(.data$Season%in%Micro_season)%>%
+    dplyr::filter(.data$Season%in%Micro_seasons)%>%
     droplevels()%>%
-    dplyr::group_by(.data$Region, .data$Year)%>%
+    dplyr::group_by(.data$Region, .data$Year, .data$Season)%>%
     dplyr::summarise(N_Microcystis=length(which(!is.na(.data$Microcystis))),
                      Microcystis1=length(which(.data$Microcystis==1))/.data$N_Microcystis,
                      Microcystis2=length(which(.data$Microcystis==2))/.data$N_Microcystis,
@@ -118,13 +118,13 @@ DeltaWQer<-function(Data,
     tidyr::pivot_longer(c(.data$Microcystis1, .data$Microcystis2, .data$Microcystis3, .data$Microcystis4, .data$Microcystis5), names_to = "Severity", values_to = "Frequency")%>%
     dplyr::mutate(Severity=dplyr::recode(.data$Severity, "Microcystis1"="Absent", "Microcystis2"="Low", "Microcystis3"="Medium", "Microcystis4"="High", "Microcystis5"="Very high"))%>%
     dplyr::mutate(missing="na")%>%
-    tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
+    tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"),
                   Region=factor(.data$Region, levels=Regions))
 
   Micromissing<-Microsum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
-    dplyr::select(.data$Year, .data$Region)
+    dplyr::select(.data$Year, .data$Region, .data$Season)
 
   Microsum<-Microsum%>%
     dplyr::filter(is.na(.data$missing))%>%
@@ -139,20 +139,20 @@ DeltaWQer<-function(Data,
       dplyr::filter(., .data$Region%in%Regions)
     }}%>%
     dplyr::select(.data$Month, .data$Region, .data$Temperature, .data$Year, .data$Season)%>%
-    dplyr::filter(.data$Season%in%Temp_season & !is.na(.data$Temperature))%>%
+    dplyr::filter(.data$Season%in%Temp_seasons & !is.na(.data$Temperature))%>%
     droplevels()%>%
-    dplyr::group_by(.data$Year, .data$Region)%>%
+    dplyr::group_by(.data$Year, .data$Region, .data$Season)%>%
     dplyr::mutate(Nmonths = dplyr::n_distinct(.data$Month))%>%
     dplyr::filter(.data$Nmonths>=3)%>%
     dplyr::summarise(SD=stats::sd(.data$Temperature, na.rm=T), Temperature=mean(.data$Temperature, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
-    tidyr::complete(Year=Start_year:(End_year), .data$Region, fill=list(missing="n.d."))%>%
+    tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"),
                   Region=factor(.data$Region, levels=Regions))
 
   Tempmissing<-Tempsum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
-    dplyr::select(.data$Year, .data$Region)
+    dplyr::select(.data$Year, .data$Region, .data$Season)
 
   Tempsum<-Tempsum%>%
     dplyr::filter(is.na(.data$missing))%>%
@@ -160,17 +160,8 @@ DeltaWQer<-function(Data,
 
   Salrange<-Salsum%>%
     dplyr::filter(!is.na(.data$Salinity))%>%
-    dplyr::group_by(.data$Region)%>%
+    dplyr::group_by(.data$Region, .data$Season)%>%
     dplyr::summarise(Salrange=paste0("min: ", round(min(.data$Salinity), 2), ", max: ", round(max(.data$Salinity), 2)), .groups="drop")
-
-  Chlrange<-tibble::tibble(xmin=min(Chlsum$Year), xmax=max(Chlsum$Year), Region=unique(as.character(dplyr::filter(Chlsum, !is.na(.data$Chlorophyll))$Region)))
-  Chlrange<-Chlrange%>%
-    dplyr::mutate(ymin=0, ymax=10, Quality="Bad")%>%
-    dplyr::bind_rows(Chlrange%>%
-                       dplyr::mutate(ymin=10,
-                                     ymax=max(Chlsum$Chlorophyll, na.rm=T),
-                                     Quality="Good"))%>%
-    dplyr::mutate(Region=factor(.data$Region, levels=Regions))
 
   # Plot --------------------------------------------------------------------
 
@@ -204,28 +195,59 @@ DeltaWQer<-function(Data,
                     Quality=="Bad" ~ max(Tempsum$Temperature+Tempsum$SD)
                   ))
 
+Templot<-function(season){
+  Data_sum<-dplyr::filter(Tempsum, .data$Season==season)
+  Data_missing<-dplyr::filter(Tempmissing, .data$Season==season)
 
-  pTemp<-plotWQ(Tempsum, "Temperature", bquote(Temperature~"("*degree*c*")"))+
-    ggplot2::geom_vline(data=Tempmissing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
-    ggplot2::geom_rect(data=TempShades, ggplot2::aes(xmin=.data$xmin, xmax=.data$xmax, ymin=.data$ymin, ymax=.data$ymax, fill=.data$Quality), alpha=0.2)+
-    ggplot2::scale_fill_brewer(type="div", palette = "RdYlBu", direction=-1)+
-    ggplot2::theme(legend.position = "none")
+  p<-plotWQ(Data_sum, "Temperature", bquote(Temperature~"("*degree*c*")"))+
+    ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
+    ggplot2::coord_cartesian(ylim = c(min(Data_sum$Temperature-Data_sum$SD),max(Data_sum$Temperature+Data_sum$SD)))
 
-  pSecchi<-plotWQ(Secchisum, "Secchi", "Secchi depth (cm)")+
-    ggplot2::geom_vline(data=Secchimissing, ggplot2::aes(xintercept=.data$Year), linetype=2)
+    if(season%in%c("Summer", "Fall")){
+      p<-p+ggplot2::geom_rect(data=TempShades, ggplot2::aes(xmin=.data$xmin, xmax=.data$xmax, ymin=.data$ymin, ymax=.data$ymax, fill=.data$Quality), alpha=0.2)+
+      ggplot2::scale_fill_brewer(type="div", palette = "RdYlBu", direction=-1)+
+        ggplot2::theme(legend.position = "none")
+    }
 
-  pChla<-plotWQ(Chlsum, "Chlorophyll", bquote(Chlorophyll~a~"("*mu*g*"/L)"))+
-    ggplot2::geom_vline(data=Chlmissing, ggplot2::aes(xintercept=.data$Year), linetype=2)
+  return(p)
 
-  pSal<-plotWQ(Salsum, "Salinity", "Salinity")+
-    ggplot2::geom_label(data=Salrange, ggplot2::aes(x=2006, y=15, label=.data$Salrange), alpha=0.5, size=2.5)+
-    ggplot2::geom_vline(data=Salmissing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
-    ggplot2::coord_cartesian(ylim = c(0,max(Salsum$Salinity+Salsum$SD)))
+}
 
-  pMicro<-ggplot2::ggplot()+
-    ggplot2::geom_bar(data=Microsum, ggplot2::aes(x=.data$Year, y=.data$Frequency, fill=.data$Severity), stat="identity")+
+Secchiplot<-function(season){
+  Data_sum<-dplyr::filter(Secchisum, .data$Season==season)
+  Data_missing<-dplyr::filter(Secchimissing, .data$Season==season)
+
+  plotWQ(Data_sum, "Secchi", "Secchi depth (cm)")+
+    ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)
+}
+
+Chlaplot<-function(season){
+  Data_sum<-dplyr::filter(Chlsum, .data$Season==season)
+  Data_missing<-dplyr::filter(Chlmissing, .data$Season==season)
+
+  plotWQ(Data_sum, "Chlorophyll", bquote(Chlorophyll~a~"("*mu*g*"/L)"))+
+    ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)
+}
+
+Salplot<-function(season){
+  Data_sum<-dplyr::filter(Salsum, .data$Season==season)
+  Data_missing<-dplyr::filter(Salmissing, .data$Season==season)
+  Data_range<-dplyr::filter(Salrange, .data$Season==season)
+
+  plotWQ(Data_sum, "Salinity", "Salinity")+
+    ggplot2::geom_label(data=Data_range, ggplot2::aes(x=2006, y=15, label=.data$Salrange), alpha=0.5, size=2.5)+
+    ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
+    ggplot2::coord_cartesian(ylim = c(0,max(Data_sum$Salinity+Data_sum$SD)))
+}
+
+Microplot<-function(season){
+  Data_sum<-dplyr::filter(Microsum, .data$Season==season)
+  Data_missing<-dplyr::filter(Micromissing, .data$Season==season)
+
+  ggplot2::ggplot()+
+    ggplot2::geom_bar(data=Data_sum, ggplot2::aes(x=.data$Year, y=.data$Frequency, fill=.data$Severity), stat="identity")+
     ggplot2::geom_bar(data=tibble::tibble(End_year), ggplot2::aes(x=End_year, y=1), stat="identity", color="firebrick3", fill=NA, size=1)+
-    ggplot2::geom_vline(data=Micromissing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
+    ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
     ggplot2::scale_fill_brewer(type="div", palette="RdYlBu", guide=ggplot2::guide_legend(keyheight=0.8, title=NULL, direction="horizontal", label.position="top", reverse=TRUE))+
     ggplot2::scale_x_continuous(labels=insert_minor(seq(floor(Start_year/10)*10, ceiling(End_year/10)*10, by=5), 4), breaks = (floor(Start_year/10)*10):(ceiling(End_year/10)*10), limits=c(Start_year,End_year+1), expand=ggplot2::expansion(0,0))+
     ggplot2::scale_y_continuous(expand=ggplot2::expansion(0,0))+
@@ -237,6 +259,14 @@ DeltaWQer<-function(Data,
                    plot.title = ggplot2::element_text(hjust = 0.5, size=20), legend.position=c(0.85,0.2),
                    legend.background=ggplot2::element_rect(fill="white", color="black"),
                    legend.text = ggplot2::element_text(size=8), plot.margin = ggplot2::margin(r=10))
+
+}
+
+pTemp<-purrr::map(rlang::set_names(Temp_seasons), Templot)
+pSecchi<-purrr::map(rlang::set_names(Secchi_seasons), Secchiplot)
+pSal<-purrr::map(rlang::set_names(Salinity_seasons), Salplot)
+pChla<-purrr::map(rlang::set_names(Chl_seasons), Chlaplot)
+pMicro<-purrr::map(rlang::set_names(Micro_seasons), Microplot)
 
   Datacleaner<-function(Data, Parameter){
     Parameter <- rlang::sym(Parameter)
