@@ -33,6 +33,8 @@ DeltaWQer<-function(Data,
     dplyr::filter(.data$Season%in%Secchi_seasons)%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Season)%>%
+    dplyr::mutate(Nmonths = dplyr::n_distinct(.data$Month))%>%
+    dplyr::filter(.data$Nmonths>=3)%>%
     dplyr::summarise(SD=stats::sd(.data$Secchi, na.rm=T), Secchi=mean(.data$Secchi, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%
@@ -58,6 +60,8 @@ DeltaWQer<-function(Data,
     dplyr::filter(.data$Season%in%Salinity_seasons)%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Season)%>%
+    dplyr::mutate(Nmonths = dplyr::n_distinct(.data$Month))%>%
+    dplyr::filter(.data$Nmonths>=3)%>%
     dplyr::summarise(SD=stats::sd(.data$Salinity, na.rm=T), Salinity=mean(.data$Salinity, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%
@@ -83,6 +87,8 @@ DeltaWQer<-function(Data,
     dplyr::filter(.data$Season%in%Chl_seasons)%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Season)%>%
+    dplyr::mutate(Nmonths = dplyr::n_distinct(.data$Month))%>%
+    dplyr::filter(.data$Nmonths>=3)%>%
     dplyr::summarise(SD=stats::sd(.data$Chlorophyll, na.rm=T), Chlorophyll=mean(.data$Chlorophyll, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%
@@ -108,6 +114,8 @@ DeltaWQer<-function(Data,
     dplyr::filter(.data$Season%in%Micro_seasons)%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Season)%>%
+    dplyr::mutate(Nmonths = dplyr::n_distinct(.data$Month))%>%
+    dplyr::filter(.data$Nmonths>=3)%>%
     dplyr::summarise(N_Microcystis=length(which(!is.na(.data$Microcystis))),
                      Microcystis1=length(which(.data$Microcystis==1))/.data$N_Microcystis,
                      Microcystis2=length(which(.data$Microcystis==2))/.data$N_Microcystis,

@@ -42,6 +42,8 @@ DeltaZooper<-function(Data,
     dplyr::inner_join(Keep, by=c("MonthYear", "Region"))%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Taxa, .data$Season)%>%
+    dplyr::mutate(Nmonths = dplyr::n_distinct(.data$Month))%>%
+    dplyr::filter(.data$Nmonths>=3)%>%
     dplyr::summarise(BPUE=mean(.data$BPUE, na.rm=T), .groups="drop")%>%
     droplevels()%>%
     dplyr::mutate(missing="na")%>%

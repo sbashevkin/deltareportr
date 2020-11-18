@@ -36,8 +36,9 @@ DeltaBivalver<-function(Data,
       dplyr::filter(., .data$Region%in%Regions)
     }}%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Taxa, .data$Season)%>%
-    dplyr::summarise(CPUE=mean(.data$CPUE, na.rm=T))%>%
-    dplyr::ungroup()%>%
+    dplyr::mutate(Nmonths = dplyr::n_distinct(.data$Month))%>%
+    dplyr::filter(.data$Nmonths>=3)%>%
+    dplyr::summarise(CPUE=mean(.data$CPUE, na.rm=T), .groups="drop")%>%
     dplyr::mutate(missing="na",
                   Region=as.character(.data$Region))%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%

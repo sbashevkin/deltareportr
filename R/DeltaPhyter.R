@@ -23,6 +23,8 @@ DeltaPhyter<-function(Data,
     }}%>%
     droplevels()%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Taxa, .data$Season)%>%
+    dplyr::mutate(Nmonths = dplyr::n_distinct(.data$Month))%>%
+    dplyr::filter(.data$Nmonths>=3)%>%
     dplyr::summarise(CPUE=mean(.data$CPUE, na.rm=T), .groups="drop")%>%
     dplyr::filter(.data$Year>=Start_year)%>%
     dplyr::mutate(Taxa=factor(.data$Taxa, levels=c("Diatoms", "Cryptophytes", "Green Algae", "Chrysophytes", "Cyanobacteria", "Dinoflagellates", "Other flagellates", "Other taxa")),
