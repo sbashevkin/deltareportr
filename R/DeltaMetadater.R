@@ -79,7 +79,12 @@ DeltaMetadater<-function(Data,
     ggplot2::scale_y_continuous(expand = c(0,0), limits=c(0,NA))+
     ggplot2::ylab("Average number of data points per year")+
     ggplot2::theme_bw()+
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle=45, hjust=1), panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(), text=ggplot2::element_text(size=12), plot.margin = ggplot2::margin(35,0,0,35), strip.text.y = ggplot2::element_text(angle=0, hjust=0), panel.spacing.y = ggplot2::unit(0.5, "lines"), legend.position=c(0.5, 1.1), legend.background = ggplot2::element_rect(color="black"))
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle=45, hjust=1),
+                   panel.grid=ggplot2::element_blank(), strip.background = ggplot2::element_blank(),
+                   text=ggplot2::element_text(size=12), plot.margin = ggplot2::margin(55,0,0,35),
+                   strip.text.y = ggplot2::element_text(angle=0, hjust=0),
+                   panel.spacing.y = ggplot2::unit(0.5, "lines"),
+                   legend.position=c(0.5, 1.14), legend.background = ggplot2::element_rect(color="black"))
 
   Data_out <- sum%>%
     dplyr::mutate(Yearly_samples = round(.data$Yearly_samples, 2),
