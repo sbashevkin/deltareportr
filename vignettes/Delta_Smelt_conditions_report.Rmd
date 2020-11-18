@@ -88,7 +88,7 @@ include_graphics("figures/DBK_Delta_Smelt-2463edit.jpg")
 
 # Methods
 
-Most variables are divided among 7 of the 8 regions from the [Enhanced Delta Smelt Monitoring (EDSM)](https://www.fws.gov/lodi/juvenile_fish_monitoring_program/jfmp_index.htm) 2018-19 phase I strata, with the Western Delta region excluded because it is almost never occupied by Delta Smelt. Missing data are denoted by vertical dashed lines. Data are plotted from 2002 (or the start of data collection) until present. The graphs presented in this report are for the season when a selected variable is most critical in the life history of Delta Smelt, as determined from literature. The graphs also highlight in red the most recent year, to facilitate visual comparisons of recent conditions with previous years. This report will be produced annually. 
+Most variables are divided among 7 of the 8 regions from the [Enhanced Delta Smelt Monitoring (EDSM)](https://www.fws.gov/lodi/juvenile_fish_monitoring_program/jfmp_index.htm) 2018-19 phase I strata, with the Western Delta region excluded because it is almost never occupied by Delta Smelt. Missing data are denoted by vertical dashed lines. Data are plotted from 2002 (or the start of data collection) until present. Graphs are available for all four seasons of each variable (except Outflow, X2, and Delta Smelt abundance, which are each plotted as a single contiguous time series). Note that y-axis scales are different for each season. The most important season for each variable are shown by default and the other seasons must be opened by clicking the arrow symbol. The most important season is determined from the literature as the season when a selected variable is most critical in the life history of Delta Smelt. The graphs also highlight in red the report year, to facilitate visual comparisons of recent conditions with previous years. This report will be produced annually. 
 
 (ref:Deltamap) The Sacramento San Joaquin Delta divided into the EDSM 2018-19 phase I strata (Suisun Bay, Suisun Marsh, Lower Sacramento River, Sacramento Deep Water Shipping Channel, Cache Slough/Liberty Island, Lower San Joaquin River, and the Southern Delta).
 
@@ -100,7 +100,7 @@ include_graphics("figures/map.png")
 ## Sampling programs
 
 ```{r Sampleprog}
-knitr::kable(tibble::tibble(Acronym = c("EMP", "FMWT", "SKT", "STN", "20mm", "EDSM", "Dayflow"), `Dataset name` = c("Environmental Monitoring Program", "Fall Midwater Trawl", "Spring Kodiak Trawl", "Summer Townet", "20 mm Survey", "Enhanced Delta Smelt Monitoring", "Dayflow"), Agency = c("California Department of Fish and Wildlife; Department of Water Resources", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "United States Fish and Wildlife Service", "Department of Water Resources")), caption="Acronyms and responsible agencies for each dataset used in this report.")
+knitr::kable(tibble::tibble(Acronym = c("EMP", "FMWT", "SKT", "STN", "20mm", "EDSM", "Suisun", "Dayflow"), `Dataset name` = c("Environmental Monitoring Program", "Fall Midwater Trawl", "Spring Kodiak Trawl", "Summer Townet", "20 mm Survey", "Enhanced Delta Smelt Monitoring", "Suisun Marsh Fish Study", "Dayflow"), Agency = c("California Department of Fish and Wildlife; Department of Water Resources", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "California Department of Fish and Wildlife", "United States Fish and Wildlife Service","University of California, Davis", "Department of Water Resources")), caption="Acronyms and responsible agencies for each dataset used in this report.")
 ```
 
 
@@ -143,7 +143,7 @@ X2 is a measure of the location of low salinity habitat. X2 is defined as the ho
 
 ## Temperature {#Temperaturegraphs}
 
-(ref:Temperature) Mean seasonal water temperature from discrete measurements collected by the STN, EMP, and EDSM surveys, shaded by suitability for Delta Smelt (bottom blue section under 20 &deg;C = good, middle yellow section between 20 and 22 &deg;C  = marginal, top red section over 22 &deg;C = bad). Gray shading represents the standard deviation across all measurements from the specified season of each year. Vertical dotted lines represent years with missing data. Raw data are available in <a href="#tab:Temperaturedata"> table 5.</a>
+(ref:Temperature) Mean seasonal water temperature from discrete measurements collected by the 20mm, EDSM, EMP, FMWT, SKT, STN, and Suisun surveys, shaded by suitability for Delta Smelt (bottom blue section under 20 &deg;C = good, middle yellow section between 20 and 22 &deg;C  = marginal, top red section over 22 &deg;C = bad). Gray shading represents the standard deviation across all measurements from the specified season of each year. Vertical dotted lines represent years with missing data. Raw data are available in <a href="#tab:Temperaturedata"> table 5.</a>
 
 <details>
   <summary>**Winter**</summary>
@@ -177,7 +177,7 @@ Delta Smelt are sensitive to high water temperatures. Results from laboratory an
 
 ## Secchi depth {#Secchigraphs}
 
-(ref:Secchi) Mean seasonal Secchi depth from the FMWT, EMP, and EDSM surveys. Means were calculated by pooling discrete measurements of the three surveys for the specified season of each year. Gray shading represents the standard deviation across all measurements from the specified season of each year. Raw data are available in <a href="#tab:Secchidata"> table 6.</a>
+(ref:Secchi) Mean seasonal Secchi depth from the 20mm, EDSM, EMP, FMWT, SKT, STN, and Suisun surveys. Means were calculated by pooling discrete measurements of the three surveys for the specified season of each year. Gray shading represents the standard deviation across all measurements from the specified season of each year. Raw data are available in <a href="#tab:Secchidata"> table 6.</a>
 
 
 <details>
@@ -212,7 +212,7 @@ Secchi depth is a measure of turbidity. **Lower Secchi depth indicates higher tu
 
 ## Salinity {#Salinitygraphs}
 
-(ref:Salinity) Mean seasonal salinity from the FMWT and EMP surveys. Means were calculated by pooling discrete measurements of the two surveys for the specified season of each year. Gray shading represents the standard deviation across all measurements from the specified season of each year. Raw data are available in <a href="#tab:Salinitydata"> table 7.</a>
+(ref:Salinity) Mean seasonal salinity from the 20mm, EMP, FMWT, SKT, STN, and Suisun surveys. Means were calculated by pooling discrete measurements of the two surveys for the specified season of each year. Gray shading represents the standard deviation across all measurements from the specified season of each year. Raw data are available in <a href="#tab:Salinitydata"> table 7.</a>
 
 <details>
   <summary>**Winter**</summary>
@@ -350,7 +350,7 @@ PH$Plots$Fall$Cyanobacteria
 
 ## *Microcystis* {#Microcystisgraphs}
 
-(ref:Microcystis) Seasonal *Microcystis* bloom intensity from EMP and STN. Means were calculated by pooling discrete measurements from the two surveys for the specified season of each year. *Microcystis* bloom presence and intensity are measured on a qualitative scale with 5 categories: absent, low (widely scattered colonies), medium (adjacent colonies), high (contiguous colonies), and very high (concentration of contiguous colonies forming mats/scum). Vertical dotted lines represent years with missing data. Raw data are available in <a href="#tab:Microcystisdata"> table 10.</a>
+(ref:Microcystis) Seasonal *Microcystis* bloom intensity from the EMP, FMWT, and STN surveys. Means were calculated by pooling discrete measurements from the two surveys for the specified season of each year. *Microcystis* bloom presence and intensity are measured on a qualitative scale with 5 categories: absent, low (widely scattered colonies), medium (adjacent colonies), high (contiguous colonies), and very high (concentration of contiguous colonies forming mats/scum). Vertical dotted lines represent years with missing data. Raw data are available in <a href="#tab:Microcystisdata"> table 10.</a>
 
 <details>
   <summary>**Winter**</summary>
@@ -501,7 +501,7 @@ EDSM is a new survey that calculates Delta Smelt abundance estimates throughout 
 
 ## Detailed methods
 
-Data collected from 2002 - present within our regional strata were included in this report. We used regional strata from the Enhanced Delta Smelt Monitoring (EDSM) 2018-19 phase I strata. The Western Delta region was excluded because it is almost never occupied by Delta Smelt. Temperature, Secchi depth, salinity, chlorophyll, phytoplankton, cyanobacteria, zooplankton, and bivalve data were first filtered to only include data within the season of interest, then annual means within each region were calculated. Monthly means were calculated for outflow and X2. The relative frequencies of Microcystis index values (1-5) were calculated for each year and region. Official Delta Smelt indices were used from the Fall Midwater Trawl (FMWT), Spring Kodiak Trawl (SKT), Summer Townet (STN), and 20-mm (20mm) surveys. Official abundance estimates from EDSM were averaged monthly within each region and confidence intervals were calculated based on the lognormal distribution as described in Polansky et al. (2019). 
+Data collected from 2002 - present within our regional strata were included in this report. We used regional strata from the Enhanced Delta Smelt Monitoring (EDSM) 2018-19 phase I strata. The Western Delta region was excluded because it is almost never occupied by Delta Smelt. We calculated means for each year, season, and region for Temperature, Secchi depth, salinity, chlorophyll, phytoplankton, cyanobacteria, zooplankton, and bivalve data. Monthly means were calculated for outflow and X2. The relative frequencies of Microcystis index values (1-5) were calculated for each year, region, and season. Official Delta Smelt indices were used from the Fall Midwater Trawl (FMWT), Spring Kodiak Trawl (SKT), Summer Townet (STN), and 20-mm (20mm) surveys. Official abundance estimates from EDSM were averaged monthly within each region and confidence intervals were calculated based on the lognormal distribution as described in Polansky et al. (2019). 
 
 ## Data sources
 
@@ -517,23 +517,32 @@ Sources **bolded** below were used in the FLOAT MAST report. This section lists 
 
 ### Water Temperature
 
-1. EMP
-2. FMWT
-3. STN
-4. EDSM
+1. 20mm
+2. EDSM
+3. EMP
+4. FMWT
+5. SKT
+6. STN
+7. Suisun
 
 ### Secchi depth
 
-1. EMP
-2. **FMWT**
-3. STN
-4. **EDSM**
+1. 20mm
+2. **EDSM**
+3. EMP
+4. **FMWT**
+5. SKT
+6. **STN**
+7. Suisun
 
 ### Salinity
 
-1. EMP
-2. FMWT
-3. STN
+1. 20mm
+3. EMP
+4. FMWT
+5. SKT
+6. STN
+7. Suisun
 
 ### Chlorophyll-a
 
@@ -550,6 +559,8 @@ Sources **bolded** below were used in the FLOAT MAST report. This section lists 
 ### Microcystis
 
 1. **EMP**
+2. FMWT
+3. STN
 
 ### Zooplankton
 
