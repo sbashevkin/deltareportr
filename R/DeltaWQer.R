@@ -45,10 +45,6 @@ DeltaWQer<-function(Data,
     dplyr::filter(.data$missing=="n.d.")%>%
     dplyr::select(.data$Year, .data$Region, .data$Season)
 
-  Secchisum<-Secchisum%>%
-    dplyr::filter(is.na(.data$missing))%>%
-    dplyr::select(-.data$missing)
-
   Salsum<-Data%>%
     {if (is.null(Regions)){
       .
@@ -72,10 +68,6 @@ DeltaWQer<-function(Data,
     dplyr::filter(.data$missing=="n.d.")%>%
     dplyr::select(.data$Year, .data$Region, .data$Season)
 
-  Salsum<-Salsum%>%
-    dplyr::filter(is.na(.data$missing))%>%
-    dplyr::select(-.data$missing)
-
   Chlsum<-Data%>%
     {if (is.null(Regions)){
       .
@@ -98,10 +90,6 @@ DeltaWQer<-function(Data,
   Chlmissing<-Chlsum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
     dplyr::select(.data$Year, .data$Region, .data$Season)
-
-  Chlsum<-Chlsum%>%
-    dplyr::filter(is.na(.data$missing))%>%
-    dplyr::select(-.data$missing)
 
   Microsum<-Data%>%
     {if (is.null(Regions)){
@@ -128,17 +116,13 @@ DeltaWQer<-function(Data,
     dplyr::mutate(missing="na")%>%
     tidyr::complete(Year=Start_year:(End_year), .data$Region, .data$Season, fill=list(missing="n.d."))%>%
     dplyr::mutate(missing=dplyr::na_if(.data$missing, "na"),
-                  Region=factor(.data$Region, levels=Regions))
+                  Region=factor(.data$Region, levels=Regions))%>%
+    dplyr::filter(.data$Severity!="Absent" | is.na(.data$Severity))%>%
+    dplyr::mutate(Severity=factor(.data$Severity, levels=c("Very high", "High", "Medium", "Low", "Absent")))
 
   Micromissing<-Microsum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
     dplyr::select(.data$Year, .data$Region, .data$Season)
-
-  Microsum<-Microsum%>%
-    dplyr::filter(is.na(.data$missing))%>%
-    dplyr::select(-.data$missing)%>%
-    dplyr::filter(.data$Severity!="Absent")%>%
-    dplyr::mutate(Severity=factor(.data$Severity, levels=c("Very high", "High", "Medium", "Low", "Absent")))
 
   Tempsum<-Data%>%
     {if (is.null(Regions)){
@@ -161,10 +145,6 @@ DeltaWQer<-function(Data,
   Tempmissing<-Tempsum%>%
     dplyr::filter(.data$missing=="n.d.")%>%
     dplyr::select(.data$Year, .data$Region, .data$Season)
-
-  Tempsum<-Tempsum%>%
-    dplyr::filter(is.na(.data$missing))%>%
-    dplyr::select(-.data$missing)
 
   Salrange<-Salsum%>%
     dplyr::filter(!is.na(.data$Salinity))%>%
@@ -243,8 +223,8 @@ Salplot<-function(season){
   Data_range<-dplyr::filter(Salrange, .data$Season==season)
 
   plotWQ(Data_sum, "Salinity", "Salinity")+
-    ggplot2::geom_label(data=Data_range, ggplot2::aes(x=2006, y=15, label=.data$Salrange), alpha=0.5, size=2.5)+
     ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
+    ggplot2::geom_label(data=Data_range, ggplot2::aes(x=2006, y=15, label=.data$Salrange), size=2.5)+
     ggplot2::coord_cartesian(ylim = c(0,max(Data_sum$Salinity+Data_sum$SD)))
 }
 

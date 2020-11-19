@@ -63,7 +63,7 @@ DeltaBivalver<-function(Data,
     ggplot2::ggplot()+
       ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
       ggplot2::geom_bar(data=Data_sum, ggplot2::aes(x=.data$Year, y=.data$CPUE, fill=.data$Taxa), stat="identity")+
-      ggplot2::geom_bar(data=Data_sum%>%dplyr::filter(.data$Year==End_year)%>%dplyr::group_by(.data$Region, .data$Year)%>%dplyr::summarise(CPUE=sum(.data$CPUE)), ggplot2::aes(x=.data$Year, y=.data$CPUE), stat="identity", color="firebrick3", fill=NA, size=1)+
+      ggplot2::geom_bar(data=Data_sum%>%dplyr::filter(.data$Year==End_year)%>%dplyr::group_by(.data$Region, .data$Year)%>%dplyr::summarise(CPUE=sum(.data$CPUE), .groups="drop"), ggplot2::aes(x=.data$Year, y=.data$CPUE), stat="identity", color="firebrick3", fill=NA, size=1)+
       ggplot2::scale_x_continuous(labels=insert_minor(seq(2000, 2020, by=5), 4), breaks = 2000:2020, limits=c(Start_year-1,max(Bivsum$Year)+1), expand=ggplot2::expansion(0,0))+
       ggplot2::scale_y_continuous(labels = function(x) format(x, scientific=F, big.mark=","), expand=ggplot2::expansion(0,0))+
       ggplot2::xlab("Date")+
