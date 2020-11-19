@@ -214,7 +214,8 @@ Chlaplot<-function(season){
   Data_missing<-dplyr::filter(Chlmissing, .data$Season==season)
 
   plotWQ(Data_sum, "Chlorophyll", bquote(Chlorophyll~a~"("*mu*g*"/L)"))+
-    ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)
+    ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
+    ggplot2::coord_cartesian(ylim = c(0,max(Data_sum$Chlorophyll+Data_sum$SD)))
 }
 
 Salplot<-function(season){
