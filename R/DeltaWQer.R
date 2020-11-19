@@ -224,7 +224,7 @@ Salplot<-function(season){
 
   plotWQ(Data_sum, "Salinity", "Salinity")+
     ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
-    ggplot2::geom_label(data=Data_range, ggplot2::aes(x=2006, y=15, label=.data$Salrange), size=2.5)+
+    ggplot2::geom_label(data=Data_range, ggplot2::aes(x=2006, y=max(Data_sum$Salinity+Data_sum$SD, na.rm=T)*0.95, label=.data$Salrange), size=2.5)+
     ggplot2::coord_cartesian(ylim = c(0,max(Data_sum$Salinity+Data_sum$SD)))
 }
 
