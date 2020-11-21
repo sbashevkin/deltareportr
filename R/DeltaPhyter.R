@@ -46,7 +46,7 @@ DeltaPhyter<-function(Data,
     dplyr::filter(.data$Taxa!="Cyanobacteria")%>%
     dplyr::group_by(.data$Region, .data$Year, .data$Season)%>%
     dplyr::summarise(CPUE=sum(.data$CPUE, na.rm=T), .groups="drop")%>%
-    dplyr::filter(.data$CPUE>35000)%>%
+    dplyr::filter(.data$CPUE>41000)%>%
     dplyr::mutate(label=format(round(.data$CPUE), big.mark=","))%>%
     dplyr::mutate(Region=factor(.data$Region, levels=Regions))
 
@@ -65,11 +65,11 @@ DeltaPhyter<-function(Data,
         ggplot2::geom_bar(data=Data_sum%>%dplyr::filter(.data$Taxa!="Cyanobacteria" & .data$Year==End_year)%>%dplyr::group_by(.data$Region, .data$Year)%>%dplyr::summarise(CPUE=sum(.data$CPUE), .groups="drop")%>%droplevels(), ggplot2::aes(x=.data$Year, y=.data$CPUE), stat="identity", color="firebrick3", fill=NA, size=1)
       }}+
       ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
-      ggplot2::geom_label(data=Data_peak, ggplot2::aes(x=.data$Year, y=30000, label=.data$label), size=3)+
+      ggplot2::geom_label(data=Data_peak, ggplot2::aes(x=.data$Year, y=38000, label=.data$label), size=3, alpha=0.8)+
       ggplot2::scale_fill_brewer(type="div", palette="BrBG", guide=ggplot2::guide_legend(keyheight=0.6, title=NULL), direction=-1)+
       ggplot2::xlab("Date")+
       ggplot2::ylab("Number of cells, colonies, or filaments / ml")+
-      ggplot2::coord_cartesian(expand=0, ylim=c(0,35000))+
+      ggplot2::coord_cartesian(expand=0, ylim=c(0,41000))+
       ggplot2::scale_x_continuous(labels=insert_minor(seq(2000, 2020, by=5), 4), breaks = 2000:2020, limits=c(Start_year-1,max(Phytosum$Year)+1), expand=ggplot2::expansion(0,0))+
       ggplot2::scale_y_continuous(labels = function(x) format(x, scientific=F, big.mark=","))+
       ggplot2::facet_wrap(~.data$Region, scales="free_x")+
