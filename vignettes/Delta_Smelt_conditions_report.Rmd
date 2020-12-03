@@ -70,7 +70,7 @@ For any assistance accessing the map, graphs, images, or other material in this 
 
 This report is intended for managers and scientists interested in tracking environmental conditions considered important for Delta Smelt (*Hypomesus transpacificus*). The variables shown in this report represent a selected subset of the variables that have been incorporated into conceptual models of Delta Smelt life history and analyses of the Delta Smelt population and its habitat. The variables selected have also been consistently measured as part of the long term monitoring efforts of the Interagency Ecological Program and other entities. Data for selected variables are summarized from 2002 to present, to reflect conditions since the beginning of the Pelagic Organism Decline. The report does not include data from short-term special studies. This report also does not provide detailed assessments of trends or the outcomes of specific management actions. Such assessments require specialized analysis and synthesis by expert teams and are beyond the scope of this report.
 
-Delta Smelt is a pelagic species that prefers cooler temperatures (< 22 &deg;C) in low salinity (0 - 6), turbid habitats. Some additional habitat concerns are food availability, invasive species, contaminants and harmful algal blooms.
+Delta Smelt is a pelagic species that prefers cooler temperatures (< 22 &deg;C) in low salinity (0 - 6 PSU), turbid habitats. Some additional habitat concerns are food availability, invasive species, contaminants and harmful algal blooms.
 
 Delta Smelt is generally described as a semi-anadromous species, moving from brackish low salinity (0.5-6 PSU) habitats to tidal fresh water habitats to spawn; however, the species expresses a variety of life histories. These spawning movements generally occur in the winter, after the “first-flush” of turbid freshwater following the first major precipitation event. A variable proportion of the population also exhibit resident life histories, residing in freshwater or brackish water for their entire life cycle.
 
@@ -242,7 +242,7 @@ WQ$Salinity$Plot$Fall
 ```
 </details> 
 
-**During the fall, Delta Smelt prefer fresh to brackish water are most abundant in salinities less than about 6 PSU**, decline in abundance at higher salinities, and become rare at salinities above about 14 PSU. Juveniles rely on freshwater and low salinity habitat in the fall to feed, grow, and mature into adults. 
+**During the fall, Delta Smelt prefer fresh to brackish water, are most abundant in salinities less than about 6 PSU**, decline in abundance at higher salinities, and become rare at salinities above about 14 PSU. Juveniles rely on freshwater and low salinity habitat in the fall to feed, grow, and mature into adults. 
 
 # Biotic drivers
 
