@@ -13,10 +13,9 @@ An R package to facilitate the creation of custom reports using monitoring data 
 
 # Delta Smelt Conditions Report
 
-## [2019 reporting year (V2), static version for editing](Delta_Smelt_conditions_report_full_2019.html)
-*[in progress version](Delta_Smelt_conditions_report_2019.html)*
+## [2019 report year (V2)](Delta_Smelt_conditions_report_2019.html)
 
-## [2018 reporting year (V1)](Delta_Smelt_conditions_report_2018_fixed.html)
+## [2018 report year (V1)](Delta_Smelt_conditions_report_2018_fixed.html)
 
 
 ***NOTE: The zooplankton graph and data were incorrect due to a bug in the code. Please use the corrected version, but [the original is here](Delta_Smelt_conditions_report_2018.html) for reference***
