@@ -149,7 +149,7 @@ DeltaWQer<-function(Data,
   Salrange<-Salsum%>%
     dplyr::filter(!is.na(.data$Salinity))%>%
     dplyr::group_by(.data$Region, .data$Season)%>%
-    dplyr::summarise(Salrange=paste0("min: ", round(min(.data$Salinity), 2), ", max: ", round(max(.data$Salinity), 2)), .groups="drop")
+    dplyr::summarise(Salrange=paste0("min: ", round(min(.data$Salinity, na.rm=T), 2), ", max: ", round(max(.data$Salinity, na.rm=T), 2)), .groups="drop")
 
   # Plot --------------------------------------------------------------------
 
@@ -173,14 +173,14 @@ DeltaWQer<-function(Data,
     dplyr::mutate(xmin=Start_year,
                   xmax=End_year+1,
                   ymin=dplyr::case_when(
-                    Quality=="Good" ~ min(Tempsum$Temperature-Tempsum$SD),
+                    Quality=="Good" ~ min(Tempsum$Temperature-Tempsum$SD, na.rm=T),
                     Quality=="Marginal" ~ 20,
                     Quality=="Bad" ~ 22
                   ),
                   ymax=dplyr::case_when(
                     Quality=="Good" ~ 20,
                     Quality=="Marginal" ~ 22,
-                    Quality=="Bad" ~ max(Tempsum$Temperature+Tempsum$SD)
+                    Quality=="Bad" ~ max(Tempsum$Temperature+Tempsum$SD, na.rm=T)
                   ))
 
 Templot<-function(season){
@@ -189,7 +189,7 @@ Templot<-function(season){
 
   p<-plotWQ(Data_sum, "Temperature", bquote(Temperature~"("*degree*c*")"))+
     ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
-    ggplot2::coord_cartesian(ylim = c(min(Data_sum$Temperature-Data_sum$SD),max(Data_sum$Temperature+Data_sum$SD)))
+    ggplot2::coord_cartesian(ylim = c(min(Data_sum$Temperature-Data_sum$SD, na.rm=T),max(Data_sum$Temperature+Data_sum$SD, na.rm=T)))
 
     if(season%in%c("Summer", "Fall")){
       p<-p+ggplot2::geom_rect(data=TempShades, ggplot2::aes(xmin=.data$xmin, xmax=.data$xmax, ymin=.data$ymin, ymax=.data$ymax, fill=.data$Quality), alpha=0.2)+
@@ -215,7 +215,7 @@ Chlaplot<-function(season){
 
   plotWQ(Data_sum, "Chlorophyll", bquote(Chlorophyll~a~"("*mu*g*"/L)"))+
     ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
-    ggplot2::coord_cartesian(ylim = c(0,max(Data_sum$Chlorophyll+Data_sum$SD)))
+    ggplot2::coord_cartesian(ylim = c(0,max(Data_sum$Chlorophyll+Data_sum$SD, na.rm=T)))
 }
 
 Salplot<-function(season){
@@ -226,7 +226,7 @@ Salplot<-function(season){
   plotWQ(Data_sum, "Salinity", "Salinity")+
     ggplot2::geom_vline(data=Data_missing, ggplot2::aes(xintercept=.data$Year), linetype=2)+
     ggplot2::geom_label(data=Data_range, ggplot2::aes(x=2006, y=max(Data_sum$Salinity+Data_sum$SD, na.rm=T)*0.95, label=.data$Salrange), size=2.5)+
-    ggplot2::coord_cartesian(ylim = c(0,max(Data_sum$Salinity+Data_sum$SD)))
+    ggplot2::coord_cartesian(ylim = c(0,max(Data_sum$Salinity+Data_sum$SD, na.rm=T)))
 }
 
 Microplot<-function(season){
