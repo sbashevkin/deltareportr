@@ -263,6 +263,7 @@ pMicro<-purrr::map(rlang::set_names(Micro_seasons), Microplot)
     out <- Data%>%
       dplyr::mutate(SD=round(.data$SD, 2),
                     !!Parameter := round(!!Parameter, 2))%>%
+      tidyr::drop_na(!!Parameter)%>%
       dplyr::select(.data$Year, .data$Region, `Standard deviation` = .data$SD, !!Parameter)
     return(out)
   }
@@ -272,8 +273,10 @@ pMicro<-purrr::map(rlang::set_names(Micro_seasons), Microplot)
   Saldata <- Datacleaner(Salsum, "Salinity")
   Chldata <- Datacleaner(Chlsum, "Chlorophyll")
   Microdata <- Microsum%>%
+    tidyr::drop_na(.data$Frequency)%>%
     dplyr::mutate(Frequency = round(.data$Frequency, 2))%>%
-    dplyr::rename(Samples = .data$N_Microcystis, `Relative frequency`=.data$Frequency)
+    dplyr::rename(Samples = .data$N_Microcystis, `Relative frequency`=.data$Frequency)%>%
+    dplyr::select(-.data$missing)
 
   plots<-list(Temperature = list(Plot = pTemp, Data = Tempdata),
               Secchi = list(Plot = pSecchi, Data = Secchidata),
