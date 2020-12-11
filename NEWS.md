@@ -1,5 +1,7 @@
 # deltareportr 2.0.0
 
+* Released 2019 version to CAMT
+* Updated recent publications
 * Altered plotting functions to output 1 plot for each season.
 * Added SKT, 20mm, Suisun, USGS, and Baystudy data to water quality graphs
 * Committed to full report showing all seasons, removed 1-season version.
