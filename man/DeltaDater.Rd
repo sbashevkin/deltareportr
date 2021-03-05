@@ -13,13 +13,14 @@ DeltaDater(
   Region_column = "Stratum",
   Regions = c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River",
     "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island",
-    "Lower Joaquin River", "Southern Delta")
+    "Lower Joaquin River", "Southern Delta"),
+  Phyt_start = 2008
 )
 }
 \arguments{
-\item{Start_year}{Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.}
+\item{Start_year}{Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}. For these purposes, December is pushed to the next year to ensure Winters are in the same year.}
 
-\item{End_year}{Latest year you would like included in the dataset. Must be an integer. Defaults to \code{2020}.}
+\item{End_year}{Latest year you would like included in the dataset. Must be an integer. Defaults to \code{2020}. For these purposes, December is pushed to the next year to ensure Winters are in the same year.}
 
 \item{Variables}{Character vector of variables you would like included in the dataset.
 Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.}
@@ -42,6 +43,8 @@ Choices include "EMP" (Environmental Monitoring Program, \code{\link[discretewq]
 \item{Region_column}{Quoted name of the column in the Shapefile with the region designations.}
 
 \item{Regions}{Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.}
+
+\item{Phyt_start}{First year to include for phytoplankton data. Defaults to \code{2008}, when better counting methods were first adopted. This parameter uses calendar year.}
 }
 \value{
 A list of datasets

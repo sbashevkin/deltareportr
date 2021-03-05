@@ -1,8 +1,8 @@
 #' Process report data
 #'
 #' Imports, filters, and processes datasets and outputs a list of desired datasets
-#' @param Start_year Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}.
-#' @param End_year Latest year you would like included in the dataset. Must be an integer. Defaults to \code{2020}.
+#' @param Start_year Earliest year you would like included in the report. Must be an integer. Defaults to \code{2002}. For these purposes, December is pushed to the next year to ensure Winters are in the same year.
+#' @param End_year Latest year you would like included in the dataset. Must be an integer. Defaults to \code{2020}. For these purposes, December is pushed to the next year to ensure Winters are in the same year.
 #' @param Variables Character vector of variables you would like included in the dataset.
 #'   Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.
 #' @param WQ_sources Character vector of data sources for the water quality variables, pulled from the \code{\link[discretewq]{discretewq}} package.
@@ -20,6 +20,7 @@
 #' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link[deltamapr]{R_EDSM_Strata_1819P1}}.
 #' @param Region_column Quoted name of the column in the Shapefile with the region designations.
 #' @param Regions Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.
+#' @param Phyt_start First year to include for phytoplankton data. Defaults to \code{2008}, when better counting methods were first adopted. This parameter uses calendar year.
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @return A list of datasets
@@ -38,7 +39,8 @@ DeltaDater <- function(Start_year=2002,
                        WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "SKT", "20mm", "Suisun"),
                        Shapefile = deltamapr::R_EDSM_Strata_1819P1,
                        Region_column = "Stratum",
-                       Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta")){
+                       Regions=c("Suisun Bay", "Suisun Marsh", "Lower Sacramento River", "Sac Deep Water Shipping Channel", "Cache Slough/Liberty Island", "Lower Joaquin River", "Southern Delta"),
+                       Phyt_start=2008){
 
   Region_column2 <- rlang::sym(Region_column)
   Region_column2 <- rlang::enquo(Region_column2)
@@ -150,7 +152,7 @@ DeltaDater <- function(Start_year=2002,
     #Add regions and lat/long to phyto dataset
     Data_list[["Phytoplankton"]]<-Data_list[["Phytoplankton"]]%>%
       dplyr::left_join(Stations%>%
-                         dplyr::select(.data$Station, .data$Source, .data$Region), by=c("Source", "Station"))%>%
+                         dplyr::select(.data$Station, .data$Source, .data$Region, .data$Latitude, .data$Longitude), by=c("Source", "Station"))%>%
       {if (is.null(Regions)){
         .
       } else{
@@ -164,7 +166,7 @@ DeltaDater <- function(Start_year=2002,
         .data$Month%in%c(9,10,11) ~ "Fall"),
         Year=dplyr::if_else(.data$Month==12, .data$Year+1, .data$Year)
       )%>%
-      dplyr::filter(lubridate::year(.data$Date)>=2008 & .data$Year>Start_year & .data$Year<=End_year)
+      dplyr::filter(lubridate::year(.data$Date)>=Phyt_start & .data$Year>Start_year & .data$Year<=End_year)
   }
 
   # Water quality -----------------------------------------------------------
