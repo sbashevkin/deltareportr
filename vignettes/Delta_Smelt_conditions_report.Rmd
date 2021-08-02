@@ -9,6 +9,8 @@ output:
     self_contained: true
     css: styles.css
     mathjax: NULL
+    includes:
+      in_header: Google_analytics.html
 editor_options:
   chunk_output_type: console
 pagetitle: "Delta Smelt conditions report"
