@@ -3,6 +3,8 @@ title: "deltareportr"
 output: 
   html_document:
     anchor_sections: false
+    includes:
+      in_header: ../vignettes/Google_analytics.html
 ---
 
 ```{r setup, include=FALSE}
