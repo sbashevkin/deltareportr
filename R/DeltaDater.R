@@ -6,17 +6,7 @@
 #' @param Variables Character vector of variables you would like included in the dataset.
 #'   Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.
 #' @param WQ_sources Character vector of data sources for the water quality variables, pulled from the \code{\link[discretewq]{discretewq}} package.
-#'   Choices include "EMP" (Environmental Monitoring Program, \code{\link[discretewq]{EMP}}),
-#'   "STN" (Summer Townet Survey, \code{\link[discretewq]{STN}}),
-#'   "FMWT" (Fall Midwater Trawl, \code{\link[discretewq]{FMWT}}),
-#'   "EDSM" (Enhanced Delta Smelt Monitoring, \code{\link[discretewq]{EDSM}}),
-#'   "DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link[discretewq]{DJFMP}}),
-#'   "20mm" (20mm Survey, \code{\link[discretewq]{twentymm}}),
-#'   "SKT" (Spring Kodiak Trawl, \code{\link[discretewq]{SKT}}),
-#'   "Baystudy" (Bay Study, \code{\link[discretewq]{baystudy}}),
-#'   "USGS" (USGS San Francisco Bay Surveys, \code{\link[discretewq]{USGS}}),
-#'   "USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link[discretewq]{USBR}}), and
-#'   "Suisun" (Suisun Marsh Fish Study, \code{\link[discretewq]{suisun}}).
+#'   See \code{\link[discretewq]{wq}} for choices.
 #' @param Shapefile Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link[deltamapr]{R_EDSM_Strata_1819P1}}.
 #' @param Region_column Quoted name of the column in the Shapefile with the region designations.
 #' @param Regions Character vector of regions to be included in the dataset. Must correspond with levels of the \code{Region_column}. To include all data points regardless of whether they correspond to a region in the \code{Shapefile} set \code{Regions = NULL}.
@@ -26,8 +16,7 @@
 #' @return A list of datasets
 #' @examples
 #' Data <- DeltaDater(Start_year = 1900,
-#' WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "DJFMP", "SKT",
-#' "20mm", "Suisun", "Baystudy", "USBR", "USGS"),
+#' WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "SKT", "20mm", "Suisun"),
 #' Variables = "Water quality",
 #' Regions = NULL)
 #' @export

@@ -26,17 +26,7 @@ DeltaDater(
 Defaults to all possible options: \code{Variables = c("Bivalves", "Zooplankton", "Phytoplankton", "Water quality")}.}
 
 \item{WQ_sources}{Character vector of data sources for the water quality variables, pulled from the \code{\link[discretewq]{discretewq}} package.
-Choices include "EMP" (Environmental Monitoring Program, \code{\link[discretewq]{EMP}}),
-"STN" (Summer Townet Survey, \code{\link[discretewq]{STN}}),
-"FMWT" (Fall Midwater Trawl, \code{\link[discretewq]{FMWT}}),
-"EDSM" (Enhanced Delta Smelt Monitoring, \code{\link[discretewq]{EDSM}}),
-"DJFMP" (Delta Juvenile Fish Monitoring Program, \code{\link[discretewq]{DJFMP}}),
-"20mm" (20mm Survey, \code{\link[discretewq]{twentymm}}),
-"SKT" (Spring Kodiak Trawl, \code{\link[discretewq]{SKT}}),
-"Baystudy" (Bay Study, \code{\link[discretewq]{baystudy}}),
-"USGS" (USGS San Francisco Bay Surveys, \code{\link[discretewq]{USGS}}),
-"USBR" (United States Bureau of Reclamation Sacramento Deepwater Ship Channel data, \code{\link[discretewq]{USBR}}), and
-"Suisun" (Suisun Marsh Fish Study, \code{\link[discretewq]{suisun}}).}
+See \code{\link[discretewq]{wq}} for choices.}
 
 \item{Shapefile}{Shapefile you would like used to define regions in the dataset. Must be in \code{\link[sf]{sf}} format, e.g., imported with \code{\link[sf]{st_read}}. Defaults to \code{\link[deltamapr]{R_EDSM_Strata_1819P1}}.}
 
@@ -54,8 +44,7 @@ Imports, filters, and processes datasets and outputs a list of desired datasets
 }
 \examples{
 Data <- DeltaDater(Start_year = 1900,
-WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "DJFMP", "SKT",
-"20mm", "Suisun", "Baystudy", "USBR", "USGS"),
+WQ_sources = c("EMP", "STN", "FMWT", "EDSM", "SKT", "20mm", "Suisun"),
 Variables = "Water quality",
 Regions = NULL)
 }
