@@ -16,12 +16,9 @@ Depends:
      R (>= 3.5.0)
 Imports: 
     sf,
-    readxl,
     dplyr,
     tidyr,
-    readr,
     tibble,
-    tidyselect,
     ggplot2,
     mapview,
     leaflet,
@@ -32,12 +29,13 @@ Imports:
     ggthemes,
     stats,
     zooper (>= 0.2.0),
-    wql,
     deltamapr,
     discretewq (>= 0.0.0.9000),
     purrr
 Suggests: 
     devtools,
+    readr,
+    readxl,
     rmarkdown,
     bookdown,
     here,
