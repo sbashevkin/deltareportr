@@ -5,7 +5,7 @@ Authors@R:
     person(given = "Sam",
            family = "Bashevkin",
            role = c("aut", "cre"),
-           email = "sam.bashevkin@deltacouncil.ca.gov",
+           email = "sam.bashevkin@waterboards.ca.gov",
            comment = c(ORCID = "0000-0001-7406-7089"))
 Description: An R package for producing automated reports on the Sacramento San Joaquin Delta.
 License: GPL-3
